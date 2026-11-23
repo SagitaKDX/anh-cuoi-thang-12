@@ -1,4 +1,64 @@
-// 1. Three.js 3D Floating Petals & Golden Particles with Graceful Fallback
+// Phoenix Scroll-Path Bézier Companions & Projection Helpers
+const PHOENIX_BEZIER_LEFT = [
+  { x: 8, y: 12 },
+  { x: 22, y: 35 },
+  { x: 18, y: 62 },
+  { x: 12, y: 88 },
+];
+
+const PHOENIX_BEZIER_RIGHT = [
+  { x: 92, y: 14 },
+  { x: 78, y: 38 },
+  { x: 82, y: 65 },
+  { x: 88, y: 90 },
+];
+
+function evalCubicBezier(p0, p1, p2, p3, t) {
+  const u = 1 - t;
+  const tt = t * t;
+  const uu = u * u;
+  const uuu = uu * u;
+  const ttt = tt * t;
+
+  const x = uuu * p0.x + 3 * uu * t * p1.x + 3 * u * tt * p2.x + ttt * p3.x;
+  const y = uuu * p0.y + 3 * uu * t * p1.y + 3 * u * tt * p2.y + ttt * p3.y;
+
+  // Tangent derivative vector (dx/dt, dy/dt)
+  const dx = 3 * uu * (p1.x - p0.x) + 6 * u * t * (p2.x - p1.x) + 3 * tt * (p3.x - p2.x);
+  const dy = 3 * uu * (p1.y - p0.y) + 6 * u * t * (p2.y - p1.y) + 3 * tt * (p3.y - p2.y);
+
+  return { x, y, dx, dy };
+}
+
+function viewportPercentToWorld(xPct, yPct, depthZ, camera, aspect) {
+  const dist = camera.position.z - depthZ;
+  const fovRad = (camera.fov * Math.PI) / 180;
+  const halfH = dist * Math.tan(fovRad / 2);
+  const halfW = halfH * (aspect !== undefined ? aspect : camera.aspect);
+  const ndcX = (xPct / 100) * 2 - 1;
+  const ndcY = 1 - (yPct / 100) * 2;
+  return {
+    x: camera.position.x + ndcX * halfW,
+    y: camera.position.y + ndcY * halfH,
+    z: depthZ,
+  };
+}
+
+function headingFromBezier(dx, dy) {
+  const headingDeg = Math.atan2(dx, dy) * (180 / Math.PI);
+  const rotZ = (headingDeg * 0.55 * Math.PI) / 180;
+  const clampedDegY = Math.max(-18, Math.min(18, (dx / 100) * 35));
+  const rotY = (clampedDegY * Math.PI) / 180;
+  return { rotZ, rotY };
+}
+
+let targetScrollP = 0;
+let currentScrollP = 0;
+let phoenix3dReady = false;
+let checkThreeActive = () => {};
+let setPhoenix3dVisible = () => {};
+
+// 1. Three.js 3D Floating Petals, Golden Particles & Articulated Dual-Plane Phoenix
 let triggerBurst = () => {};
 (async function initThree() {
   const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -96,6 +156,186 @@ let triggerBurst = () => {};
       }
     };
 
+    // Phoenix 3D Companions: Canvas2D SVG Atlas Rasterizer with TextureLoader Fallback
+    function loadPhoenixTexture() {
+      return new Promise((resolve, reject) => {
+        const atlasW = isMobile ? 256 : 512;
+        const atlasH = isMobile ? 128 : 256;
+        const subW = atlasW / 2;
+        const subH = atlasH;
+
+        const canvasAtlas = document.createElement('canvas');
+        canvasAtlas.width = atlasW;
+        canvasAtlas.height = atlasH;
+        const ctx = canvasAtlas.getContext('2d');
+        if (!ctx) {
+          const loader = new THREE.TextureLoader();
+          return loader.load('./phoenix.svg', (tex) => resolve({ texture: tex, isAtlas: false }), undefined, reject);
+        }
+
+        const svgDefs = `<defs>
+          <linearGradient id="phxGold" x1="0" y1="0" x2="180" y2="140" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#fef3c7"/>
+            <stop offset="45%" stop-color="#fcd34d"/>
+            <stop offset="100%" stop-color="#b45309"/>
+          </linearGradient>
+          <linearGradient id="phxCrimson" x1="20" y1="20" x2="140" y2="120" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#fb7185"/>
+            <stop offset="100%" stop-color="#9f1239"/>
+          </linearGradient>
+        </defs>`;
+
+        const bodySvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${subW}" height="${subH}" viewBox="0 0 180 140" fill="none">
+          ${svgDefs}
+          <g id="tail">
+            <path d="M18 118 C42 104, 62 84, 78 68 C58 92, 38 114, 12 128 Z" fill="url(#phxGold)" opacity="0.85"/>
+            <path d="M28 128 C54 110, 74 90, 90 72 C72 98, 52 118, 24 134 Z" fill="url(#phxGold)" opacity="0.72"/>
+            <path d="M46 132 C70 114, 86 94, 98 76 C84 102, 68 120, 44 136 Z" fill="url(#phxCrimson)" opacity="0.65"/>
+          </g>
+          <g id="body">
+            <path d="M126 62 C136 52, 142 40, 140 28 C144 22, 154 20, 162 24 C154 28, 152 34, 148 44 C144 54, 136 64, 128 66 Z" fill="url(#phxGold)"/>
+            <path d="M140 26 C132 14, 120 10, 108 12 C120 16, 130 22, 138 30 Z" fill="url(#phxGold)"/>
+            <path d="M144 24 C140 12, 132 6, 122 4 C132 10, 138 16, 142 26 Z" fill="url(#phxCrimson)" opacity="0.8"/>
+            <circle cx="148" cy="26" r="1.8" fill="#4c0519"/>
+          </g>
+        </svg>`;
+
+        const wingSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${subW}" height="${subH}" viewBox="0 0 180 140" fill="none">
+          ${svgDefs}
+          <g id="wing-outer">
+            <path d="M94 64 C78 36, 48 16, 16 14 C36 28, 58 46, 76 68 Z" fill="url(#phxGold)"/>
+            <path d="M98 62 C86 34, 66 14, 38 6 C54 22, 72 42, 86 64 Z" fill="url(#phxGold)" opacity="0.9"/>
+            <path d="M104 62 C98 36, 84 18, 62 10 C74 26, 86 44, 94 64 Z" fill="url(#phxCrimson)" opacity="0.75"/>
+          </g>
+          <g id="wing-inner">
+            <path d="M88 68 C102 58, 120 56, 134 62 C122 76, 104 82, 84 78 Z" fill="url(#phxGold)"/>
+          </g>
+        </svg>`;
+
+        function loadSvgImg(str) {
+          return new Promise((res, rej) => {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = () => res(img);
+            img.onerror = rej;
+            img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(str);
+          });
+        }
+
+        Promise.all([loadSvgImg(bodySvg), loadSvgImg(wingSvg)])
+          .then(([bImg, wImg]) => {
+            ctx.clearRect(0, 0, atlasW, atlasH);
+            ctx.drawImage(bImg, 0, 0, subW, subH);
+            ctx.drawImage(wImg, subW, 0, subW, subH);
+            const tex = new THREE.CanvasTexture(canvasAtlas);
+            tex.premultipliedAlpha = false;
+            resolve({ texture: tex, isAtlas: true });
+          })
+          .catch(() => {
+            const loader = new THREE.TextureLoader();
+            loader.load('./phoenix.svg', (tex) => resolve({ texture: tex, isAtlas: false }), undefined, reject);
+          });
+      });
+    }
+
+    const texData = await loadPhoenixTexture();
+    const meshW = 2.2;
+    const meshH = meshW * (140 / 180);
+
+    const bodyGeo = new THREE.PlaneGeometry(meshW, meshH);
+    const wingGeo = new THREE.PlaneGeometry(meshW, meshH);
+
+    if (texData.isAtlas) {
+      const bUvs = bodyGeo.attributes.uv;
+      for (let i = 0; i < bUvs.count; i++) {
+        bUvs.setX(i, bUvs.getX(i) * 0.5);
+      }
+      const wUvs = wingGeo.attributes.uv;
+      for (let i = 0; i < wUvs.count; i++) {
+        wUvs.setX(i, 0.5 + wUvs.getX(i) * 0.5);
+      }
+    }
+
+    // Wing root pivot offset at (95, 65) vs group center (90, 70)
+    const pivotDx = ((95 - 90) / 180) * meshW;
+    const pivotDy = ((70 - 65) / 140) * meshH;
+
+    function buildPhoenixGroup(isRight) {
+      const phoenixGroup = new THREE.Group();
+
+      const mat = new THREE.MeshBasicMaterial({
+        map: texData.texture,
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      });
+
+      const bodyMesh = new THREE.Mesh(bodyGeo, mat);
+      bodyMesh.position.set(0, 0, 0);
+      phoenixGroup.add(bodyMesh);
+
+      const wingGroup = new THREE.Group();
+      wingGroup.position.set(pivotDx, pivotDy, 0.04);
+
+      const wingMesh = new THREE.Mesh(wingGeo, mat.clone());
+      wingMesh.position.set(-pivotDx, -pivotDy, 0);
+      wingGroup.add(wingMesh);
+
+      phoenixGroup.add(wingGroup);
+      scene.add(phoenixGroup);
+
+      return {
+        phoenixGroup,
+        bodyMesh,
+        wingGroup,
+        wingMesh,
+        mat,
+        wingMat: wingMesh.material,
+        isRight,
+      };
+    }
+
+    const phoenixLeft = buildPhoenixGroup(false);
+    const phoenixRight = buildPhoenixGroup(true);
+
+    // Subtle Gold Ember Trail (~40 desktop / ~18 mobile, no purple)
+    const trailCount = isMobile ? 18 : 40;
+    const trailGeo = new THREE.BufferGeometry();
+    const trailPos = new Float32Array(trailCount * 3);
+    const trailMeta = [];
+
+    for (let i = 0; i < trailCount; i++) {
+      trailPos[i * 3] = 0;
+      trailPos[i * 3 + 1] = 0;
+      trailPos[i * 3 + 2] = -999;
+      trailMeta.push({
+        life: Math.random(),
+        speed: 0.016 + Math.random() * 0.02,
+        vx: (Math.random() - 0.5) * 0.02,
+        vy: 0.005 + Math.random() * 0.015,
+        vz: (Math.random() - 0.5) * 0.015,
+        targetBird: i % 2 === 0 ? phoenixLeft : phoenixRight,
+      });
+    }
+    trailGeo.setAttribute('position', new THREE.BufferAttribute(trailPos, 3));
+    const trailMat = new THREE.PointsMaterial({
+      color: 0xfde68a,
+      size: isMobile ? 0.16 : 0.22,
+      transparent: true,
+      opacity: 0.75,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const trailPoints = new THREE.Points(trailGeo, trailMat);
+    scene.add(trailPoints);
+
+    setPhoenix3dVisible = (visible) => {
+      phoenixLeft.phoenixGroup.visible = visible;
+      phoenixRight.phoenixGroup.visible = visible;
+      trailPoints.visible = visible;
+    };
+
     let targetCamX = 0;
     let targetCamY = 0;
     window.addEventListener('pointermove', (e) => {
@@ -149,6 +389,104 @@ let triggerBurst = () => {};
         }
       }
 
+      // Phoenix 3D Articulated Dual-Plane Flight & Ember Trail
+      if (phoenix3dReady && !reducedMotion) {
+        const scrollDiff = targetScrollP - currentScrollP;
+        if (Math.abs(scrollDiff) > 0.0001) {
+          currentScrollP += scrollDiff * 0.15;
+        } else {
+          currentScrollP = targetScrollP;
+        }
+
+        const y = window.scrollY;
+        const op = Math.max(0, Math.min(1, (y - 40) / 75));
+        const effectiveOpacity = 0.92 * op;
+
+        phoenixLeft.mat.opacity = effectiveOpacity;
+        phoenixLeft.wingMat.opacity = effectiveOpacity;
+        phoenixRight.mat.opacity = effectiveOpacity;
+        phoenixRight.wingMat.opacity = effectiveOpacity;
+
+        const isBirdActive = op > 0.01;
+        phoenixLeft.phoenixGroup.visible = isBirdActive;
+        phoenixRight.phoenixGroup.visible = isBirdActive;
+
+        if (isBirdActive) {
+          const tL = Math.max(0, Math.min(1, currentScrollP));
+          const tR = Math.max(0, Math.min(1, currentScrollP + 0.04));
+
+          const posL = evalCubicBezier(
+            PHOENIX_BEZIER_LEFT[0],
+            PHOENIX_BEZIER_LEFT[1],
+            PHOENIX_BEZIER_LEFT[2],
+            PHOENIX_BEZIER_LEFT[3],
+            tL
+          );
+          const posR = evalCubicBezier(
+            PHOENIX_BEZIER_RIGHT[0],
+            PHOENIX_BEZIER_RIGHT[1],
+            PHOENIX_BEZIER_RIGHT[2],
+            PHOENIX_BEZIER_RIGHT[3],
+            tR
+          );
+
+          // Swoop forward in mid-flight (depth ~ z=4..8)
+          const depthL = 5.0 + Math.sin(tL * Math.PI) * 2.0;
+          const depthR = 5.0 + Math.sin(tR * Math.PI) * 2.0;
+
+          const wPosL = viewportPercentToWorld(posL.x, posL.y, depthL, camera);
+          const wPosR = viewportPercentToWorld(posR.x, posR.y, depthR, camera);
+
+          phoenixLeft.phoenixGroup.position.set(wPosL.x, wPosL.y, wPosL.z);
+          phoenixRight.phoenixGroup.position.set(wPosR.x, wPosR.y, wPosR.z);
+
+          const hL = headingFromBezier(posL.dx, posL.dy);
+          const hR = headingFromBezier(posR.dx, posR.dy);
+
+          phoenixLeft.phoenixGroup.rotation.set(0, hL.rotY, hL.rotZ);
+          phoenixRight.phoenixGroup.rotation.set(0, -hR.rotY, -hR.rotZ);
+
+          const scaleL = 0.94 + Math.sin(tL * Math.PI) * 0.12;
+          const scaleR = 0.94 + Math.sin(tR * Math.PI) * 0.12;
+
+          phoenixLeft.phoenixGroup.scale.set(scaleL, scaleL, scaleL);
+          phoenixRight.phoenixGroup.scale.set(-scaleR, scaleR, scaleR);
+
+          // Articulated Wing Flap
+          const flapTime = performance.now() * 0.007;
+          const flapZ = Math.sin(flapTime) * 0.35;
+          const flapX = Math.cos(flapTime) * 0.12;
+          phoenixLeft.wingGroup.rotation.z = flapZ;
+          phoenixLeft.wingGroup.rotation.x = flapX;
+          phoenixRight.wingGroup.rotation.z = flapZ;
+          phoenixRight.wingGroup.rotation.x = flapX;
+
+          // Soft Gold Ember Trail Update
+          const posArr = trailGeo.attributes.position.array;
+          for (let i = 0; i < trailCount; i++) {
+            const tm = trailMeta[i];
+            tm.life += tm.speed;
+            const idx = i * 3;
+            if (tm.life >= 1) {
+              tm.life = 0;
+              const bPos = tm.targetBird.phoenixGroup.position;
+              const bScale = tm.targetBird.phoenixGroup.scale.x > 0 ? 1 : -1;
+              posArr[idx] = bPos.x - bScale * 0.6 + (Math.random() - 0.5) * 0.15;
+              posArr[idx + 1] = bPos.y - 0.3 + (Math.random() - 0.5) * 0.15;
+              posArr[idx + 2] = bPos.z - 0.2 + (Math.random() - 0.5) * 0.1;
+            } else {
+              posArr[idx] += tm.vx;
+              posArr[idx + 1] += tm.vy;
+              posArr[idx + 2] += tm.vz;
+            }
+          }
+          trailGeo.attributes.position.needsUpdate = true;
+          trailPoints.visible = true;
+        } else {
+          trailPoints.visible = false;
+        }
+      }
+
       renderer.render(scene, camera);
     }
 
@@ -158,6 +496,7 @@ let triggerBurst = () => {};
         animId = requestAnimationFrame(renderLoop);
       }
     }
+    checkThreeActive = checkActive;
 
     document.addEventListener('visibilitychange', () => {
       isVisible = !document.hidden;
@@ -173,8 +512,18 @@ let triggerBurst = () => {};
     canvasObserver.observe(canvas);
 
     checkActive();
-  } catch {
-    // WebGL unavailable in weak in-app browser: silent fallback
+
+    // Signal WebGL phoenix readiness and hide DOM flyer stage
+    phoenix3dReady = true;
+    const stage = document.getElementById('phoenix-stage');
+    if (stage && !reducedMotion) {
+      stage.classList.add('is-webgl');
+    }
+  } catch (err) {
+    // WebGL or Texture unavailable: silent fallback to DOM flyer flight
+    phoenix3dReady = false;
+    const stage = document.getElementById('phoenix-stage');
+    if (stage) stage.classList.remove('is-webgl');
   }
 })();
 
@@ -183,16 +532,20 @@ const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
 let reducedMotion = reducedMotionQuery.matches;
 reducedMotionQuery.addEventListener('change', (e) => {
   reducedMotion = e.matches;
-  if (reducedMotion && tiltCard) {
-    tiltCard.style.transform = '';
-  }
+  const stageEl = document.getElementById('phoenix-stage');
   if (reducedMotion) {
+    if (stageEl) stageEl.classList.remove('is-webgl');
+    if (typeof setPhoenix3dVisible === 'function') setPhoenix3dVisible(false);
+    if (tiltCard) tiltCard.style.transform = '';
     if (flyerLeft) flyerLeft.style.cssText = '';
     if (flyerRight) flyerRight.style.cssText = '';
   } else {
+    if (phoenix3dReady && stageEl) stageEl.classList.add('is-webgl');
+    if (typeof setPhoenix3dVisible === 'function') setPhoenix3dVisible(true);
     updateScrollParallax();
   }
 });
+
 
 // 2. 3D Envelope Open & Replay
 const envelope = document.getElementById('envelope');
@@ -242,44 +595,11 @@ const observer = new IntersectionObserver(
 );
 document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-// Phoenix Scroll-Path Flight (Option A Bézier Companions)
+
+
+// Phoenix Scroll-Path Flight (DOM Fallback)
 const flyerLeft = document.querySelector('.phoenix-flyer--left');
 const flyerRight = document.querySelector('.phoenix-flyer--right');
-
-// Cubic Bézier control points in viewport %
-const PHOENIX_BEZIER_LEFT = [
-  { x: 8, y: 12 },
-  { x: 22, y: 35 },
-  { x: 18, y: 62 },
-  { x: 12, y: 88 },
-];
-
-const PHOENIX_BEZIER_RIGHT = [
-  { x: 92, y: 14 },
-  { x: 78, y: 38 },
-  { x: 82, y: 65 },
-  { x: 88, y: 90 },
-];
-
-function evalCubicBezier(p0, p1, p2, p3, t) {
-  const u = 1 - t;
-  const tt = t * t;
-  const uu = u * u;
-  const uuu = uu * u;
-  const ttt = tt * t;
-
-  const x = uuu * p0.x + 3 * uu * t * p1.x + 3 * u * tt * p2.x + ttt * p3.x;
-  const y = uuu * p0.y + 3 * uu * t * p1.y + 3 * u * tt * p2.y + ttt * p3.y;
-
-  // Tangent derivative vector (dx/dt, dy/dt)
-  const dx = 3 * uu * (p1.x - p0.x) + 6 * u * t * (p2.x - p1.x) + 3 * tt * (p3.x - p2.x);
-  const dy = 3 * uu * (p1.y - p0.y) + 6 * u * t * (p2.y - p1.y) + 3 * tt * (p3.y - p2.y);
-
-  return { x, y, dx, dy };
-}
-
-let targetScrollP = 0;
-let currentScrollP = 0;
 let flyerRafId = null;
 
 function applyFlyerPose(flyerEl, pos, t, isRight) {
@@ -321,7 +641,7 @@ function applyFlyerPose(flyerEl, pos, t, isRight) {
 }
 
 function updateFlyerFlight(scrollP) {
-  if (reducedMotion) return;
+  if (reducedMotion || phoenix3dReady) return;
 
   const tL = Math.max(0, Math.min(1, scrollP));
   const tR = Math.max(0, Math.min(1, scrollP + 0.04));
@@ -346,6 +666,10 @@ function updateFlyerFlight(scrollP) {
 }
 
 function flyerTick() {
+  if (phoenix3dReady) {
+    flyerRafId = null;
+    return;
+  }
   const diff = targetScrollP - currentScrollP;
   if (Math.abs(diff) > 0.0005) {
     currentScrollP += diff * 0.15; // Smooth lerp
@@ -378,8 +702,12 @@ function updateScrollParallax() {
   document.documentElement.style.setProperty('--scroll-p', scrollP.toFixed(3));
 
   targetScrollP = scrollP;
-  if (!flyerRafId) {
-    flyerRafId = requestAnimationFrame(flyerTick);
+  if (!phoenix3dReady) {
+    if (!flyerRafId) {
+      flyerRafId = requestAnimationFrame(flyerTick);
+    }
+  } else {
+    checkThreeActive();
   }
 }
 window.addEventListener('scroll', updateScrollParallax, { passive: true });
@@ -388,6 +716,7 @@ currentScrollP = 0;
 targetScrollP = 0;
 updateScrollParallax();
 updateFlyerFlight(0);
+
 
 // 5. Countdown
 const targetMs = new Date('2026-12-20T17:00:00+07:00').getTime();

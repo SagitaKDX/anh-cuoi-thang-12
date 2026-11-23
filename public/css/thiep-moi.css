@@ -1,4 +1,4 @@
-/* hallmark: custom-dragon-phoenix-v3 | hoang-cung-3d-v1 | anti-slop | crimson-gold 3D parallax | no waivers */
+/* hallmark: custom-dragon-phoenix-v3 | hoang-cung-3d-v1 | phoenix-three-v1 | anti-slop | crimson-gold 3D parallax | no waivers */
 :root {
   --crimson-deep: #4c0519;
   --crimson-dark: #6b0f26;
@@ -73,6 +73,12 @@ body {
   pointer-events: none;
   z-index: 28;
   overflow: clip;
+}
+
+.phoenix-stage.is-webgl {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .phoenix-flyer {
@@ -957,6 +963,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .phoenix-stage.is-webgl {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
   .seal-btn,
   .photo-glare,
   .ctrl-icon.playing svg,
