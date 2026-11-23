@@ -12,13 +12,14 @@ const PRESET_PACKAGES = [
 
 export default function FirstTimePlanner() {
   const [basePackage, setBasePackage] = useState(14.9);
+  const [activeStage, setActiveStage] = useState('all');
   const [selectedExtras, setSelectedExtras] = useState(
     () => new Set(['tickets', 'meals', 'buffer']),
   );
 
   const [checkedPrep, setCheckedPrep] = useState(() => {
     try {
-      const saved = localStorage.getItem('prep-checklist-v2');
+      const saved = localStorage.getItem('prep-checklist-v3');
       return saved ? new Set(JSON.parse(saved)) : new Set();
     } catch {
       return new Set();
@@ -27,7 +28,7 @@ export default function FirstTimePlanner() {
 
   useEffect(() => {
     try {
-      localStorage.setItem('prep-checklist-v2', JSON.stringify([...checkedPrep]));
+      localStorage.setItem('prep-checklist-v3', JSON.stringify([...checkedPrep]));
     } catch {
       // ignore storage errors
     }
@@ -254,12 +255,40 @@ export default function FirstTimePlanner() {
           />
         </div>
 
+        <div className="studio-tabs" role="tablist" aria-label="Lọc theo giai đoạn chuẩn bị" style={{ marginTop: 16 }}>
+          <button
+            type="button"
+            className={`studio-tab ${activeStage === 'all' ? 'active' : ''}`}
+            onClick={() => setActiveStage('all')}
+          >
+            Tất cả (6 giai đoạn)
+          </button>
+          {FIRST_TIME_PREP.map((stage) => {
+            const doneCount = stage.items.filter((i) => checkedPrep.has(i.id)).length;
+            return (
+              <button
+                key={stage.id}
+                type="button"
+                className={`studio-tab ${activeStage === stage.id ? 'active' : ''}`}
+                onClick={() => setActiveStage(stage.id)}
+              >
+                {stage.shortLabel} ({doneCount}/{stage.items.length})
+              </button>
+            );
+          })}
+        </div>
+
         <div className="prep-grid">
-          {FIRST_TIME_PREP.map((group) => (
+          {FIRST_TIME_PREP.filter(
+            (group) => activeStage === 'all' || group.id === activeStage,
+          ).map((group) => (
             <div className="info-panel" key={group.group}>
-              <h4 style={{ margin: '0 0 4px', fontSize: '0.98rem', fontWeight: 600 }}>
+              <h4 style={{ margin: '0 0 4px', fontSize: '1.02rem', fontWeight: 600, color: 'var(--primary-ink)' }}>
                 {group.group}
               </h4>
+              <p className="note" style={{ margin: '0 0 10px', fontSize: '0.84rem' }}>
+                {group.goal}
+              </p>
               <ul className="checklist-ul">
                 {group.items.map((item) => {
                   const done = checkedPrep.has(item.id);
