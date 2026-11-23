@@ -294,7 +294,7 @@ export default function WeddingInvitePreview() {
               <div className="inv-kicker-gold">THIỆP MỜI THÀNH HÔN</div>
               <div className="inv-seal-ring" onClick={handleOpenEnvelope} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && handleOpenEnvelope()}>
                 <div className="inv-seal-inner">
-                  <span className="inv-double-happy">囍</span>
+                  <Heart size={34} fill="currentColor" aria-hidden="true" />
                 </div>
               </div>
               <div className="inv-env-names">
@@ -351,7 +351,9 @@ export default function WeddingInvitePreview() {
                   <div className="inv-family-name">Lã Tiến Anh</div>
                   <div className="inv-family-sub">Hòa Bình</div>
                 </div>
-                <div className="inv-family-divider" aria-hidden="true">囍</div>
+                <div className="inv-family-divider" aria-hidden="true">
+                  <Heart size={18} fill="currentColor" />
+                </div>
                 <div className="inv-family-col">
                   <div className="inv-family-role">NHÀ GÁI</div>
                   <div className="inv-family-name">Đỗ Thị Thanh Thư</div>

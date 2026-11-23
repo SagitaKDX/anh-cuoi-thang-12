@@ -77,15 +77,50 @@
       z-index: 5;
     }
 
+    /* Scroll-Triggered Top Corner Phoenix Pair */
+    .phoenix-corner {
+      position: fixed;
+      top: 10px;
+      width: 112px;
+      height: auto;
+      z-index: 30;
+      pointer-events: none;
+      opacity: 0;
+      filter: drop-shadow(0 6px 14px rgba(136, 19, 55, 0.22));
+      transition: opacity 0.65s var(--ease), transform 0.85s var(--spring);
+    }
+
+    .phoenix-left {
+      left: 10px;
+      transform: translate(-24px, -16px) scale(0.86);
+    }
+
+    .phoenix-right {
+      right: 10px;
+      transform: translate(24px, -16px) scaleX(-1) scale(0.86);
+    }
+
+    body.scrolled .phoenix-left {
+      opacity: 0.92;
+      transform: translate(0, 0) scale(1);
+    }
+
+    body.scrolled .phoenix-right {
+      opacity: 0.92;
+      transform: translate(0, 0) scaleX(-1) scale(1);
+    }
+
     /* Floating Controls */
     .top-controls {
       position: fixed;
-      top: 16px;
-      right: 16px;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 40;
       display: flex;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
+      max-width: calc(100% - 24px);
     }
 
     .ctrl-btn {
@@ -742,17 +777,22 @@
 
     /* Responsive Mobile */
     @media (max-width: 900px) {
+      .hero-screen {
+        min-height: 100svh;
+        padding: 78px 18px 56px;
+      }
       .hero-container {
         grid-template-columns: 1fr;
-        gap: 28px;
+        gap: 22px;
         text-align: center;
       }
-      .photo-arch-3d {
-        max-width: 320px;
+      .pop-arch {
+        max-width: 270px;
       }
       .hero-lead {
         margin-left: auto;
         margin-right: auto;
+        font-size: 0.96rem;
       }
       .hero-cta-row {
         justify-content: center;
@@ -762,11 +802,53 @@
       .wish-grid {
         grid-template-columns: 1fr;
       }
+      .phoenix-corner {
+        width: 72px;
+        top: 6px;
+      }
+      .phoenix-left {
+        left: 4px;
+      }
+      .phoenix-right {
+        right: 4px;
+      }
     }
 
     @media (max-width: 540px) {
+      .band {
+        padding: 44px 16px;
+      }
       .countdown-grid {
         gap: 8px;
+      }
+      .cd-tile {
+        padding: 12px 6px;
+      }
+      .story-track {
+        padding-left: 22px;
+        gap: 16px;
+      }
+      .story-card {
+        padding: 16px;
+        transform: perspective(900px) translateY(18px) scale(0.97);
+      }
+      .story-card:nth-child(even) {
+        transform: perspective(900px) translateY(18px) scale(0.97);
+      }
+      .story-card::before {
+        left: -22px;
+      }
+      .hero-cta-row button {
+        width: 100%;
+        justify-content: center;
+      }
+      .top-controls {
+        top: 10px;
+      }
+      .ctrl-btn {
+        height: 36px;
+        padding: 0 11px;
+        font-size: 0.8rem;
       }
       .top-controls .hide-sm {
         display: none;
@@ -803,6 +885,8 @@
 </head>
 <body>
   <canvas id="three-bg" aria-hidden="true"></canvas>
+  <img src="./phoenix.svg" alt="" class="phoenix-corner phoenix-left" aria-hidden="true" />
+  <img src="./phoenix.svg" alt="" class="phoenix-corner phoenix-right" aria-hidden="true" />
   <div id="yt-player-host" style="position:fixed;right:0;bottom:0;width:200px;height:113px;opacity:0.001;pointer-events:none;z-index:-1;" aria-hidden="true"></div>
 
   <div class="top-controls">
@@ -826,7 +910,9 @@
     <div class="envelope-center">
       <div style="font-size: 0.85rem; letter-spacing: 0.2em; color: var(--gold);">THIỆP MỜI THÀNH HÔN</div>
       <button type="button" id="open-seal" class="seal-btn" aria-label="Chạm để mở thiệp cưới">
-        <span class="seal-inner">囍</span>
+        <span class="seal-inner">
+          <svg width="42" height="42" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </span>
       </button>
       <div class="env-names">Lã Tiến Anh &amp; Đỗ Thị Thanh Thư</div>
       <p style="margin: 6px 0 0; color: rgba(254, 243, 199, 0.85);">Trân trọng kính mời Quý Khách</p>
@@ -1282,8 +1368,10 @@
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
     function updateScrollParallax() {
-      const py = Math.max(-1, Math.min(1, window.scrollY / Math.max(window.innerHeight, 500)));
+      const y = window.scrollY;
+      const py = Math.max(-1, Math.min(1, y / Math.max(window.innerHeight, 500)));
       document.documentElement.style.setProperty('--py', py.toFixed(3));
+      document.body.classList.toggle('scrolled', y > 120);
     }
     window.addEventListener('scroll', updateScrollParallax, { passive: true });
     updateScrollParallax();
