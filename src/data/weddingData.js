@@ -362,14 +362,14 @@ export const STUDIO_REVIEWS = [
       'Thương hiệu quen thuộc tại Hà Nội với thế mạnh ảnh Hàn Quốc tối giản, Châu Âu lãng mạn và hệ thống phim trường indoor/outdoor riêng. Lợi thế lớn cho hành trình từ Hòa Bình là có cơ sở tại Sơn Tây.',
     pros: [
       'Quy trình bài bản: lập nhóm riêng nhắc đồ cá nhân (giày, lens, trang phục) và chốt tone makeup trước ngày chụp.',
-      'Photographer nhiệt tình, hướng dẫn tạo dáng chi tiết — rất hữu ích cho cặp đôi lần đầu đứng trước ống kính.',
-      'Nhiều phân khúc giá từ 7,9 tr đến 18,5 tr; hay có ưu đãi tặng áo dài ăn hỏi hoặc váy ngày cưới.',
+      'Facebook / Hội cô dâu khen tốc độ chụp nhanh gọn (1 buổi hoặc 1 ngày), đổi lịch linh hoạt khi bận công tác.',
+      'Photographer nhiệt tình, hướng dẫn tạo dáng chi tiết; nhiều phân khúc giá (7,9–18,5 tr) và hay tặng áo dài/váy cưới.',
     ],
     cons: [
       'Mùa cưới cao điểm (cuối năm) lượng khách đông, có thể phải chờ ở khâu thử váy hoặc lịch trả hậu kỳ.',
       'Các gói ngoại thành cần hỏi rõ phụ phí xe di chuyển và vé vào cửa địa điểm (Đồng Mô, Cổ Đô).',
     ],
-    sources: '2H Studio, Calibridal, Hoicodau',
+    sources: 'TikTok, Hội Cô Dâu (FB), Calibridal, 2H Studio',
   },
   {
     studio: 'Fely Wedding',
@@ -379,15 +379,15 @@ export const STUDIO_REVIEWS = [
     summary:
       'Được nhiều cặp đôi giới thiệu truyền miệng nhờ chất lượng váy cưới thiết kế, lối trang điểm tự nhiên nhưng che khuyết điểm khéo và phong cách bắt cảm xúc thật.',
     pros: [
-      'Showroom váy cưới, vest và áo dài phong phú, form chuẩn và giữ gìn mới, ít bị cũ hay sờn.',
-      'Chính sách thanh toán chia 3 đợt linh hoạt (đặt cọc – ngày chụp – nhận ảnh hoàn thiện), giảm áp lực tài chính.',
-      'Thời gian trả album và ảnh phóng đúng hẹn; gói Biệt thự hoa hồng tặng kèm xe riêng.',
+      'Nổi bật trên TikTok nhờ kho váy cưới thiết kế độc quyền lộng lẫy, form chuẩn và giữ gìn mới.',
+      'Chính sách thanh toán linh hoạt (chia 3 đợt hoặc hỗ trợ trả góp 0%), cam kết không phát sinh chi phí nếu chốt đúng gói.',
+      'Makeup che khuyết điểm tốt nhưng vẫn tự nhiên; trả album đúng hẹn; gói Biệt thự hoa hồng tặng kèm xe riêng.',
     ],
     cons: [
       'Hình ảnh quảng cáo trên mạng xã hội ít nổi bật hơn thực tế tại showroom, nên qua xem trực tiếp.',
       'Cuối tuần mùa cao điểm rất đông, bắt buộc đặt lịch hẹn thử váy trước; kiểm tra kỹ biên bản bàn giao váy.',
     ],
-    sources: 'Fely Wedding, Cuoihoivip, HanoiReview',
+    sources: 'TikTok, Facebook, Cuoihoivip, HanoiReview',
   },
   {
     studio: 'Palatino Studio',
@@ -397,15 +397,15 @@ export const STUDIO_REVIEWS = [
     summary:
       'Ảnh viện lâu năm tại Đống Đa, nổi bật ở thái độ ekip tận tâm và khả năng giúp các cặp đôi ngại ống kính cảm thấy tự nhiên. Giá gói ngoại cảnh/trọn gói rất cạnh tranh.',
     pros: [
-      'Ekip và stylist hỗ trợ khéo léo từ góc mặt đến vạt váy; nhiều khách phản hồi ảnh gốc đã rất ưng ý.',
-      'Hỗ trợ đẩy nhanh tiến độ chỉnh sửa và trả sản phẩm nếu cặp đôi cần gấp cho ngày cưới hỏi.',
+      'Hội Cô Dâu & diễn đàn cưới đánh giá 9–10/10: thợ chính căn góc, chỉnh từng tà váy tỉ mỉ; ảnh raw (mộc) đã nét và màu tốt.',
+      'Hạn chế tối đa tình trạng "vẽ vời" chi phí ẩn ngoài hợp đồng; hỗ trợ đẩy tiến độ trả ảnh khi cần gấp.',
       'Gói trọn gói (8,9 tr) đã gồm 2 váy chụp, album 20 trang và trả toàn bộ file gốc.',
     ],
     cons: [
       'Cuối năm lịch thử váy dễ quá tải cục bộ nếu không đặt hẹn sớm.',
       'Gói giá cơ bản có thể dùng chất liệu khung ảnh/album tiêu chuẩn; nếu nâng cấp tráng gương hoặc thêm điểm chụp cần chốt giá rõ.',
     ],
-    sources: 'Palatino Studio, Tripi, Mytour, Thiepxinh',
+    sources: 'Hội Cô Dâu (FB), Tripi, Mytour, Thiepxinh',
   },
   {
     studio: 'Yêu Media',
@@ -469,14 +469,14 @@ export const STUDIO_REVIEWS = [
     summary:
       'Một trong những studio lâu năm và được đánh giá cao tại TP. Hạ Long về độ tận tâm của ekip, từ khâu dựng dáng chi tiết đến makeup trẻ trung.',
     pros: [
-      'Thợ ảnh sáng tạo, chỉ dáng tỉ mỉ cho các cặp đôi chưa có kinh nghiệm chụp.',
-      'Makeup linh hoạt, trẻ trung; mức giá gói địa phương mềm (6–12 tr) hơn so với kéo ekip từ Hà Nội xuống.',
+      'Google Maps & Facebook đánh giá cao độ nhiệt tình: thợ ảnh chỉ dáng tỉ mỉ cho người chụp lần đầu, gói rõ ràng từ 6 triệu.',
+      'TikTok đăng đều hậu trường chụp ngoại cảnh Hạ Long và các mẫu váy cưới thiết kế mới cập nhật.',
     ],
     cons: [
       'Nếu xuất phát từ Hòa Bình, bạn phải sắp xếp thời gian xuống Hạ Long thử váy trước hoặc chốt size từ xa.',
       'Cần hỏi rõ phí vé vào cổng các khu du lịch/resort hoặc tàu ra vịnh ngoài gói.',
     ],
-    sources: 'QuangNinhReview, Demxanh',
+    sources: 'Google Maps, Facebook, TikTok, QuangNinhReview',
   },
   {
     studio: 'Mộc Bridal',
@@ -486,14 +486,14 @@ export const STUDIO_REVIEWS = [
     summary:
       'Studio tại khu trung tâm Bãi Cháy, thế mạnh là phong cách mộc mạc, chú trọng cảm xúc thật thay vì dàn dựng cầu kỳ.',
     pros: [
+      'TikTok & Google Maps khen mạnh makeup trong trẻo ("như không makeup") và váy nhẹ nhàng, dễ di chuyển.',
       'Vị trí ngay Bãi Cháy, rất thuận tiện di chuyển ra bãi biển, cầu Bãi Cháy và Bảo tàng Quảng Ninh.',
-      'Màu ảnh trong trẻo, tự nhiên, ít bị lỗi thời.',
     ],
     cons: [
       'Tháng 12 gió biển Bãi Cháy khá lạnh, cần chủ động chuẩn bị váy tay dài hoặc áo choàng.',
       'Cần đặt lịch sớm vì cuối năm trùng mùa khách du lịch lễ hội.',
     ],
-    sources: 'AlohaStudio, thông tin địa phương Hạ Long',
+    sources: 'Google Maps, Facebook, TikTok, AlohaStudio',
   },
   {
     studio: 'De Paris Wedding & May’s Wedding',
@@ -668,39 +668,50 @@ export const HIDDEN_COSTS = [
 
 export const FIRST_TIME_PREP = [
   {
-    group: '1. Trước khi ký hợp đồng (1–2 tháng)',
+    group: 'Giai đoạn 1 (Trước 2 tháng): Ngân sách, Concept & Chốt Studio',
     items: [
-      { id: 'hd-1', text: 'Xem ít nhất 2–3 album khách chụp thật (không chỉ xem ảnh quảng cáo chạy ads)' },
-      { id: 'hd-2', text: 'Đến thử trực tiếp form váy trong gói xem có vừa vặn hay phải nâng cấp dòng VIP' },
-      { id: 'hd-3', text: 'Ghi rõ bằng văn bản: số váy/vest, số ảnh retouch, trả 100% file gốc, không phát sinh' },
-      { id: 'hd-4', text: 'Chốt điều khoản dời lịch miễn phí nếu tháng 12 gặp mưa hoặc rét đậm / sương mù' },
+      { id: 'g1-1', text: 'Chốt tổng ngân sách (gói chụp + phát sinh di chuyển/vé + dự phòng) trong khung 15–20 tr' },
+      { id: 'g1-2', text: 'Chọn 2–3 concept chính (ví dụ: Đồng lau + Hồ núi, hoặc Biển/Bảo tàng nếu đi Hạ Long)' },
+      { id: 'g1-3', text: 'Khảo sát 3–4 studio: xem ảnh gốc (raw) & album khách chụp thật, đọc review TikTok/Hội cô dâu' },
+      { id: 'g1-4', text: 'Ký hợp đồng ghi rõ: số váy/vest, số ảnh retouch, trả 100% file gốc, các khoản không phát sinh' },
     ],
   },
   {
-    group: '2. Di chuyển, thời gian & phương án B',
+    group: 'Giai đoạn 2 (Trước 1 tháng): Thử đồ, Skincare & Timeline',
     items: [
-      { id: 'dc-1', text: 'Chốt giờ makeup sớm (5h–6h sáng) để kịp nắng đẹp; tháng 12 trời tắt nắng lúc 17h00' },
-      { id: 'dc-2', text: 'Nếu đi Hạ Long từ Hòa Bình: đặt xe & phòng trước 1 tháng (tránh cháy phòng Noel/Tết Dương)' },
-      { id: 'dc-3', text: 'Luôn có phương án B trong nhà (studio, Bảo tàng QN, khách sạn) phòng gió mùa Đông Bắc' },
-      { id: 'dc-4', text: 'Xác nhận rõ vé vào cửa phim trường/resort/du thuyền cho cả ekip 3–4 người ai trả' },
+      { id: 'g2-1', text: 'Thử váy cưới (xem form có vừa hay phải nâng dòng VIP) & thử vest chú rể (độ vừa vai, tay áo)' },
+      { id: 'g2-2', text: 'Test makeup (nếu gói hỗ trợ) hoặc gửi 5–10 ảnh mẫu (moodboard) cho makeup & thợ ảnh' },
+      { id: 'g2-3', text: 'Chốt timeline ngày chụp có thời gian dự phòng (buffer time), canh giờ tắt nắng 17h00 tháng 12' },
+      { id: 'g2-4', text: 'Chốt điều khoản dời lịch miễn phí khi mưa/rét đậm và đặt xe/phòng sớm nếu đi Hạ Long' },
     ],
   },
   {
-    group: '3. Đồ cá nhân Cô dâu & Chú rể (tháng 12)',
+    group: 'Giai đoạn 3 (Trước 1 tuần): Tóc, Nail & Đạo cụ cá nhân',
     items: [
-      { id: 'cd-1', text: 'Cô dâu: nội y su màu da không viền, miếng dán ngực, giày cao gót + 1 đôi dép bệt' },
-      { id: 'cd-2', text: 'Cô dâu (chống rét): ưu tiên váy tay dài/choàng lông, áo phao dễ cởi & 4–6 miếng dán giữ nhiệt' },
-      { id: 'cr-1', text: 'Chú rể: giày da khớp màu vest, 2 đôi tất (tất cao cổ tối màu + tất tàng hình), thắt lưng da' },
-      { id: 'cr-2', text: 'Chú rể cắt tóc & cạo râu trước 2–3 ngày; cô dâu làm nail tông nhẹ (trắng sữa, pastel)' },
+      { id: 'g3-1', text: 'Chú rể cắt tóc trước 5–7 ngày để tóc vào nếp tự nhiên (tránh cắt sát ngày bị cứng)' },
+      { id: 'g3-2', text: 'Cô dâu hấp tóc nhẹ nhàng & làm nail tông nhã nhặn (trắng sữa, hồng pastel, nude)' },
+      { id: 'g3-3', text: 'Chuẩn bị đạo cụ tạo câu chuyện riêng: nhẫn cưới/cầu hôn, thư tay hoặc món đồ kỷ niệm' },
+      { id: 'g3-4', text: 'Kiểm tra lại phương án B trong nhà (studio, Bảo tàng QN, phim trường) nếu dự báo có gió mùa' },
     ],
   },
   {
-    group: '4. Ngày chụp & hậu kỳ nhận ảnh',
+    group: 'Giai đoạn 4 (Tối hôm trước): Vali đồ cá nhân Cô dâu & Chú rể',
     items: [
-      { id: 'th-1', text: 'Ngủ đủ giấc đêm trước, ăn sáng đầy đủ và mang theo bánh ngọt, sữa, nước lọc' },
-      { id: 'th-2', text: 'Gửi 5–10 ảnh mẫu (moodboard) cho photographer & makeup trước 3–5 ngày' },
-      { id: 'th-3', text: 'Kiểm tra kỹ biên bản tình trạng váy/vest khi nhận & khi trả để tránh đền bù oan' },
-      { id: 'th-4', text: 'Chốt mốc ngày nhận file gốc, ngày duyệt layout album trước khi in và ngày nhận ảnh cổng' },
+      { id: 'g4-1', text: 'Cô dâu: miếng dán ngực bám tốt, nội y su màu nude, áo cài cúc trước (thay đồ không hỏng tóc)' },
+      { id: 'g4-2', text: 'Cô dâu (chống rét tháng 12): giày cao gót + dép bệt đi bãi, áo phao dễ cởi & 4–6 miếng dán giữ nhiệt' },
+      { id: 'g4-3', text: 'Cô dâu (dặm lại): son dưỡng, giấy thấm dầu, kính áp tròng + nước nhỏ mắt, kẹp tăm/chun buộc tóc' },
+      { id: 'g4-4', text: 'Chú rể: giày tây đánh bóng + 2 đôi tất (cao cổ tối màu & tàng hình), thắt lưng, sơ mi trắng dự phòng, sáp tóc' },
+      { id: 'g4-5', text: 'Đồ chung: bánh ngọt/kẹo ngậm chống tụt đường huyết, nước suối + ỐNG HÚT (uống không trôi son), sạc dự phòng, tiền mặt lẻ' },
+      { id: 'g4-6', text: 'Ngủ đủ 7–8 tiếng, hạn chế uống nhiều nước khuya (tránh sưng mặt), KHÔNG thử skincare/mặt nạ lạ' },
+    ],
+  },
+  {
+    group: 'Giai đoạn 5 (Sau khi chụp 3–7 ngày): Lọc ảnh & Duyệt in',
+    items: [
+      { id: 'g5-1', text: 'Kiểm tra biên bản tình trạng váy/vest khi trả đồ để tránh phát sinh đền bù' },
+      { id: 'g5-2', text: 'Nhận toàn bộ file gốc, lọc 2 vòng (loại ảnh nhắm mắt/mờ/trùng) trước khi gửi danh sách retouch' },
+      { id: 'g5-3', text: 'Duyệt kỹ bố cục album (layout), màu da và lỗi chính tả trước khi studio đem đi in hàng loạt' },
+      { id: 'g5-4', text: 'Kiểm tra kỹ bề mặt ảnh phóng (tráng gương/ép gỗ) và khung ảnh để bàn khi nhận thành phẩm' },
     ],
   },
 ];

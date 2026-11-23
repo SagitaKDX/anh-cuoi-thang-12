@@ -18,7 +18,7 @@ export default function FirstTimePlanner() {
 
   const [checkedPrep, setCheckedPrep] = useState(() => {
     try {
-      const saved = localStorage.getItem('prep-checklist-v1');
+      const saved = localStorage.getItem('prep-checklist-v2');
       return saved ? new Set(JSON.parse(saved)) : new Set();
     } catch {
       return new Set();
@@ -27,7 +27,7 @@ export default function FirstTimePlanner() {
 
   useEffect(() => {
     try {
-      localStorage.setItem('prep-checklist-v1', JSON.stringify([...checkedPrep]));
+      localStorage.setItem('prep-checklist-v2', JSON.stringify([...checkedPrep]));
     } catch {
       // ignore storage errors
     }
@@ -207,14 +207,51 @@ export default function FirstTimePlanner() {
         </aside>
       </div>
 
-      <div style={{ marginTop: 36 }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'baseline', gap: 12 }}>
-          <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--serif)', margin: 0 }}>
-            Checklist đồ tự chuẩn bị &amp; nguyên tắc làm việc với studio
-          </h3>
-          <span className="note tabular" style={{ margin: 0 }}>
-            Đã chuẩn bị: <strong>{checkedPrep.size}</strong> / {totalPrepItems} mục
-          </span>
+      <div style={{ marginTop: 40 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
+          <div>
+            <h3 style={{ fontSize: '1.35rem', fontFamily: 'var(--serif)', margin: 0 }}>
+              Kế hoạch &amp; Checklist từ A đến Z (Trước 2 tháng đến sau ngày chụp)
+            </h3>
+            <p className="note" style={{ margin: '4px 0 0' }}>
+              Tick trực tiếp theo từng mốc thời gian; trình duyệt tự động lưu tiến độ của hai bạn.
+            </p>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span className="note tabular" style={{ margin: 0 }}>
+              Hoàn thành: <strong>{checkedPrep.size}</strong> / {totalPrepItems} mục
+            </span>
+            {checkedPrep.size > 0 && (
+              <button
+                type="button"
+                className="btn-ghost"
+                style={{ padding: '5px 10px', fontSize: '0.82rem' }}
+                onClick={() => setCheckedPrep(new Set())}
+              >
+                Đặt lại
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div
+          style={{
+            height: 8,
+            background: 'var(--line)',
+            borderRadius: 99,
+            overflow: 'hidden',
+            marginTop: 12,
+          }}
+          aria-hidden="true"
+        >
+          <div
+            style={{
+              height: '100%',
+              width: `${totalPrepItems > 0 ? (checkedPrep.size / totalPrepItems) * 100 : 0}%`,
+              background: 'var(--emerald)',
+              transition: 'width 0.2s ease',
+            }}
+          />
         </div>
 
         <div className="prep-grid">

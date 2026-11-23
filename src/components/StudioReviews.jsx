@@ -12,9 +12,9 @@ export default function StudioReviews({ activeStudio, onSelectStudio }) {
 
   return (
     <section className="section" id="danh-gia">
-      <h2>Đánh giá thực tế các studio</h2>
+      <h2>Đánh giá thực tế từ Google Maps, TikTok &amp; Facebook</h2>
       <p className="lead">
-        Tổng hợp phản hồi từ cộng đồng dâu rể (Hội Cô Dâu, Tripi, Mytour, HanoiReview, Calibridal) và thông tin chính thức của từng ảnh viện để bạn cân nhắc trước khi đặt lịch thử váy.
+        Tổng hợp review thực tế từ Google Maps, TikTok (hậu trường &amp; váy cưới), cộng đồng Facebook (Hội Cô Dâu) và các chuyên trang cưới hỏi để bạn đối chiếu trước khi đặt lịch thử váy.
       </p>
 
       <div className="studio-tabs" role="tablist" aria-label="Chọn studio xem đánh giá">
