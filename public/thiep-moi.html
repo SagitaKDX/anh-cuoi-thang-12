@@ -311,6 +311,35 @@
       object-fit: cover;
       object-position: center 22%;
       display: block;
+      transform: translateZ(20px) scale(1.04);
+      transition: transform 0.25s ease-out;
+    }
+
+    .photo-depth-frame {
+      position: absolute;
+      inset: 12px;
+      border-radius: 198px 198px 12px 12px;
+      border: 1.5px solid rgba(253, 230, 138, 0.72);
+      pointer-events: none;
+      transform: translateZ(42px);
+      box-shadow: inset 0 0 24px rgba(253, 230, 138, 0.18);
+    }
+
+    .photo-badge-3d {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%) translateZ(54px);
+      background: rgba(76, 5, 25, 0.86);
+      border: 1px solid var(--gold);
+      color: var(--gold-light);
+      padding: 5px 14px;
+      border-radius: 99px;
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 600;
+      white-space: nowrap;
+      pointer-events: none;
     }
 
     .photo-glare {
@@ -515,6 +544,65 @@
       padding: 18px;
     }
 
+    /* Love Story Timeline Demo */
+    .story-track {
+      position: relative;
+      display: grid;
+      gap: 20px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .story-card {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 18px;
+      align-items: center;
+      background: var(--white);
+      border: 1px solid var(--rose-border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 26px rgba(136, 19, 55, 0.06);
+      opacity: 0;
+      transform: perspective(900px) rotateY(-8deg) translateX(-24px);
+      transition: opacity 0.65s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .story-card:nth-child(even) {
+      transform: perspective(900px) rotateY(8deg) translateX(24px);
+    }
+
+    .story-card.is-visible {
+      opacity: 1;
+      transform: perspective(900px) rotateY(0deg) translateX(0);
+    }
+
+    .story-date-badge {
+      text-align: center;
+      padding: 12px 10px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--rose-soft), #ffe4e6);
+      border: 1px solid var(--rose-border);
+      color: var(--crimson);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.15rem;
+      line-height: 1.2;
+    }
+
+    @media (max-width: 640px) {
+      .story-card {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .story-date-badge {
+        text-align: left;
+        display: inline-block;
+        width: fit-content;
+        padding: 6px 14px;
+      }
+    }
+
     .footer-sign {
       text-align: center;
       padding: 48px 24px 64px;
@@ -637,8 +725,9 @@
       <span class="hide-sm">Mở lại thiệp</span>
       <span aria-hidden="true">↻</span>
     </button>
-    <button type="button" id="music-btn" class="ctrl-btn ctrl-icon" aria-label="Bật hoặc tắt nhạc nền">
+    <button type="button" id="music-btn" class="ctrl-btn" aria-label="Bật hoặc tắt nhạc I Do">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      <span id="music-label" class="hide-sm">Nhạc: I Do</span>
     </button>
   </div>
 
@@ -664,6 +753,8 @@
         <div class="photo-stage">
           <div class="photo-arch-3d" id="tilt-card">
             <img src="./couple-photo.jpg" alt="Lã Tiến Anh và Đỗ Thị Thanh Thư" />
+            <div class="photo-depth-frame"></div>
+            <div class="photo-badge-3d">Lã Tiến Anh ♥ Đỗ Thị Thanh Thư</div>
             <div class="photo-glare"></div>
           </div>
         </div>
@@ -696,6 +787,52 @@
           <h3 style="font-family: var(--font-display); font-size: 1.75rem; margin: 6px 0; color: var(--crimson);">Đỗ Thị Thanh Thư</h3>
           <p style="margin: 0; color: var(--ink-soft);">TP. Hòa Bình</p>
         </div>
+      </div>
+    </section>
+
+    <!-- Hành trình yêu nhau (Demo) -->
+    <section class="band" style="padding-top: 16px;">
+      <h2 class="band-heading">Hành Trình Yêu Nhau (Demo)</h2>
+      <div class="story-track">
+        <article class="story-card reveal">
+          <div class="story-date-badge">Chương 1<br><span style="font-size: 0.82rem; font-weight: 500;">Gặp gỡ</span></div>
+          <div>
+            <h3 style="margin: 0 0 4px; color: var(--crimson); font-family: var(--font-display); font-size: 1.35rem;">Lần đầu chung bước</h3>
+            <p style="margin: 0; color: var(--ink-soft); font-size: 0.94rem;">
+              Từ một cuộc gặp gỡ tình cờ, những câu chuyện tưởng chừng ngắn ngủi lại trở thành thói quen mỗi ngày của Tiến Anh và Thanh Thư.
+            </p>
+          </div>
+        </article>
+
+        <article class="story-card reveal">
+          <div class="story-date-badge">Chương 2<br><span style="font-size: 0.82rem; font-weight: 500;">Hẹn hò</span></div>
+          <div>
+            <h3 style="margin: 0 0 4px; color: var(--crimson); font-family: var(--font-display); font-size: 1.35rem;">Những chuyến đi cùng nhau</h3>
+            <p style="margin: 0; color: var(--ink-soft); font-size: 0.94rem;">
+              Cùng nhau đi qua những cung đường đầu tiên, chia sẻ niềm vui nhỏ bé và học cách lắng nghe nhau nhiều hơn mỗi ngày.
+            </p>
+          </div>
+        </article>
+
+        <article class="story-card reveal">
+          <div class="story-date-badge">Chương 3<br><span style="font-size: 0.82rem; font-weight: 500;">Lời hứa</span></div>
+          <div>
+            <h3 style="margin: 0 0 4px; color: var(--crimson); font-family: var(--font-display); font-size: 1.35rem;">Khoảnh khắc “I Do”</h3>
+            <p style="margin: 0; color: var(--ink-soft); font-size: 0.94rem;">
+              Bó hoa hồng tươi thắm và nụ cười rạng rỡ ngày hai bên gia đình gặp mặt — đánh dấu lời hứa đồng hành trọn đời.
+            </p>
+          </div>
+        </article>
+
+        <article class="story-card reveal">
+          <div class="story-date-badge">12 / 2026<br><span style="font-size: 0.82rem; font-weight: 500;">Về chung nhà</span></div>
+          <div>
+            <h3 style="margin: 0 0 4px; color: var(--crimson); font-family: var(--font-display); font-size: 1.35rem;">Ngày Chung Đôi</h3>
+            <p style="margin: 0; color: var(--ink-soft); font-size: 0.94rem;">
+              Chính thức mở ra chương mới mang tên Gia đình, với sự chúc phúc của hai họ và những người bạn thân thương nhất.
+            </p>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -907,6 +1044,21 @@
         const dust = new THREE.Points(dustGeo, dustMat);
         scene.add(dust);
 
+        // 3D Intertwined Gold Wedding Rings
+        const ringGroup = new THREE.Group();
+        const ringGeo = new THREE.TorusGeometry(1.15, 0.085, 20, 64);
+        const ringMat = new THREE.MeshBasicMaterial({ color: 0xfcd34d, transparent: true, opacity: 0.45 });
+        const ring1 = new THREE.Mesh(ringGeo, ringMat);
+        const ring2 = new THREE.Mesh(ringGeo, ringMat);
+        ring1.position.x = -0.55;
+        ring1.rotation.y = 0.5;
+        ring2.position.x = 0.55;
+        ring2.rotation.x = 0.9;
+        ring2.rotation.y = -0.4;
+        ringGroup.add(ring1, ring2);
+        ringGroup.position.set(0, 0.8, -6);
+        scene.add(ringGroup);
+
         // Celebration Burst Particles
         const burstGroup = [];
         triggerBurst = () => {
@@ -959,6 +1111,8 @@
           }
 
           dust.rotation.y += 0.0008;
+          ringGroup.rotation.y += 0.004;
+          ringGroup.rotation.z = Math.sin(Date.now() * 0.0008) * 0.15;
 
           for (let i = burstGroup.length - 1; i >= 0; i--) {
             const b = burstGroup[i];
@@ -988,6 +1142,7 @@
     function openEnvelope() {
       envelope.classList.add('is-opening');
       triggerBurst();
+      if (!musicOn) toggleMusic(true);
       setTimeout(() => envelope.classList.add('is-open'), 1050);
     }
     document.getElementById('open-seal').addEventListener('click', openEnvelope);
@@ -997,16 +1152,23 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // 3. 3D Parallax Tilt on Couple Photo Arch
+    // 3. 3D Parallax Tilt on Couple Photo Arch (Desktop Mouse + Mobile Touch)
     const tiltCard = document.getElementById('tilt-card');
-    if (tiltCard && window.matchMedia('(pointer: fine)').matches) {
-      tiltCard.addEventListener('pointermove', (e) => {
+    if (tiltCard) {
+      const applyTilt = (clientX, clientY) => {
         const rect = tiltCard.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        tiltCard.style.transform = `rotateY(${x * 12}deg) rotateX(${-y * 10}deg) scale(1.02)`;
-      });
+        const x = Math.max(-0.5, Math.min(0.5, (clientX - rect.left) / rect.width - 0.5));
+        const y = Math.max(-0.5, Math.min(0.5, (clientY - rect.top) / rect.height - 0.5));
+        tiltCard.style.transform = `rotateY(${x * 16}deg) rotateX(${-y * 14}deg) scale(1.02)`;
+      };
+      tiltCard.addEventListener('pointermove', (e) => applyTilt(e.clientX, e.clientY));
+      tiltCard.addEventListener('touchmove', (e) => {
+        if (e.touches[0]) applyTilt(e.touches[0].clientX, e.touches[0].clientY);
+      }, { passive: true });
       tiltCard.addEventListener('pointerleave', () => {
+        tiltCard.style.transform = 'rotateY(0deg) rotateX(0deg) scale(1)';
+      });
+      tiltCard.addEventListener('touchend', () => {
         tiltCard.style.transform = 'rotateY(0deg) rotateX(0deg) scale(1)';
       });
     }
@@ -1073,42 +1235,85 @@
       document.getElementById('rsvp-done').style.display = 'block';
     });
 
-    // 7. Web Audio Soft Chime Music
+    // 7. Polyphonic "I Do" (911) Wedding Melody via Web Audio API
     let musicOn = false;
     let audioCtx = null;
     let timer = null;
     const musicBtn = document.getElementById('music-btn');
-    musicBtn.addEventListener('click', () => {
-      musicOn = !musicOn;
+    const musicLabel = document.getElementById('music-label');
+
+    // Chorus melody of "I Do" (Key of G major: G - D - Em - C)
+    const I_DO_SCORE = [
+      { mel: 392.00, bass: 196.00, dur: 0.45 }, // G4 ("My")
+      { mel: 440.00, bass: null,   dur: 0.45 }, // A4 ("life")
+      { mel: 493.88, bass: 196.00, dur: 0.70 }, // B4 ("is")
+      { mel: 587.33, bass: 146.83, dur: 0.55 }, // D5 ("bril-liant")
+      { mel: 523.25, bass: null,   dur: 0.45 }, // C5
+      { mel: 493.88, bass: 164.81, dur: 0.75 }, // B4 ("I'll be by your")
+      { mel: 440.00, bass: null,   dur: 0.45 }, // A4
+      { mel: 392.00, bass: 130.81, dur: 0.75 }, // G4 ("side...")
+      { mel: 493.88, bass: 196.00, dur: 0.45 }, // B4 ("till I hear you")
+      { mel: 587.33, bass: 146.83, dur: 0.45 }, // D5 ("say")
+      { mel: 659.25, bass: 164.81, dur: 0.65 }, // E5 ("I")
+      { mel: 587.33, bass: 130.81, dur: 1.10 }, // D5 ("Do...")
+    ];
+
+    function toggleMusic(forceState) {
+      musicOn = typeof forceState === 'boolean' ? forceState : !musicOn;
       musicBtn.classList.toggle('playing', musicOn);
+      if (musicLabel) musicLabel.textContent = musicOn ? 'Đang phát: I Do' : 'Nhạc: I Do';
+
       if (!musicOn) {
-        clearInterval(timer);
+        clearTimeout(timer);
         if (audioCtx && audioCtx.state !== 'closed') audioCtx.close().catch(() => {});
         return;
       }
       try {
         const Ctx = window.AudioContext || window.webkitAudioContext;
         audioCtx = new Ctx();
-        const notes = [523.25, 659.25, 783.99, 659.25, 587.33, 698.46, 880.0, 783.99];
         let step = 0;
-        const play = () => {
+
+        const playStep = () => {
+          if (!musicOn || !audioCtx) return;
+          const note = I_DO_SCORE[step % I_DO_SCORE.length];
+          const now = audioCtx.currentTime;
+
+          // Warm lead piano-like tone
           const osc = audioCtx.createOscillator();
           const gain = audioCtx.createGain();
-          osc.type = 'sine';
-          osc.frequency.value = notes[step % notes.length];
-          gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.04, audioCtx.currentTime + 0.08);
-          gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.1);
+          osc.type = 'triangle';
+          osc.frequency.value = note.mel;
+          gain.gain.setValueAtTime(0.001, now);
+          gain.gain.exponentialRampToValueAtTime(0.065, now + 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + note.dur * 1.4);
           osc.connect(gain);
           gain.connect(audioCtx.destination);
-          osc.start();
-          osc.stop(audioCtx.currentTime + 1.15);
+          osc.start(now);
+          osc.stop(now + note.dur * 1.45);
+
+          // Soft warm bass accompaniment
+          if (note.bass) {
+            const bOsc = audioCtx.createOscillator();
+            const bGain = audioCtx.createGain();
+            bOsc.type = 'sine';
+            bOsc.frequency.value = note.bass;
+            bGain.gain.setValueAtTime(0.001, now);
+            bGain.gain.exponentialRampToValueAtTime(0.045, now + 0.06);
+            bGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.5);
+            bOsc.connect(bGain);
+            bGain.connect(audioCtx.destination);
+            bOsc.start(now);
+            bOsc.stop(now + 1.55);
+          }
+
           step += 1;
+          timer = setTimeout(playStep, note.dur * 1000);
         };
-        play();
-        timer = setInterval(play, 950);
+        playStep();
       } catch {}
-    });
+    }
+
+    musicBtn.addEventListener('click', () => toggleMusic());
   </script>
 </body>
 </html>
