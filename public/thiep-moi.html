@@ -121,23 +121,31 @@
       gap: 8px;
       align-items: center;
       max-width: calc(100% - 24px);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .top-controls::-webkit-scrollbar {
+      display: none;
     }
 
     .ctrl-btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      height: 40px;
-      padding: 0 14px;
+      min-height: 38px;
+      padding: 7px 14px;
       border-radius: 99px;
       border: 1px solid var(--gold);
-      background: rgba(76, 5, 25, 0.85);
+      background: rgba(76, 5, 25, 0.88);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       color: var(--gold-light);
       font-family: var(--font-body);
       font-size: 0.84rem;
       font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
       cursor: pointer;
       text-decoration: none;
       transition: transform 0.2s ease, background-color 0.2s ease;
@@ -303,11 +311,11 @@
 
     /* Hero Landscape Fullscreen */
     .hero-screen {
-      min-height: 100dvh;
+      min-height: 100svh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 64px 24px 48px;
+      padding: 84px 24px 80px;
       background: radial-gradient(circle at 80% 15%, #ffe4e6 0%, var(--ivory) 55%, #fff5f5 100%);
       border-bottom: 1px solid var(--rose-border);
     }
@@ -803,8 +811,8 @@
         grid-template-columns: 1fr;
       }
       .phoenix-corner {
-        width: 72px;
-        top: 6px;
+        width: 68px;
+        top: 58px;
       }
       .phoenix-left {
         left: 4px;
@@ -846,8 +854,8 @@
         top: 10px;
       }
       .ctrl-btn {
-        height: 36px;
-        padding: 0 11px;
+        min-height: 36px;
+        padding: 6px 12px;
         font-size: 0.8rem;
       }
       .top-controls .hide-sm {
