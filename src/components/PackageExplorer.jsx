@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Download, RotateCcw, Search } from 'lucide-react';
+import { ChevronDown, ChevronUp, Download, RotateCcw, Search, SlidersHorizontal } from 'lucide-react';
 import { PACKAGES_DATA } from '../data/weddingData';
 
 const PRICE_BUCKETS = [
@@ -39,6 +39,14 @@ export default function PackageExplorer({ onSelectStudio }) {
   });
   const [query, setQuery] = useState('');
   const [sortBy, setSortBy] = useState('asc');
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState(false);
+
+  const activeFilterCount =
+    selected.khuVuc.size +
+    selected.loai.size +
+    selected.concepts.size +
+    selected.muc.size;
 
   const filterRows = useMemo(
     () => [
@@ -153,7 +161,34 @@ export default function PackageExplorer({ onSelectStudio }) {
         Giá niêm yết trên website studio (cập nhật tháng 11/2026). Chỉ tính buổi chụp Pre-wedding, chưa gồm váy và trang điểm ngày cưới.
       </p>
 
-      <div className="filters-box" role="group" aria-label="Bộ lọc gói chụp">
+      <div className="mobile-filter-bar">
+        <div className="search-box" style={{ flex: 1 }}>
+          <Search size={16} aria-hidden="true" />
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Tìm studio, địa điểm…"
+            aria-label="Tìm kiếm gói chụp trên điện thoại"
+          />
+        </div>
+        <button
+          type="button"
+          className="btn-ghost"
+          onClick={() => setMobileFiltersOpen((v) => !v)}
+          aria-expanded={mobileFiltersOpen}
+        >
+          <SlidersHorizontal size={15} aria-hidden="true" />
+          <span>Lọc{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}</span>
+          {mobileFiltersOpen ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
+        </button>
+      </div>
+
+      <div
+        className={`filters-box ${mobileFiltersOpen ? 'is-open-mobile' : 'is-closed-mobile'}`}
+        role="group"
+        aria-label="Bộ lọc gói chụp"
+      >
         {filterRows.map((row) => (
           <div className="filter-row" key={row.key}>
             <span className="filter-label">{row.label}</span>
@@ -277,54 +312,76 @@ export default function PackageExplorer({ onSelectStudio }) {
             Không có gói nào khớp bộ lọc hiện tại. Bỏ bớt một tiêu chí để xem thêm.
           </div>
         ) : (
-          filteredList.map((d) => {
-            const isFit = d.gia !== null && d.gia >= 13 && d.gia <= 20;
-            return (
-              <article className="mobile-pkg-card" key={d.id}>
-                <div className="mobile-pkg-head">
-                  <div>
-                    <button
-                      type="button"
-                      onClick={() => onSelectStudio(d.studio)}
-                      className="studio-link-btn"
-                    >
-                      {d.studio}
-                    </button>
-                    <div className="mobile-pkg-name">{d.goi}</div>
+          <>
+            {(mobileExpanded || activeFilterCount > 0 || query.trim() ? filteredList : filteredList.slice(0, 6)).map((d) => {
+              const isFit = d.gia !== null && d.gia >= 13 && d.gia <= 20;
+              return (
+                <article className="mobile-pkg-card" key={d.id}>
+                  <div className="mobile-pkg-head">
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => onSelectStudio(d.studio)}
+                        className="studio-link-btn"
+                      >
+                        {d.studio}
+                      </button>
+                      <div className="mobile-pkg-name">{d.goi}</div>
+                    </div>
+                    <div className="price-cell tabular">{formatPrice(d)}</div>
                   </div>
-                  <div className="price-cell tabular">{formatPrice(d)}</div>
-                </div>
 
-                <div className="mobile-pkg-tags">
-                  {isFit && <span className="tag fit">sát budget</span>}
-                  {d.concepts.map((c) => (
-                    <span className="tag primary" key={c}>
-                      {c}
-                    </span>
-                  ))}
-                </div>
+                  <div className="mobile-pkg-tags">
+                    {isFit && <span className="tag fit">sát budget</span>}
+                    {d.concepts.map((c) => (
+                      <span className="tag primary" key={c}>
+                        {c}
+                      </span>
+                    ))}
+                  </div>
 
-                <dl className="mobile-pkg-meta">
-                  <div>
-                    <dt>Khu vực</dt>
-                    <dd>{d.khuVuc} · {d.loai}</dd>
-                  </div>
-                  <div>
-                    <dt>Bối cảnh</dt>
-                    <dd>{d.boiCanh}</dd>
-                  </div>
-                  <div>
-                    <dt>Thời lượng</dt>
-                    <dd>{d.thoiLuong}</dd>
-                  </div>
-                  <div>
-                    <dt>Lưu ý</dt>
-                    <dd>{d.luuY}</dd>
-                  </div>
-                </dl>
-              </article>
-            );
-          })
+                  <dl className="mobile-pkg-meta">
+                    <div>
+                      <dt>Khu vực</dt>
+                      <dd>{d.khuVuc} · {d.loai}</dd>
+                    </div>
+                    <div>
+                      <dt>Bối cảnh</dt>
+                      <dd>{d.boiCanh}</dd>
+                    </div>
+                    <div>
+                      <dt>Thời lượng</dt>
+                      <dd>{d.thoiLuong}</dd>
+                    </div>
+                    <div>
+                      <dt>Lưu ý</dt>
+                      <dd>{d.luuY}</dd>
+                    </div>
+                  </dl>
+                </article>
+              );
+            })}
+            {!mobileExpanded && activeFilterCount === 0 && !query.trim() && filteredList.length > 6 && (
+              <button
+                type="button"
+                className="btn-ghost"
+                style={{ width: '100%', justifyContent: 'center', padding: '12px' }}
+                onClick={() => setMobileExpanded(true)}
+              >
+                Xem thêm {filteredList.length - 6} gói còn lại
+              </button>
+            )}
+            {mobileExpanded && activeFilterCount === 0 && !query.trim() && filteredList.length > 6 && (
+              <button
+                type="button"
+                className="btn-ghost"
+                style={{ width: '100%', justifyContent: 'center', padding: '12px' }}
+                onClick={() => setMobileExpanded(false)}
+              >
+                Thu gọn danh sách
+              </button>
+            )}
+          </>
         )}
       </div>
 

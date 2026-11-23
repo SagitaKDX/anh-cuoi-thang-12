@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Calculator, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Calculator, CheckCircle2, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { FIRST_TIME_PREP, HIDDEN_COSTS } from '../data/weddingData';
 
 const PRESET_PACKAGES = [
@@ -13,9 +13,19 @@ const PRESET_PACKAGES = [
 export default function FirstTimePlanner() {
   const [basePackage, setBasePackage] = useState(14.9);
   const [activeStage, setActiveStage] = useState('all');
+  const [openStages, setOpenStages] = useState(() => new Set(['stage-1']));
   const [selectedExtras, setSelectedExtras] = useState(
     () => new Set(['tickets', 'meals', 'buffer']),
   );
+
+  const toggleStageOpen = (id) => {
+    setOpenStages((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
   const [checkedPrep, setCheckedPrep] = useState(() => {
     try {
@@ -281,33 +291,57 @@ export default function FirstTimePlanner() {
         <div className="prep-grid">
           {FIRST_TIME_PREP.filter(
             (group) => activeStage === 'all' || group.id === activeStage,
-          ).map((group) => (
-            <div className="info-panel" key={group.group}>
-              <h4 style={{ margin: '0 0 4px', fontSize: '1.02rem', fontWeight: 600, color: 'var(--primary-ink)' }}>
-                {group.group}
-              </h4>
-              <p className="note" style={{ margin: '0 0 10px', fontSize: '0.84rem' }}>
-                {group.goal}
-              </p>
-              <ul className="checklist-ul">
-                {group.items.map((item) => {
-                  const done = checkedPrep.has(item.id);
-                  return (
-                    <li key={item.id}>
-                      <label className={done ? 'done' : ''}>
-                        <input
-                          type="checkbox"
-                          checked={done}
-                          onChange={() => togglePrep(item.id)}
-                        />
-                        <span>{item.text}</span>
-                      </label>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          ))}
+          ).map((group) => {
+            const doneCount = group.items.filter((i) => checkedPrep.has(i.id)).length;
+            const isOpen = activeStage !== 'all' || openStages.has(group.id);
+            return (
+              <div className="info-panel" key={group.group}>
+                <button
+                  type="button"
+                  className="stage-accordion-btn"
+                  onClick={() => toggleStageOpen(group.id)}
+                  aria-expanded={isOpen}
+                >
+                  <div>
+                    <h4 style={{ margin: '0 0 2px', fontSize: '1rem', fontWeight: 600, color: 'var(--primary-ink)' }}>
+                      {group.group}
+                    </h4>
+                    <span className="note tabular" style={{ margin: 0, fontSize: '0.82rem' }}>
+                      Đã xong {doneCount}/{group.items.length} mục
+                    </span>
+                  </div>
+                  {activeStage === 'all' && (
+                    <span className="stage-chevron" aria-hidden="true">
+                      {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                    </span>
+                  )}
+                </button>
+
+                <div className={`stage-body ${isOpen ? 'is-open' : ''}`}>
+                  <p className="note" style={{ margin: '8px 0 10px', fontSize: '0.84rem' }}>
+                    {group.goal}
+                  </p>
+                  <ul className="checklist-ul">
+                    {group.items.map((item) => {
+                      const done = checkedPrep.has(item.id);
+                      return (
+                        <li key={item.id}>
+                          <label className={done ? 'done' : ''}>
+                            <input
+                              type="checkbox"
+                              checked={done}
+                              onChange={() => togglePrep(item.id)}
+                            />
+                            <span>{item.text}</span>
+                          </label>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
