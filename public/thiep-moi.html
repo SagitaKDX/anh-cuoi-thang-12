@@ -803,7 +803,7 @@
 </head>
 <body>
   <canvas id="three-bg" aria-hidden="true"></canvas>
-  <div id="yt-player-host" style="position:fixed;left:-9999px;top:-9999px;width:2px;height:2px;opacity:0;pointer-events:none;" aria-hidden="true"></div>
+  <div id="yt-player-host" style="position:fixed;right:0;bottom:0;width:200px;height:113px;opacity:0.001;pointer-events:none;z-index:-1;" aria-hidden="true"></div>
 
   <div class="top-controls">
     <a href="./#thiep-moi-test" class="ctrl-btn">
@@ -1354,6 +1354,8 @@
 
     window.onYouTubeIframeAPIReady = () => {
       ytPlayer = new window.YT.Player('yt-player-host', {
+        width: '200',
+        height: '113',
         videoId: '7o5XAg_EeLw',
         playerVars: {
           autoplay: 0,
@@ -1362,6 +1364,8 @@
           loop: 1,
           playlist: '7o5XAg_EeLw',
           playsinline: 1,
+          enablejsapi: 1,
+          origin: window.location.origin,
           rel: 0,
         },
         events: {

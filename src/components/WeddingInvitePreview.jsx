@@ -67,8 +67,9 @@ export default function WeddingInvitePreview() {
   const [giftOpen, setGiftOpen] = useState(false);
   const [wishes, setWishes] = useState(INITIAL_WISHES);
 
-  const audioCtxRef = useRef(null);
-  const melodyTimerRef = useRef(null);
+  const ytPlayerRef = useRef(null);
+  const ytReadyRef = useRef(false);
+  const pendingPlayRef = useRef(false);
   const countdown = useCountdown(TARGET_DATE);
 
   // Floating petals data (deterministic positions)
@@ -102,57 +103,70 @@ export default function WeddingInvitePreview() {
     return () => obs.disconnect();
   }, [envelopeOpen]);
 
-  // Soft Web Audio chime loop when musicOn is toggled
+  // Load YouTube IFrame API for "I DO - 911 ft Duc Phuc" (7o5XAg_EeLw)
+  useEffect(() => {
+    const initPlayer = () => {
+      if (!window.YT || !window.YT.Player || ytPlayerRef.current) return;
+      ytPlayerRef.current = new window.YT.Player('react-yt-player', {
+        width: '200',
+        height: '113',
+        videoId: '7o5XAg_EeLw',
+        playerVars: {
+          autoplay: 0,
+          controls: 0,
+          start: 1,
+          loop: 1,
+          playlist: '7o5XAg_EeLw',
+          playsinline: 1,
+          enablejsapi: 1,
+          origin: window.location.origin,
+          rel: 0,
+        },
+        events: {
+          onReady: () => {
+            ytReadyRef.current = true;
+            if (pendingPlayRef.current) {
+              pendingPlayRef.current = false;
+              ytPlayerRef.current.setVolume(80);
+              ytPlayerRef.current.playVideo();
+            }
+          },
+        },
+      });
+    };
+
+    if (window.YT && window.YT.Player) {
+      initPlayer();
+    } else {
+      window.onYouTubeIframeAPIReady = initPlayer;
+      if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+        const s = document.createElement('script');
+        s.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(s);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     if (!musicOn) {
-      if (melodyTimerRef.current) clearInterval(melodyTimerRef.current);
-      if (audioCtxRef.current && audioCtxRef.current.state !== 'closed') {
-        audioCtxRef.current.close().catch(() => {});
-        audioCtxRef.current = null;
+      pendingPlayRef.current = false;
+      if (ytReadyRef.current && ytPlayerRef.current?.pauseVideo) {
+        ytPlayerRef.current.pauseVideo();
       }
       return;
     }
-
-    try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      const ctx = new AudioCtx();
-      audioCtxRef.current = ctx;
-      const notes = [523.25, 659.25, 783.99, 659.25, 587.33, 698.46, 880.0, 783.99];
-      let step = 0;
-
-      const playNote = () => {
-        if (!audioCtxRef.current) return;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.value = notes[step % notes.length];
-        gain.gain.setValueAtTime(0.001, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.045, ctx.currentTime + 0.08);
-        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.1);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 1.15);
-        step += 1;
-      };
-
-      playNote();
-      melodyTimerRef.current = setInterval(playNote, 950);
-    } catch {
-      // AudioContext blocked or unsupported
+    if (ytReadyRef.current && ytPlayerRef.current?.playVideo) {
+      ytPlayerRef.current.setVolume(80);
+      ytPlayerRef.current.playVideo();
+    } else {
+      pendingPlayRef.current = true;
     }
-
-    return () => {
-      if (melodyTimerRef.current) clearInterval(melodyTimerRef.current);
-      if (audioCtxRef.current && audioCtxRef.current.state !== 'closed') {
-        audioCtxRef.current.close().catch(() => {});
-      }
-    };
   }, [musicOn]);
 
   const handleOpenEnvelope = () => {
     setEnvelopeOpen(true);
     setJustOpened(true);
+    setMusicOn(true);
     setTimeout(() => setJustOpened(false), 1800);
   };
 
@@ -176,6 +190,20 @@ export default function WeddingInvitePreview() {
 
   return (
     <section className="inv-stage" aria-label="Bản review thử thiệp cưới">
+      <div
+        id="react-yt-player"
+        style={{
+          position: 'fixed',
+          right: 0,
+          bottom: 0,
+          width: 200,
+          height: 113,
+          opacity: 0.001,
+          pointerEvents: 'none',
+          zIndex: -1,
+        }}
+        aria-hidden="true"
+      />
       {!hideTestBar && (
         <div className="inv-test-bar">
           <div>
