@@ -1,4 +1,4 @@
-/* hallmark: custom-dragon-phoenix-v3 | crimson-gold 3D parallax | no waivers */
+/* hallmark: custom-dragon-phoenix-v3 | hoang-cung-3d-v1 | anti-slop | crimson-gold 3D parallax | no waivers */
 :root {
   --crimson-deep: #4c0519;
   --crimson-dark: #6b0f26;
@@ -17,6 +17,9 @@
   --ink-soft: #5c2836;
   --emerald: #047857;
   --emerald-soft: #ecfdf5;
+  --lattice-gold: rgba(253, 230, 138, 0.28);
+  --curtain-top: rgba(76, 5, 25, 0.65);
+  --curtain-bot: rgba(43, 15, 23, 0.8);
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-script: 'Great Vibes', cursive;
   --font-body: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -62,7 +65,7 @@ body {
   z-index: 5;
 }
 
-/* Scroll-Triggered Top Corner Phoenix Pair */
+/* Scroll-Triggered Top Corner Phoenix Companion with Scroll Flight (--scroll-p) */
 .phoenix-corner {
   position: fixed;
   top: 10px;
@@ -86,40 +89,71 @@ body {
 }
 
 body.scrolled .phoenix-left {
-  opacity: 0.92;
-  transform: translate(0, 0) scale(1);
+  opacity: calc(0.72 + var(--scroll-p, 0) * 0.28);
+  transform: translate(
+    calc(var(--scroll-p, 0) * 20px),
+    calc(var(--scroll-p, 0) * 40px)
+  ) rotate(calc(var(--scroll-p, 0) * 8deg)) scale(calc(0.92 + var(--scroll-p, 0) * 0.12));
 }
 
 body.scrolled .phoenix-right {
-  opacity: 0.92;
-  transform: translate(0, 0) scaleX(-1) scale(1);
+  opacity: calc(0.72 + var(--scroll-p, 0) * 0.28);
+  transform: translate(
+    calc(var(--scroll-p, 0) * -20px),
+    calc(var(--scroll-p, 0) * 40px)
+  ) scaleX(-1) rotate(calc(var(--scroll-p, 0) * 8deg)) scale(calc(0.92 + var(--scroll-p, 0) * 0.12));
 }
 
-/* Ornate Watercolor Floral Bouquet SVG */
-.rose-divider {
+/* CSS Palace Ornament Divider (Replaces 3.9MB floral-divider.svg) */
+.ornament-divider {
   display: flex;
+  align-items: center;
   justify-content: center;
-  margin: 0 auto 14px;
+  gap: 14px;
+  margin: 0 auto 16px;
+  max-width: 280px;
   pointer-events: none;
 }
 
-.rose-divider img {
-  width: 170px;
-  height: auto;
-  opacity: 0.96;
-  filter: drop-shadow(0 8px 18px rgba(136, 19, 55, 0.14));
+.ornament-divider::before,
+.ornament-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-mid), var(--gold));
 }
 
-.hero-rose-accent {
+.ornament-divider::after {
+  background: linear-gradient(90deg, var(--gold), var(--gold-mid), transparent);
+}
+
+.ornament-diamond {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  background: var(--gold);
+  border: 1px solid var(--gold-mid);
+  transform: rotate(45deg);
+  box-shadow: 0 0 8px rgba(217, 119, 6, 0.4);
+}
+
+/* Palace Lattice Corner Accent (Replaces floral-corner.svg) */
+.hero-lattice-accent {
   position: absolute;
-  bottom: 10px;
-  right: 14px;
-  width: 185px;
-  height: auto;
-  opacity: 0.92;
+  bottom: 12px;
+  right: 16px;
+  width: 80px;
+  height: 80px;
   pointer-events: none;
   z-index: 3;
-  filter: drop-shadow(0 10px 22px rgba(136, 19, 55, 0.16));
+  opacity: 0.6;
+  border-right: 2px solid var(--gold-mid);
+  border-bottom: 2px solid var(--gold-mid);
+  background-image:
+    repeating-linear-gradient(45deg, var(--lattice-gold) 0, var(--lattice-gold) 1.5px, transparent 1.5px, transparent 12px),
+    repeating-linear-gradient(-45deg, var(--lattice-gold) 0, var(--lattice-gold) 1.5px, transparent 1.5px, transparent 12px);
+  mask-image: radial-gradient(circle at bottom right, black 50%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at bottom right, black 50%, transparent 80%);
 }
 
 /* Floating Controls */
@@ -179,7 +213,7 @@ body.scrolled .phoenix-right {
 }
 
 /* =========================================================
-   Full-Screen 3D Double-Door Crimson Envelope
+   Full-Screen 3D Double-Door Crimson Envelope (Hoàng Cung Lattice Doors)
    ========================================================= */
 .envelope-overlay {
   position: fixed;
@@ -205,8 +239,21 @@ body.scrolled .phoenix-right {
   bottom: 0;
   width: 50%;
   background: radial-gradient(circle at center, var(--crimson-mid) 0%, var(--crimson-dark) 55%, var(--crimson-deep) 100%);
-  transition: transform 1.25s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 1.35s cubic-bezier(0.22, 1, 0.36, 1);
   backface-visibility: hidden;
+  overflow: hidden;
+}
+
+.door::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(45deg, var(--lattice-gold) 0, var(--lattice-gold) 1.5px, transparent 1.5px, transparent 20px),
+    repeating-linear-gradient(-45deg, var(--lattice-gold) 0, var(--lattice-gold) 1.5px, transparent 1.5px, transparent 20px),
+    linear-gradient(180deg, var(--curtain-top) 0%, transparent 16%, transparent 84%, var(--curtain-bot) 100%);
+  pointer-events: none;
+  opacity: 0.7;
 }
 
 .door-left {
@@ -227,7 +274,8 @@ body.scrolled .phoenix-right {
   content: '';
   position: absolute;
   inset: 22px;
-  border: 1px solid rgba(253, 230, 138, 0.35);
+  border: 1px solid rgba(253, 230, 138, 0.45);
+  box-shadow: inset 0 0 0 4px rgba(76, 5, 25, 0.6), inset 0 0 0 5px rgba(253, 230, 138, 0.25);
   pointer-events: none;
 }
 
@@ -341,7 +389,7 @@ body.scrolled .phoenix-right {
   align-items: center;
 }
 
-/* 3D Pop-Out Arch Photo (Background clipped inside arch, Cutout steps OUT!) */
+/* 3D Pop-Out Arch Photo (Palace arch gold lattice frame, stronger Z / --py depth) */
 .photo-stage {
   perspective: 1100px;
   display: flex;
@@ -367,7 +415,7 @@ body.scrolled .phoenix-right {
   box-shadow:
     0 24px 60px rgba(136, 19, 55, 0.22),
     0 0 0 8px rgba(253, 230, 138, 0.3);
-  transform: translateY(calc(var(--py, 0) * 12px));
+  transform: translateY(calc(var(--py, 0) * 16px)) translateZ(-10px);
   background: radial-gradient(circle at 50% 35%, #9f1239, #4c0519);
 }
 
@@ -388,8 +436,8 @@ body.scrolled .phoenix-right {
   object-fit: cover;
   object-position: center 20%;
   pointer-events: none;
-  transform: translateY(calc(var(--py, 0) * -18px)) translateZ(48px);
-  filter: drop-shadow(0 18px 24px rgba(43, 15, 23, 0.38));
+  transform: translateY(calc(var(--py, 0) * -28px)) translateZ(64px);
+  filter: drop-shadow(0 20px 30px rgba(43, 15, 23, 0.42));
   transition: transform 0.9s var(--spring), opacity 0.8s var(--ease);
 }
 
@@ -397,9 +445,10 @@ body.scrolled .phoenix-right {
   position: absolute;
   inset: 12px;
   border-radius: 188px 188px 12px 12px;
-  border: 1.5px solid rgba(253, 230, 138, 0.7);
+  border: 2px solid rgba(253, 230, 138, 0.85);
+  box-shadow: inset 0 0 0 3px rgba(136, 19, 55, 0.4), inset 0 0 0 5px rgba(253, 230, 138, 0.35);
   pointer-events: none;
-  transform: translateZ(24px);
+  transform: translateZ(36px);
 }
 
 .photo-glare {
@@ -562,11 +611,21 @@ body.scrolled .phoenix-right {
 }
 
 .luxury-panel {
+  position: relative;
   background: var(--white);
   border: 1px solid var(--rose-border);
   border-radius: 16px;
   padding: 28px 24px;
   box-shadow: 0 10px 30px rgba(136, 19, 55, 0.05);
+}
+
+.luxury-panel::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 12px;
+  border: 1px solid rgba(253, 230, 138, 0.55);
+  pointer-events: none;
 }
 
 .reveal {
@@ -826,9 +885,10 @@ body.scrolled .phoenix-right {
     width: 68px;
     top: 58px;
   }
-  .hero-rose-accent {
-    width: 96px;
-    opacity: 0.65;
+  .hero-lattice-accent {
+    width: 60px;
+    height: 60px;
+    opacity: 0.45;
     bottom: 8px;
     right: 8px;
   }
@@ -884,12 +944,32 @@ body.scrolled .phoenix-right {
 @media (prefers-reduced-motion: reduce) {
   .seal-btn,
   .photo-glare,
-  .ctrl-icon.playing svg {
-    animation: none;
+  .ctrl-icon.playing svg,
+  .scroll-cue svg {
+    animation: none !important;
   }
   .reveal {
-    opacity: 1;
-    transform: none;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .phoenix-corner {
+    transition: none !important;
+  }
+  body.scrolled .phoenix-left {
+    opacity: 0.92 !important;
+    transform: translate(0, 0) scale(1) !important;
+  }
+  body.scrolled .phoenix-right {
+    opacity: 0.92 !important;
+    transform: translate(0, 0) scaleX(-1) scale(1) !important;
+  }
+  .pop-arch,
+  .pop-bg-layer,
+  .pop-ppl-layer,
+  .pop-line-frame {
+    transform: none !important;
+    transition: none !important;
   }
 }
 

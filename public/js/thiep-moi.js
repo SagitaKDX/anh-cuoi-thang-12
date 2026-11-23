@@ -1,21 +1,25 @@
 // 1. Three.js 3D Floating Petals & Golden Particles with Graceful Fallback
 let triggerBurst = () => {};
 (async function initThree() {
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reducedMotion) return;
+  const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (reducedMotionQuery.matches) return;
 
   try {
     const THREE = await import('https://unpkg.com/three@0.170.0/build/three.module.js');
     const canvas = document.getElementById('three-bg');
+    if (!canvas) return;
+
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const dpr = window.devicePixelRatio || 1;
+    renderer.setPixelRatio(Math.min(dpr, isMobile ? 1.3 : 1.5));
     renderer.setSize(window.innerWidth, window.innerHeight);
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
     camera.position.z = 18;
 
-    // 3D Rose & Gold Petals
+    // 3D Rose & Gold Petals (~40% reduction on mobile)
     const petalGeo = new THREE.PlaneGeometry(0.42, 0.56, 2, 2);
     const pos = petalGeo.attributes.position;
     for (let i = 0; i < pos.count; i++) {
@@ -27,7 +31,8 @@ let triggerBurst = () => {};
 
     const petalColors = [0xfda4af, 0xfb7185, 0xfde68a, 0xfecdd3];
     const petals = [];
-    for (let i = 0; i < 48; i++) {
+    const petalCount = isMobile ? 28 : 48;
+    for (let i = 0; i < petalCount; i++) {
       const mat = new THREE.MeshBasicMaterial({
         color: petalColors[i % petalColors.length],
         side: THREE.DoubleSide,
@@ -51,8 +56,8 @@ let triggerBurst = () => {};
       petals.push(mesh);
     }
 
-    // Golden Stardust Motes
-    const dustCount = 90;
+    // Golden Stardust Motes (~40% reduction on mobile)
+    const dustCount = isMobile ? 54 : 90;
     const dustGeo = new THREE.BufferGeometry();
     const dustPos = new Float32Array(dustCount * 3);
     for (let i = 0; i < dustCount * 3; i += 3) {
@@ -65,10 +70,11 @@ let triggerBurst = () => {};
     const dust = new THREE.Points(dustGeo, dustMat);
     scene.add(dust);
 
-    // Celebration Burst Particles
+    // Celebration Burst Particles (~40% reduction on mobile)
     const burstGroup = [];
+    const burstCount = isMobile ? 22 : 36;
     triggerBurst = () => {
-      for (let i = 0; i < 36; i++) {
+      for (let i = 0; i < burstCount; i++) {
         const mat = new THREE.MeshBasicMaterial({
           color: i % 2 === 0 ? 0xfde68a : 0xfb7185,
           side: THREE.DoubleSide,
@@ -103,8 +109,18 @@ let triggerBurst = () => {};
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    function animate() {
-      requestAnimationFrame(animate);
+    // Pause Three when document.hidden or canvas is not intersecting
+    let isVisible = !document.hidden;
+    let isIntersecting = true;
+    let animId = null;
+
+    function renderLoop() {
+      if (!isVisible || !isIntersecting) {
+        animId = null;
+        return;
+      }
+      animId = requestAnimationFrame(renderLoop);
+
       camera.position.x += (targetCamX - camera.position.x) * 0.04;
       camera.position.y += (targetCamY - camera.position.y) * 0.04;
 
@@ -135,11 +151,42 @@ let triggerBurst = () => {};
 
       renderer.render(scene, camera);
     }
-    animate();
+
+    function checkActive() {
+      const shouldRun = isVisible && isIntersecting;
+      if (shouldRun && !animId) {
+        animId = requestAnimationFrame(renderLoop);
+      }
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      isVisible = !document.hidden;
+      checkActive();
+    });
+
+    const canvasObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        isIntersecting = entry.isIntersecting;
+        checkActive();
+      });
+    }, { threshold: 0.01 });
+    canvasObserver.observe(canvas);
+
+    checkActive();
   } catch {
     // WebGL unavailable in weak in-app browser: silent fallback
   }
 })();
+
+// Reduced motion state & listener
+const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+let reducedMotion = reducedMotionQuery.matches;
+reducedMotionQuery.addEventListener('change', (e) => {
+  reducedMotion = e.matches;
+  if (reducedMotion && tiltCard) {
+    tiltCard.style.transform = '';
+  }
+});
 
 // 2. 3D Envelope Open & Replay
 const envelope = document.getElementById('envelope');
@@ -147,7 +194,7 @@ function openEnvelope() {
   envelope.classList.add('is-opening');
   triggerBurst();
   if (!musicOn) toggleMusic(true);
-  setTimeout(() => envelope.classList.add('is-open'), 1050);
+  setTimeout(() => envelope.classList.add('is-open'), 1250);
 }
 document.getElementById('open-seal').addEventListener('click', openEnvelope);
 document.getElementById('open-btn').addEventListener('click', openEnvelope);
@@ -156,10 +203,11 @@ document.getElementById('replay-btn').addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-// 3. 3D Parallax Tilt on Couple Photo Arch (Desktop Mouse + Mobile Touch)
+// 3. 3D Parallax Tilt on Couple Photo Arch (Guarded by reducedMotion)
 const tiltCard = document.getElementById('tilt-card');
 if (tiltCard) {
   const applyTilt = (clientX, clientY) => {
+    if (reducedMotion) return;
     const rect = tiltCard.getBoundingClientRect();
     const x = Math.max(-0.5, Math.min(0.5, (clientX - rect.left) / rect.width - 0.5));
     const y = Math.max(-0.5, Math.min(0.5, (clientY - rect.top) / rect.height - 0.5));
@@ -177,7 +225,7 @@ if (tiltCard) {
   });
 }
 
-// 4. Scroll Reveal + Parallax Depth (--py) for Pop-Out Cutout Frame
+// 4. Scroll Reveal + Parallax Depth (--py) & Scroll Flight (--scroll-p)
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -190,9 +238,20 @@ document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
 function updateScrollParallax() {
   const y = window.scrollY;
+  const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+  const scrollP = Math.max(0, Math.min(1, y / maxScroll));
+
+  document.body.classList.toggle('scrolled', y > 120);
+
+  if (reducedMotion) {
+    document.documentElement.style.removeProperty('--py');
+    document.documentElement.style.removeProperty('--scroll-p');
+    return;
+  }
+
   const py = Math.max(-1, Math.min(1, y / Math.max(window.innerHeight, 500)));
   document.documentElement.style.setProperty('--py', py.toFixed(3));
-  document.body.classList.toggle('scrolled', y > 120);
+  document.documentElement.style.setProperty('--scroll-p', scrollP.toFixed(3));
 }
 window.addEventListener('scroll', updateScrollParallax, { passive: true });
 updateScrollParallax();
