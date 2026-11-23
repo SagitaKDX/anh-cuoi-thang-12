@@ -766,42 +766,48 @@ export const STUDIO_QUESTIONS = [
 ];
 
 export const FITTING_TRIP_PLAN = {
-  title: 'Lịch trình mẫu: 08:00 xuất phát từ Hòa Bình đi thử váy cưới trước',
+  title: 'Lịch trình: 08:00 xuất phát từ Hòa Bình đi Hạ Long thử váy cưới trước',
   subtitle:
-    'Chủ động đi thử váy, xem album gốc và chốt hợp đồng trực tiếp trước ngày chụp ít nhất 3–4 tuần để tránh cập rập.',
+    'Chủ động đi xuống TP. Hạ Long thử váy trực tiếp, xem album khách thật và khảo sát điểm chụp trước ngày chụp ít nhất 3–4 tuần.',
   timeline: [
     {
-      time: '08:00 – 09:45',
-      title: 'Xuất phát từ Hòa Bình đi Hà Nội (hoặc Sơn Tây)',
+      time: '08:00 – 11:45',
+      title: 'Xuất phát từ Hòa Bình đi thẳng TP. Hạ Long',
       detail:
-        'Đi cao tốc Hòa Lạc – Hà Nội (~75 km, ~1h45) nếu thử các studio Đống Đa (Fely, Palatino, Yêu Media, 2H). Nếu ghé 2H cơ sở Sơn Tây chỉ mất ~1h15.',
+        'Chạy tuyến Hòa Bình – Hà Nội – cao tốc Hải Phòng – Hạ Long (~210–230 km, mất ~3,5–4 tiếng tính cả nghỉ chân ở trạm dừng).',
     },
     {
-      time: '10:00 – 12:00',
-      title: 'Thử váy cưới & vest tại Studio số 1 (ưu tiên nhất)',
+      time: '11:45 – 13:15',
+      title: 'Ăn trưa tại Hạ Long & nhận phòng (nếu đi 2 ngày 1 đêm)',
       detail:
-        'Thử 3–4 phom váy (váy xòe, váy đuôi nhẹ, váy tay dài cho tháng 12) + chú rể thử vest. Kiểm tra kỹ váy nằm trong gói hay dòng VIP, xem album raw khách thật và hỏi hết 8 câu trước khi cọc.',
+        'Nghỉ ngơi hồi sức sau chặng lái xe dài; gửi đồ hoặc check-in khách sạn khu Bãi Cháy hoặc Hòn Gai để buổi chiều đi thử váy thật thoải mái.',
     },
     {
-      time: '12:00 – 13:30',
-      title: 'Ăn trưa & đối chiếu lại ngân sách',
+      time: '13:30 – 15:15',
+      title: 'Thử váy cưới & vest tại Studio khu Bãi Cháy (ví dụ: Mộc Bridal)',
       detail:
-        'Ngồi tổng hợp lại ảnh chụp lúc thử váy, đối chiếu báo giá phát sinh (vé phim trường, xe ngoại cảnh, trả file gốc) với mức trần 15–20 triệu.',
+        'Ghé Mộc Bridal (324 Đường Hạ Long, Bãi Cháy) thử 3–4 phom váy (ưu tiên váy nhẹ dễ di chuyển + ít nhất 1 váy tay dài chống gió biển tháng 12), thử vest chú rể, xem album gốc và hỏi rõ chi phí vé vịnh/xe.',
     },
     {
-      time: '13:45 – 15:30',
-      title: 'Ghé Studio số 2 để so sánh (hoặc chốt cọc & lịch chụp)',
+      time: '15:30 – 17:30',
+      title: 'Qua cầu Bãi Cháy sang Hòn Gai thử Studio số 2–3',
       detail:
-        'Vì Fely (Ô Chợ Dừa), Palatino (Nguyễn Hy Quang), Yêu Media (Tây Sơn) và 2H (Hoàng Cầu) đều nằm sát nhau ở quận Đống Đa, đi 1 buổi chiều là xem được cả 2–3 nơi rồi về Hòa Bình trước 17h30.',
+        'Các studio lớn bên Hòn Gai nằm rất gần nhau (10–15 phút chạy xe): Kim Cương Đỏ (269/334 Cao Thắng), De Paris (Trần Nguyên Hãn), May’s Wedding (143 Yết Kiêu — có phim trường trong nhà tránh rét). So sánh trực tiếp phom váy và báo giá trước khi chốt cọc.',
+    },
+    {
+      time: 'Tối & Sáng hôm sau',
+      title: 'Khảo sát nhanh điểm chụp & chạy về Hòa Bình (khuyên đi 2N1Đ)',
+      detail:
+        'Nếu ở lại 1 đêm: sáng hôm sau 8h00–10h00 lượn qua Bảo tàng Quảng Ninh, bãi biển Bãi Cháy hoặc bến du thuyền để ngắm hướng nắng tháng 12, rồi trưa ăn nhẹ và chạy về Hòa Bình trước tối (đỡ mệt hơn hẳn việc đi về trong 1 ngày ~450 km).',
     },
   ],
   haLongNote:
-    'Nếu chọn chụp ở Hạ Long: có thể áp dụng đúng lịch 08:00 từ Hòa Bình để thử váy ở ekip Hà Nội (nếu thuê ekip HN đi Hạ Long), hoặc kết hợp đi Hạ Long 2 ngày 1 đêm từ 08:00 sáng (tới Hạ Long ~12h00, chiều thử váy tại Kim Cương Đỏ / Mộc Bridal / De Paris).',
+    'Mẹo riêng khi thử váy tại Hạ Long: nhớ hỏi rõ (1) ngày chụp studio có mang sẵn váy đã chọn xuống điểm chụp hay mình tự giữ đồ, (2) nếu chọn studio ở Hạ Long thì sau khi chụp xong studio gửi ảnh phóng tráng gương/album về Hòa Bình bằng xe nào, có đóng thùng chống vỡ không.',
   bringItems: [
     'Cô dâu mặc áo ngực không dây / mang miếng dán ngực màu da để thử chuẩn phom váy hở vai hoặc cúp ngực',
     'Mang giày cao gót có độ cao tương đương đôi định đi chụp để đo chuẩn chiều dài tà váy',
     'Buộc tóc gọn hoặc mang kẹp càng cua để nhìn rõ phần cổ, vai và lưng váy khi thử',
-    'Chụp lại ảnh trước – sau từng mẫu váy đã thử và ghi chú mã váy để không bị quên khi chốt hợp đồng',
+    'Chụp lại ảnh trước – sau từng mẫu váy ở mỗi tiệm kèm ghi chú tên tiệm & mã váy để tối về đối chiếu',
   ],
 };
 

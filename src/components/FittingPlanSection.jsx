@@ -25,7 +25,7 @@ export default function FittingPlanSection() {
       <div className="info-panel" style={{ marginTop: 18, background: 'var(--primary-soft)', borderColor: '#bfdbfe' }}>
         <div className="info-panel-head" style={{ color: 'var(--primary-ink)' }}>
           <Sparkles size={17} aria-hidden="true" />
-          <h3 style={{ margin: 0 }}>Nếu chốt chụp ở Hạ Long thì sao?</h3>
+          <h3 style={{ margin: 0 }}>Lưu ý riêng khi thử váy &amp; chốt studio tại Hạ Long</h3>
         </div>
         <p style={{ color: 'var(--primary-ink)' }}>{FITTING_TRIP_PLAN.haLongNote}</p>
       </div>

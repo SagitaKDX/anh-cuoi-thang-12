@@ -156,7 +156,7 @@ export default function App() {
                       className="btn-ghost"
                       onClick={() => navigateTo('plan-checklist')}
                     >
-                      Plan 08:00 đi thử váy &amp; Checklist
+                      Plan 08:00 đi Hạ Long thử váy &amp; Checklist
                     </button>
                     <button
                       type="button"
