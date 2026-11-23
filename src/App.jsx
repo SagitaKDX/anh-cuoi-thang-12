@@ -24,6 +24,7 @@ import StudioReviews from './components/StudioReviews';
 import ComparativeAnalysis from './components/ComparativeAnalysis';
 import FirstTimePlanner from './components/FirstTimePlanner';
 import FittingPlanSection from './components/FittingPlanSection';
+import WeddingInvitePreview from './components/WeddingInvitePreview';
 
 const PAGES = [
   { id: 'tong-quan', label: 'Tổng quan' },
@@ -31,6 +32,7 @@ const PAGES = [
   { id: 'review-studio', label: 'Review Studio' },
   { id: 'chi-phi', label: 'Tính chi phí' },
   { id: 'plan-checklist', label: 'Plan & Checklist' },
+  { id: 'thiep-moi-test', label: 'Thiệp mời (Test)' },
 ];
 
 function getInitialPage() {
@@ -348,6 +350,8 @@ export default function App() {
             </section>
           </>
         )}
+
+        {activePage === 'thiep-moi-test' && <WeddingInvitePreview />}
 
         <footer className="page-pager" aria-label="Chuyển trang">
           <div>
