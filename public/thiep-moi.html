@@ -1339,7 +1339,7 @@
       document.getElementById('rsvp-done').style.display = 'block';
     });
 
-    // 7. Real YouTube Track: "I Do - 911" (pBTp2RWxq-s) via YouTube IFrame API
+    // 7. Real YouTube Track: 7o5XAg_EeLw (start at 1s) via YouTube IFrame API
     let musicOn = false;
     let ytPlayer = null;
     let ytReady = false;
@@ -1354,12 +1354,13 @@
 
     window.onYouTubeIframeAPIReady = () => {
       ytPlayer = new window.YT.Player('yt-player-host', {
-        videoId: 'pBTp2RWxq-s',
+        videoId: '7o5XAg_EeLw',
         playerVars: {
           autoplay: 0,
           controls: 0,
+          start: 1,
           loop: 1,
-          playlist: 'pBTp2RWxq-s',
+          playlist: '7o5XAg_EeLw',
           playsinline: 1,
           rel: 0,
         },
