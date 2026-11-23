@@ -716,6 +716,7 @@
 </head>
 <body>
   <canvas id="three-bg" aria-hidden="true"></canvas>
+  <div id="yt-player-host" style="position:fixed;left:-9999px;top:-9999px;width:2px;height:2px;opacity:0;pointer-events:none;" aria-hidden="true"></div>
 
   <div class="top-controls">
     <a href="./#thiep-moi-test" class="ctrl-btn">
@@ -1235,82 +1236,62 @@
       document.getElementById('rsvp-done').style.display = 'block';
     });
 
-    // 7. Polyphonic "I Do" (911) Wedding Melody via Web Audio API
+    // 7. Real YouTube Track: "I Do - 911" (pBTp2RWxq-s) via YouTube IFrame API
     let musicOn = false;
-    let audioCtx = null;
-    let timer = null;
+    let ytPlayer = null;
+    let ytReady = false;
+    let pendingPlay = false;
     const musicBtn = document.getElementById('music-btn');
     const musicLabel = document.getElementById('music-label');
 
-    // Chorus melody of "I Do" (Key of G major: G - D - Em - C)
-    const I_DO_SCORE = [
-      { mel: 392.00, bass: 196.00, dur: 0.45 }, // G4 ("My")
-      { mel: 440.00, bass: null,   dur: 0.45 }, // A4 ("life")
-      { mel: 493.88, bass: 196.00, dur: 0.70 }, // B4 ("is")
-      { mel: 587.33, bass: 146.83, dur: 0.55 }, // D5 ("bril-liant")
-      { mel: 523.25, bass: null,   dur: 0.45 }, // C5
-      { mel: 493.88, bass: 164.81, dur: 0.75 }, // B4 ("I'll be by your")
-      { mel: 440.00, bass: null,   dur: 0.45 }, // A4
-      { mel: 392.00, bass: 130.81, dur: 0.75 }, // G4 ("side...")
-      { mel: 493.88, bass: 196.00, dur: 0.45 }, // B4 ("till I hear you")
-      { mel: 587.33, bass: 146.83, dur: 0.45 }, // D5 ("say")
-      { mel: 659.25, bass: 164.81, dur: 0.65 }, // E5 ("I")
-      { mel: 587.33, bass: 130.81, dur: 1.10 }, // D5 ("Do...")
-    ];
+    // Load YouTube IFrame API asynchronously
+    const ytScript = document.createElement('script');
+    ytScript.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(ytScript);
+
+    window.onYouTubeIframeAPIReady = () => {
+      ytPlayer = new window.YT.Player('yt-player-host', {
+        videoId: 'pBTp2RWxq-s',
+        playerVars: {
+          autoplay: 0,
+          controls: 0,
+          loop: 1,
+          playlist: 'pBTp2RWxq-s',
+          playsinline: 1,
+          rel: 0,
+        },
+        events: {
+          onReady: () => {
+            ytReady = true;
+            if (pendingPlay) {
+              pendingPlay = false;
+              ytPlayer.setVolume(80);
+              ytPlayer.playVideo();
+            }
+          },
+        },
+      });
+    };
 
     function toggleMusic(forceState) {
       musicOn = typeof forceState === 'boolean' ? forceState : !musicOn;
       musicBtn.classList.toggle('playing', musicOn);
-      if (musicLabel) musicLabel.textContent = musicOn ? 'Đang phát: I Do' : 'Nhạc: I Do';
+      if (musicLabel) musicLabel.textContent = musicOn ? 'Đang phát: I Do (911)' : 'Nhạc: I Do (911)';
 
       if (!musicOn) {
-        clearTimeout(timer);
-        if (audioCtx && audioCtx.state !== 'closed') audioCtx.close().catch(() => {});
+        pendingPlay = false;
+        if (ytReady && ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
+          ytPlayer.pauseVideo();
+        }
         return;
       }
-      try {
-        const Ctx = window.AudioContext || window.webkitAudioContext;
-        audioCtx = new Ctx();
-        let step = 0;
 
-        const playStep = () => {
-          if (!musicOn || !audioCtx) return;
-          const note = I_DO_SCORE[step % I_DO_SCORE.length];
-          const now = audioCtx.currentTime;
-
-          // Warm lead piano-like tone
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.type = 'triangle';
-          osc.frequency.value = note.mel;
-          gain.gain.setValueAtTime(0.001, now);
-          gain.gain.exponentialRampToValueAtTime(0.065, now + 0.04);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + note.dur * 1.4);
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.start(now);
-          osc.stop(now + note.dur * 1.45);
-
-          // Soft warm bass accompaniment
-          if (note.bass) {
-            const bOsc = audioCtx.createOscillator();
-            const bGain = audioCtx.createGain();
-            bOsc.type = 'sine';
-            bOsc.frequency.value = note.bass;
-            bGain.gain.setValueAtTime(0.001, now);
-            bGain.gain.exponentialRampToValueAtTime(0.045, now + 0.06);
-            bGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.5);
-            bOsc.connect(bGain);
-            bGain.connect(audioCtx.destination);
-            bOsc.start(now);
-            bOsc.stop(now + 1.55);
-          }
-
-          step += 1;
-          timer = setTimeout(playStep, note.dur * 1000);
-        };
-        playStep();
-      } catch {}
+      if (ytReady && ytPlayer && typeof ytPlayer.playVideo === 'function') {
+        ytPlayer.setVolume(80);
+        ytPlayer.playVideo();
+      } else {
+        pendingPlay = true;
+      }
     }
 
     musicBtn.addEventListener('click', () => toggleMusic());
