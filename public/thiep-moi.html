@@ -110,6 +110,33 @@
       transform: translate(0, 0) scaleX(-1) scale(1);
     }
 
+    /* Ornate SVG Rose Branch Flourish */
+    .rose-divider {
+      display: flex;
+      justify-content: center;
+      margin: 0 auto 14px;
+      pointer-events: none;
+    }
+
+    .rose-divider img {
+      width: 148px;
+      height: auto;
+      opacity: 0.92;
+      filter: drop-shadow(0 6px 14px rgba(136, 19, 55, 0.16));
+    }
+
+    .hero-rose-accent {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      width: 150px;
+      height: auto;
+      opacity: 0.85;
+      pointer-events: none;
+      z-index: 3;
+      filter: drop-shadow(0 8px 18px rgba(136, 19, 55, 0.2));
+    }
+
     /* Floating Controls */
     .top-controls {
       position: fixed;
@@ -814,6 +841,12 @@
         width: 68px;
         top: 58px;
       }
+      .hero-rose-accent {
+        width: 96px;
+        opacity: 0.65;
+        bottom: 8px;
+        right: 8px;
+      }
       .phoenix-left {
         left: 4px;
       }
@@ -962,10 +995,12 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
       </div>
+      <img src="./rose-branch.svg" alt="" class="hero-rose-accent" aria-hidden="true" />
     </section>
 
     <!-- Gia Đình Hai Họ -->
     <section class="band reveal">
+      <div class="rose-divider"><img src="./rose-branch.svg" alt="" aria-hidden="true" /></div>
       <h2 class="band-heading">Gia Đình Hai Họ</h2>
       <div class="grid-2">
         <div class="luxury-panel" style="text-align: center;">
@@ -1235,21 +1270,6 @@
         const dust = new THREE.Points(dustGeo, dustMat);
         scene.add(dust);
 
-        // 3D Intertwined Gold Wedding Rings
-        const ringGroup = new THREE.Group();
-        const ringGeo = new THREE.TorusGeometry(1.15, 0.085, 20, 64);
-        const ringMat = new THREE.MeshBasicMaterial({ color: 0xfcd34d, transparent: true, opacity: 0.45 });
-        const ring1 = new THREE.Mesh(ringGeo, ringMat);
-        const ring2 = new THREE.Mesh(ringGeo, ringMat);
-        ring1.position.x = -0.55;
-        ring1.rotation.y = 0.5;
-        ring2.position.x = 0.55;
-        ring2.rotation.x = 0.9;
-        ring2.rotation.y = -0.4;
-        ringGroup.add(ring1, ring2);
-        ringGroup.position.set(0, 0.8, -6);
-        scene.add(ringGroup);
-
         // Celebration Burst Particles
         const burstGroup = [];
         triggerBurst = () => {
@@ -1302,8 +1322,6 @@
           }
 
           dust.rotation.y += 0.0008;
-          ringGroup.rotation.y += 0.004;
-          ringGroup.rotation.z = Math.sin(Date.now() * 0.0008) * 0.15;
 
           for (let i = burstGroup.length - 1; i >= 0; i--) {
             const b = burstGroup[i];
