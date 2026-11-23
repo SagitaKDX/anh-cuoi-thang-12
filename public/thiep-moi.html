@@ -1,0 +1,1114 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#881337" />
+  <title>Thiệp Cưới — Lã Tiến Anh &amp; Đỗ Thị Thanh Thư</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* hallmark: custom-dragon-phoenix-v3 | crimson-gold 3D parallax | no waivers */
+    :root {
+      --crimson-deep: #4c0519;
+      --crimson-dark: #6b0f26;
+      --crimson: #881337;
+      --crimson-mid: #9f1239;
+      --crimson-bright: #be123c;
+      --rose-soft: #fff1f2;
+      --rose-border: #fecdd3;
+      --gold-light: #fef3c7;
+      --gold: #fde68a;
+      --gold-mid: #d97706;
+      --gold-deep: #b45309;
+      --ivory: #fffaf8;
+      --white: #ffffff;
+      --ink: #2b0f17;
+      --ink-soft: #5c2836;
+      --emerald: #047857;
+      --emerald-soft: #ecfdf5;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: clip;
+      background-color: var(--ivory);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--gold-mid);
+      outline-offset: 2px;
+    }
+
+    .tabular {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Three.js Fullscreen Background Canvas */
+    #three-bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* Floating Controls */
+    .top-controls {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 40;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .ctrl-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 99px;
+      border: 1px solid var(--gold);
+      background: rgba(76, 5, 25, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--gold-light);
+      font-family: var(--font-body);
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .ctrl-btn:hover {
+      transform: translateY(-1px);
+      background: var(--crimson);
+    }
+
+    .ctrl-icon {
+      width: 40px;
+      padding: 0;
+      justify-content: center;
+    }
+
+    .ctrl-icon.playing svg {
+      animation: spin-slow 4s linear infinite;
+    }
+
+    /* =========================================================
+       Full-Screen 3D Double-Door Crimson Envelope
+       ========================================================= */
+    .envelope-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      perspective: 1600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: auto;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    .envelope-overlay.is-open {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .door {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      background: radial-gradient(circle at center, var(--crimson-mid) 0%, var(--crimson-dark) 55%, var(--crimson-deep) 100%);
+      transition: transform 1.25s cubic-bezier(0.22, 1, 0.36, 1);
+      backface-visibility: hidden;
+    }
+
+    .door-left {
+      left: 0;
+      transform-origin: left center;
+      border-right: 2px solid rgba(253, 230, 138, 0.45);
+      box-shadow: inset -24px 0 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .door-right {
+      right: 0;
+      transform-origin: right center;
+      border-left: 2px solid rgba(253, 230, 138, 0.45);
+      box-shadow: inset 24px 0 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .door::after {
+      content: '';
+      position: absolute;
+      inset: 22px;
+      border: 1px solid rgba(253, 230, 138, 0.35);
+      pointer-events: none;
+    }
+
+    .envelope-overlay.is-opening .door-left {
+      transform: rotateY(-112deg);
+    }
+
+    .envelope-overlay.is-opening .door-right {
+      transform: rotateY(112deg);
+    }
+
+    .envelope-center {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: var(--gold-light);
+      padding: 24px;
+      max-width: 520px;
+      transition: opacity 0.45s ease, transform 0.55s ease;
+    }
+
+    .envelope-overlay.is-opening .envelope-center {
+      opacity: 0;
+      transform: scale(1.12);
+    }
+
+    .seal-btn {
+      width: 126px;
+      height: 126px;
+      border-radius: 50%;
+      margin: 20px auto;
+      padding: 7px;
+      border: 0;
+      background: linear-gradient(135deg, var(--gold), var(--gold-mid), var(--gold-light));
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45), 0 0 0 10px rgba(253, 230, 138, 0.14);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      animation: seal-pulse 2.4s ease-in-out infinite;
+    }
+
+    .seal-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, var(--crimson-bright), var(--crimson));
+      border: 1.5px solid var(--gold-light);
+      display: grid;
+      place-items: center;
+      font-size: 2.6rem;
+      color: var(--gold-light);
+      line-height: 1;
+    }
+
+    .env-names {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--white);
+      margin: 8px 0;
+    }
+
+    .env-open-cta {
+      margin-top: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 26px;
+      border-radius: 99px;
+      border: 1px solid var(--gold);
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: var(--crimson-deep);
+      font-family: var(--font-body);
+      font-size: 0.96rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+      transition: transform 0.2s ease;
+    }
+
+    .env-open-cta:hover {
+      transform: translateY(-2px);
+    }
+
+    /* =========================================================
+       Main Full-Screen Invitation Content
+       ========================================================= */
+    .main-shell {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Hero Landscape Fullscreen */
+    .hero-screen {
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 64px 24px 48px;
+      background: radial-gradient(circle at 80% 15%, #ffe4e6 0%, var(--ivory) 55%, #fff5f5 100%);
+      border-bottom: 1px solid var(--rose-border);
+    }
+
+    .hero-container {
+      width: 100%;
+      max-width: 1120px;
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      gap: 48px;
+      align-items: center;
+    }
+
+    /* 3D Parallax Arch Photo */
+    .photo-stage {
+      perspective: 1100px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .photo-arch-3d {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 3 / 4;
+      border-radius: 210px 210px 20px 20px;
+      overflow: hidden;
+      border: 4px solid var(--gold);
+      box-shadow:
+        0 24px 60px rgba(136, 19, 55, 0.22),
+        0 0 0 8px rgba(253, 230, 138, 0.35);
+      transform-style: preserve-3d;
+      transition: transform 0.18s ease-out;
+      background: var(--crimson-deep);
+    }
+
+    .photo-arch-3d img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 22%;
+      display: block;
+    }
+
+    .photo-glare {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(118deg, transparent 35%, rgba(255, 255, 255, 0.28) 50%, transparent 65%);
+      transform: translateX(-110%);
+      animation: shimmer 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .hero-copy {
+      min-width: 0;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 5vw, 4.1rem);
+      font-weight: 700;
+      line-height: 1.08;
+      color: var(--crimson);
+      margin: 0 0 14px;
+      overflow-wrap: break-word;
+    }
+
+    .hero-date {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 99px;
+      background: var(--rose-soft);
+      border: 1px solid var(--rose-border);
+      color: var(--crimson-mid);
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+    }
+
+    .hero-lead {
+      font-size: 1.06rem;
+      color: var(--ink-soft);
+      max-width: 48ch;
+      margin: 0 0 26px;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn-crimson {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 24px;
+      border-radius: 10px;
+      border: 0;
+      background: linear-gradient(135deg, var(--crimson-bright), var(--crimson));
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.96rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(159, 18, 57, 0.25);
+      transition: transform 0.18s ease;
+    }
+
+    .btn-crimson:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-gold-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 22px;
+      border-radius: 10px;
+      border: 1px solid var(--gold-mid);
+      background: var(--white);
+      color: var(--gold-deep);
+      font-family: var(--font-body);
+      font-size: 0.96rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.18s ease, background-color 0.18s ease;
+    }
+
+    .btn-gold-outline:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    /* Content Sections */
+    .band {
+      padding: 64px 24px;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .band-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.85rem, 3.6vw, 2.6rem);
+      font-weight: 700;
+      color: var(--crimson);
+      text-align: center;
+      margin: 0 0 28px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .luxury-panel {
+      background: var(--white);
+      border: 1px solid var(--rose-border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      box-shadow: 0 10px 30px rgba(136, 19, 55, 0.05);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Countdown */
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .cd-tile {
+      background: var(--white);
+      border: 1px solid var(--rose-border);
+      border-radius: 14px;
+      padding: 18px 10px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(136, 19, 55, 0.06);
+    }
+
+    .cd-tile strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      color: var(--crimson-mid);
+      line-height: 1.05;
+    }
+
+    .cd-tile span {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      font-weight: 500;
+    }
+
+    /* Timeline */
+    .tl-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .tl-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 18px;
+      border-radius: 14px;
+      background: var(--white);
+      border: 1px solid var(--rose-border);
+    }
+
+    .tl-time {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--crimson-bright);
+      min-width: 60px;
+    }
+
+    /* Guestbook */
+    .wish-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .wish-item {
+      background: var(--white);
+      border: 1px solid var(--rose-border);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .footer-sign {
+      text-align: center;
+      padding: 48px 24px 64px;
+      background: linear-gradient(180deg, var(--ivory) 0%, #ffe4e6 100%);
+      border-top: 1px solid var(--rose-border);
+      color: var(--crimson);
+    }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 70;
+      background: rgba(43, 15, 23, 0.65);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-box {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      background: var(--white);
+      border-radius: 18px;
+      padding: 24px;
+      border: 1px solid var(--rose-border);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 0;
+      background: var(--rose-soft);
+      color: var(--crimson);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+
+    /* Responsive Mobile */
+    @media (max-width: 900px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        text-align: center;
+      }
+      .photo-arch-3d {
+        max-width: 320px;
+      }
+      .hero-lead {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-cta-row {
+        justify-content: center;
+      }
+      .grid-2,
+      .tl-grid,
+      .wish-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .countdown-grid {
+        gap: 8px;
+      }
+      .top-controls .hide-sm {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .seal-btn,
+      .photo-glare,
+      .ctrl-icon.playing svg {
+        animation: none;
+      }
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @keyframes seal-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    @keyframes shimmer {
+      0%, 60% { transform: translateX(-115%); }
+      100% { transform: translateX(135%); }
+    }
+
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="three-bg" aria-hidden="true"></canvas>
+
+  <div class="top-controls">
+    <a href="./#thiep-moi-test" class="ctrl-btn">
+      <span>Về trang lập kế hoạch</span>
+    </a>
+    <button type="button" id="replay-btn" class="ctrl-btn" title="Mở lại phong bì 3D">
+      <span class="hide-sm">Mở lại thiệp</span>
+      <span aria-hidden="true">↻</span>
+    </button>
+    <button type="button" id="music-btn" class="ctrl-btn ctrl-icon" aria-label="Bật hoặc tắt nhạc nền">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+    </button>
+  </div>
+
+  <!-- 3D Double-Door Envelope Overlay -->
+  <div id="envelope" class="envelope-overlay" role="dialog" aria-modal="true" aria-label="Phong bì thiệp cưới">
+    <div class="door door-left"></div>
+    <div class="door door-right"></div>
+    <div class="envelope-center">
+      <div style="font-size: 0.85rem; letter-spacing: 0.2em; color: var(--gold);">THIỆP MỜI THÀNH HÔN</div>
+      <button type="button" id="open-seal" class="seal-btn" aria-label="Chạm để mở thiệp cưới">
+        <span class="seal-inner">囍</span>
+      </button>
+      <div class="env-names">Lã Tiến Anh &amp; Đỗ Thị Thanh Thư</div>
+      <p style="margin: 6px 0 0; color: rgba(254, 243, 199, 0.85);">Trân trọng kính mời Quý Khách</p>
+      <button type="button" id="open-btn" class="env-open-cta">Chạm để mở thiệp</button>
+    </div>
+  </div>
+
+  <main class="main-shell">
+    <!-- Full-Screen Landscape & Portrait Hero -->
+    <section class="hero-screen" aria-label="Trang bìa thiệp cưới">
+      <div class="hero-container">
+        <div class="photo-stage">
+          <div class="photo-arch-3d" id="tilt-card">
+            <img src="./couple-photo.jpg" alt="Lã Tiến Anh và Đỗ Thị Thanh Thư" />
+            <div class="photo-glare"></div>
+          </div>
+        </div>
+
+        <div class="hero-copy">
+          <div class="hero-date tabular">Chủ Nhật · 20 Tháng 12, 2026</div>
+          <h1 class="hero-title">Lã Tiến Anh &amp; Đỗ Thị Thanh Thư</h1>
+          <p class="hero-lead">
+            Trân trọng kính mời Quý Khách đến dự buổi tiệc chung vui cùng hai gia đình chúng tôi tại TP. Hòa Bình.
+          </p>
+          <div class="hero-cta-row">
+            <button type="button" id="open-rsvp" class="btn-crimson">Xác nhận tham dự</button>
+            <button type="button" id="open-gift" class="btn-gold-outline">Hộp Mừng Cưới</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gia Đình Hai Họ -->
+    <section class="band reveal">
+      <h2 class="band-heading">Gia Đình Hai Họ</h2>
+      <div class="grid-2">
+        <div class="luxury-panel" style="text-align: center;">
+          <div style="font-size: 0.82rem; font-weight: 700; color: var(--crimson-bright); letter-spacing: 0.1em;">NHÀ TRAI</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.75rem; margin: 6px 0; color: var(--crimson);">Lã Tiến Anh</h3>
+          <p style="margin: 0; color: var(--ink-soft);">TP. Hòa Bình</p>
+        </div>
+        <div class="luxury-panel" style="text-align: center;">
+          <div style="font-size: 0.82rem; font-weight: 700; color: var(--crimson-bright); letter-spacing: 0.1em;">NHÀ GÁI</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.75rem; margin: 6px 0; color: var(--crimson);">Đỗ Thị Thanh Thư</h3>
+          <p style="margin: 0; color: var(--ink-soft);">TP. Hòa Bình</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Đếm ngược -->
+    <section class="band reveal" style="padding-top: 16px;">
+      <h2 class="band-heading">Đếm Ngược Ngày Chung Đôi</h2>
+      <div class="countdown-grid tabular">
+        <div class="cd-tile"><strong id="cd-days">0</strong><span>Ngày</span></div>
+        <div class="cd-tile"><strong id="cd-hours">00</strong><span>Giờ</span></div>
+        <div class="cd-tile"><strong id="cd-mins">00</strong><span>Phút</span></div>
+        <div class="cd-tile"><strong id="cd-secs">00</strong><span>Giây</span></div>
+      </div>
+    </section>
+
+    <!-- Lịch trình & Địa điểm -->
+    <section class="band reveal" style="padding-top: 16px;">
+      <h2 class="band-heading">Lịch Trình &amp; Địa Điểm</h2>
+      <div class="tl-grid">
+        <div class="tl-item">
+          <div class="tl-time tabular">17:00</div>
+          <div>
+            <strong>Đón khách &amp; Chụp ảnh lưu niệm</strong>
+            <div style="font-size: 0.88rem; color: var(--ink-soft);">Check-in sảnh tiệc cùng cô dâu chú rể</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time tabular">17:30</div>
+          <div>
+            <strong>Khai tiệc &amp; Nghi lễ thành hôn</strong>
+            <div style="font-size: 0.88rem; color: var(--ink-soft);">Ra mắt hai họ, rót rượu giao bôi</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time tabular">18:15</div>
+          <div>
+            <strong>Giao lưu &amp; Văn nghệ chúc mừng</strong>
+            <div style="font-size: 0.88rem; color: var(--ink-soft);">Chung vui cùng gia đình và bạn bè</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time tabular">19:30</div>
+          <div>
+            <strong>Kết thúc tiệc</strong>
+            <div style="font-size: 0.88rem; color: var(--ink-soft);">Cảm ơn quý khách đã đến chung vui</div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 24px;">
+        <a
+          href="https://maps.google.com/?q=Hoa+Binh+Vietnam"
+          target="_blank"
+          rel="noreferrer"
+          class="btn-gold-outline"
+          style="text-decoration: none;"
+        >
+          Mở bản đồ chỉ đường (Hòa Bình)
+        </a>
+      </div>
+    </section>
+
+    <!-- Sổ lưu bút -->
+    <section class="band reveal" style="padding-top: 16px;">
+      <h2 class="band-heading">Sổ Lưu Bút Lời Chúc</h2>
+      <div class="wish-grid" id="wish-list">
+        <div class="wish-item">
+          <strong style="color: var(--crimson);">Hội bạn thân Hòa Bình</strong>
+          <p style="margin: 6px 0 0; color: var(--ink-soft); font-size: 0.94rem;">
+            Chúc Tiến Anh &amp; Thanh Thư trăm năm hạnh phúc, sớm đón tin vui nhé!
+          </p>
+        </div>
+        <div class="wish-item">
+          <strong style="color: var(--crimson);">Gia đình bác Hùng</strong>
+          <p style="margin: 6px 0 0; color: var(--ink-soft); font-size: 0.94rem;">
+            Chúc hai cháu luôn yêu thương, đồng hành và bình an trên chặng đường mới.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer-sign">
+      <div style="font-size: 0.95rem;">Sự hiện diện của Quý Khách là niềm vinh hạnh cho gia đình chúng tôi!</div>
+      <div style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; margin-top: 6px;">
+        Lã Tiến Anh &amp; Đỗ Thị Thanh Thư
+      </div>
+    </footer>
+  </main>
+
+  <!-- RSVP Modal -->
+  <div id="rsvp-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="Xác nhận tham dự">
+    <div class="modal-box">
+      <button type="button" class="modal-close" data-close="rsvp-modal" aria-label="Đóng">✕</button>
+      <h3 style="font-family: var(--font-display); font-size: 1.7rem; color: var(--crimson); margin: 0 0 12px;">
+        Xác nhận tham dự
+      </h3>
+      <form id="rsvp-form" style="display: grid; gap: 12px;">
+        <label style="display: grid; gap: 4px; font-size: 0.88rem; font-weight: 600;">
+          Tên Quý Khách
+          <input id="guest-name" required placeholder="Ví dụ: Anh Minh &amp; Gia đình" style="padding: 10px 12px; border-radius: 8px; border: 1px solid var(--rose-border); font: inherit;" />
+        </label>
+        <label style="display: grid; gap: 4px; font-size: 0.88rem; font-weight: 600;">
+          Số khách đi cùng
+          <select id="guest-count" style="padding: 10px 12px; border-radius: 8px; border: 1px solid var(--rose-border); font: inherit;">
+            <option value="1">1 người</option>
+            <option value="2">2 người</option>
+            <option value="3">3+ người</option>
+          </select>
+        </label>
+        <label style="display: grid; gap: 4px; font-size: 0.88rem; font-weight: 600;">
+          Lời chúc gửi cô dâu chú rể
+          <textarea id="guest-wish" rows="3" placeholder="Chúc Lã Tiến Anh &amp; Đỗ Thị Thanh Thư hạnh phúc..." style="padding: 10px 12px; border-radius: 8px; border: 1px solid var(--rose-border); font: inherit;"></textarea>
+        </label>
+        <button type="submit" class="btn-crimson" style="justify-content: center;">Gửi xác nhận</button>
+      </form>
+      <div id="rsvp-done" style="display: none; text-align: center; padding: 14px 0;">
+        <strong style="color: var(--emerald);">Đã ghi nhận xác nhận tham dự!</strong>
+        <p style="margin: 6px 0 0; font-size: 0.9rem; color: var(--ink-soft);">Lời chúc của bạn đã được hiển thị trên sổ lưu bút.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gift Modal -->
+  <div id="gift-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-label="Hộp mừng cưới">
+    <div class="modal-box">
+      <button type="button" class="modal-close" data-close="gift-modal" aria-label="Đóng">✕</button>
+      <h3 style="font-family: var(--font-display); font-size: 1.7rem; color: var(--crimson); margin: 0 0 8px;">
+        Hộp Mừng Cưới
+      </h3>
+      <p style="margin: 0 0 14px; font-size: 0.88rem; color: var(--ink-soft);">
+        Bản review thử nghiệm — khi phát hành chính thức sẽ gắn mã VietQR thật của hai bạn.
+      </p>
+      <div style="display: grid; gap: 10px;">
+        <div style="padding: 14px; border-radius: 10px; border: 1px solid var(--rose-border); background: var(--rose-soft);">
+          <div style="font-size: 0.78rem; font-weight: 700; color: var(--crimson-mid);">MỪNG CHÚ RỂ</div>
+          <div style="font-weight: 700; margin-top: 2px;">Lã Tiến Anh</div>
+        </div>
+        <div style="padding: 14px; border-radius: 10px; border: 1px solid var(--gold); background: var(--gold-light);">
+          <div style="font-size: 0.78rem; font-weight: 700; color: var(--gold-deep);">MỪNG CÔ DÂU</div>
+          <div style="font-weight: 700; margin-top: 2px;">Đỗ Thị Thanh Thư</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    // 1. Three.js 3D Floating Petals & Golden Particles with Graceful Fallback
+    let triggerBurst = () => {};
+    (async function initThree() {
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reducedMotion) return;
+
+      try {
+        const THREE = await import('https://unpkg.com/three@0.170.0/build/three.module.js');
+        const canvas = document.getElementById('three-bg');
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.z = 18;
+
+        // 3D Rose & Gold Petals
+        const petalGeo = new THREE.PlaneGeometry(0.42, 0.56, 2, 2);
+        const pos = petalGeo.attributes.position;
+        for (let i = 0; i < pos.count; i++) {
+          const x = pos.getX(i);
+          const y = pos.getY(i);
+          pos.setZ(i, (x * x + y * y) * 0.45);
+        }
+        petalGeo.computeVertexNormals();
+
+        const petalColors = [0xfda4af, 0xfb7185, 0xfde68a, 0xfecdd3];
+        const petals = [];
+        for (let i = 0; i < 48; i++) {
+          const mat = new THREE.MeshBasicMaterial({
+            color: petalColors[i % petalColors.length],
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 0.72,
+          });
+          const mesh = new THREE.Mesh(petalGeo, mat);
+          mesh.position.set(
+            (Math.random() - 0.5) * 26,
+            (Math.random() - 0.5) * 22,
+            (Math.random() - 0.5) * 10
+          );
+          mesh.rotation.set(Math.random() * 3, Math.random() * 3, Math.random() * 3);
+          mesh.userData = {
+            vy: 0.015 + Math.random() * 0.025,
+            vx: (Math.random() - 0.5) * 0.012,
+            rx: (Math.random() - 0.5) * 0.03,
+            ry: (Math.random() - 0.5) * 0.03,
+          };
+          scene.add(mesh);
+          petals.push(mesh);
+        }
+
+        // Golden Stardust Motes
+        const dustCount = 90;
+        const dustGeo = new THREE.BufferGeometry();
+        const dustPos = new Float32Array(dustCount * 3);
+        for (let i = 0; i < dustCount * 3; i += 3) {
+          dustPos[i] = (Math.random() - 0.5) * 28;
+          dustPos[i + 1] = (Math.random() - 0.5) * 20;
+          dustPos[i + 2] = (Math.random() - 0.5) * 12;
+        }
+        dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+        const dustMat = new THREE.PointsMaterial({ color: 0xfde68a, size: 0.14, transparent: true, opacity: 0.75 });
+        const dust = new THREE.Points(dustGeo, dustMat);
+        scene.add(dust);
+
+        // Celebration Burst Particles
+        const burstGroup = [];
+        triggerBurst = () => {
+          for (let i = 0; i < 36; i++) {
+            const mat = new THREE.MeshBasicMaterial({
+              color: i % 2 === 0 ? 0xfde68a : 0xfb7185,
+              side: THREE.DoubleSide,
+              transparent: true,
+              opacity: 1,
+            });
+            const m = new THREE.Mesh(petalGeo, mat);
+            m.position.set(0, 0, 4);
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 0.08 + Math.random() * 0.18;
+            m.userData = {
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed + 0.04,
+              vz: (Math.random() - 0.5) * 0.12,
+              life: 1,
+            };
+            scene.add(m);
+            burstGroup.push(m);
+          }
+        };
+
+        let targetCamX = 0;
+        let targetCamY = 0;
+        window.addEventListener('pointermove', (e) => {
+          targetCamX = (e.clientX / window.innerWidth - 0.5) * 1.4;
+          targetCamY = -(e.clientY / window.innerHeight - 0.5) * 1.0;
+        }, { passive: true });
+
+        window.addEventListener('resize', () => {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        function animate() {
+          requestAnimationFrame(animate);
+          camera.position.x += (targetCamX - camera.position.x) * 0.04;
+          camera.position.y += (targetCamY - camera.position.y) * 0.04;
+
+          for (const p of petals) {
+            p.position.y -= p.userData.vy;
+            p.position.x += p.userData.vx + Math.sin(p.position.y * 0.5) * 0.008;
+            p.rotation.x += p.userData.rx;
+            p.rotation.y += p.userData.ry;
+            if (p.position.y < -11) p.position.y = 11;
+          }
+
+          dust.rotation.y += 0.0008;
+
+          for (let i = burstGroup.length - 1; i >= 0; i--) {
+            const b = burstGroup[i];
+            b.position.x += b.userData.vx;
+            b.position.y += b.userData.vy;
+            b.position.z += b.userData.vz;
+            b.userData.vy -= 0.0035;
+            b.userData.life -= 0.015;
+            b.material.opacity = Math.max(0, b.userData.life);
+            b.rotation.z += 0.08;
+            if (b.userData.life <= 0) {
+              scene.remove(b);
+              burstGroup.splice(i, 1);
+            }
+          }
+
+          renderer.render(scene, camera);
+        }
+        animate();
+      } catch {
+        // WebGL unavailable in weak in-app browser: silent fallback
+      }
+    })();
+
+    // 2. 3D Envelope Open & Replay
+    const envelope = document.getElementById('envelope');
+    function openEnvelope() {
+      envelope.classList.add('is-opening');
+      triggerBurst();
+      setTimeout(() => envelope.classList.add('is-open'), 1050);
+    }
+    document.getElementById('open-seal').addEventListener('click', openEnvelope);
+    document.getElementById('open-btn').addEventListener('click', openEnvelope);
+    document.getElementById('replay-btn').addEventListener('click', () => {
+      envelope.classList.remove('is-open', 'is-opening');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // 3. 3D Parallax Tilt on Couple Photo Arch
+    const tiltCard = document.getElementById('tilt-card');
+    if (tiltCard && window.matchMedia('(pointer: fine)').matches) {
+      tiltCard.addEventListener('pointermove', (e) => {
+        const rect = tiltCard.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        tiltCard.style.transform = `rotateY(${x * 12}deg) rotateX(${-y * 10}deg) scale(1.02)`;
+      });
+      tiltCard.addEventListener('pointerleave', () => {
+        tiltCard.style.transform = 'rotateY(0deg) rotateX(0deg) scale(1)';
+      });
+    }
+
+    // 4. Scroll Reveal
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add('is-visible');
+        });
+      },
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    // 5. Countdown
+    const targetMs = new Date('2026-12-20T17:00:00+07:00').getTime();
+    function updateCountdown() {
+      const diff = Math.max(0, targetMs - Date.now());
+      document.getElementById('cd-days').textContent = Math.floor(diff / 86400000);
+      document.getElementById('cd-hours').textContent = String(Math.floor((diff / 3600000) % 24)).padStart(2, '0');
+      document.getElementById('cd-mins').textContent = String(Math.floor((diff / 60000) % 60)).padStart(2, '0');
+      document.getElementById('cd-secs').textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // 6. Modals & RSVP
+    function openModal(id) { document.getElementById(id).classList.add('open'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+    document.getElementById('open-rsvp').addEventListener('click', () => {
+      document.getElementById('rsvp-form').style.display = 'grid';
+      document.getElementById('rsvp-done').style.display = 'none';
+      openModal('rsvp-modal');
+    });
+    document.getElementById('open-gift').addEventListener('click', () => openModal('gift-modal'));
+    document.querySelectorAll('[data-close]').forEach((btn) => {
+      btn.addEventListener('click', () => closeModal(btn.dataset.close));
+    });
+    document.querySelectorAll('.modal-backdrop').forEach((bg) => {
+      bg.addEventListener('click', (e) => {
+        if (e.target === bg) bg.classList.remove('open');
+      });
+    });
+
+    document.getElementById('rsvp-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('guest-name').value.trim();
+      const wish = document.getElementById('guest-wish').value.trim();
+      if (name && wish) {
+        const card = document.createElement('div');
+        card.className = 'wish-item';
+        const strong = document.createElement('strong');
+        strong.style.color = 'var(--crimson)';
+        strong.textContent = name;
+        const p = document.createElement('p');
+        p.style.cssText = 'margin: 6px 0 0; color: var(--ink-soft); font-size: 0.94rem;';
+        p.textContent = wish;
+        card.appendChild(strong);
+        card.appendChild(p);
+        document.getElementById('wish-list').prepend(card);
+      }
+      document.getElementById('rsvp-form').style.display = 'none';
+      document.getElementById('rsvp-done').style.display = 'block';
+    });
+
+    // 7. Web Audio Soft Chime Music
+    let musicOn = false;
+    let audioCtx = null;
+    let timer = null;
+    const musicBtn = document.getElementById('music-btn');
+    musicBtn.addEventListener('click', () => {
+      musicOn = !musicOn;
+      musicBtn.classList.toggle('playing', musicOn);
+      if (!musicOn) {
+        clearInterval(timer);
+        if (audioCtx && audioCtx.state !== 'closed') audioCtx.close().catch(() => {});
+        return;
+      }
+      try {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new Ctx();
+        const notes = [523.25, 659.25, 783.99, 659.25, 587.33, 698.46, 880.0, 783.99];
+        let step = 0;
+        const play = () => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = notes[step % notes.length];
+          gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.04, audioCtx.currentTime + 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.1);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 1.15);
+          step += 1;
+        };
+        play();
+        timer = setInterval(play, 950);
+      } catch {}
+    });
+  </script>
+</body>
+</html>

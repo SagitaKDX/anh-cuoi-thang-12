@@ -179,9 +179,19 @@ export default function WeddingInvitePreview() {
       {!hideTestBar && (
         <div className="inv-test-bar">
           <div>
-            <strong>Bản Review Thử Nghiệm</strong> · Phong cách Long Phụng Đỏ (nâng cấp animation từ mẫu Chung Đôi)
+            <strong>Bản Review Thử Nghiệm</strong> · Phong cách Long Phụng Đỏ (HTML + CSS + Three.js 3D)
           </div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <a
+              href="./thiep-moi.html"
+              target="_blank"
+              rel="noreferrer"
+              className="btn-primary"
+              style={{ padding: '6px 12px', fontSize: '0.82rem' }}
+            >
+              <Sparkles size={14} aria-hidden="true" />
+              <span>Mở Full-Screen (Three.js 3D)</span>
+            </a>
             <button type="button" className="btn-ghost" onClick={handleReplayEnvelope} style={{ padding: '5px 10px', fontSize: '0.82rem' }}>
               <RotateCcw size={14} aria-hidden="true" />
               <span>Xem lại hiệu ứng mở thiệp</span>
