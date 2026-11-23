@@ -105,6 +105,80 @@ body {
   display: none;
 }
 
+.nav-tab-btn {
+  font: inherit;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 99px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.nav-tab-btn:hover {
+  background: var(--surface-alt);
+  color: var(--primary);
+}
+
+.nav-tab-btn.active {
+  background: var(--primary-soft);
+  border-color: #bfdbfe;
+  color: var(--primary-ink);
+  font-weight: 600;
+}
+
+.timeline-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 16px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+}
+
+.timeline-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--primary);
+  align-self: start;
+  padding-top: 2px;
+}
+
+.timeline-body h3 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+}
+
+.timeline-body p {
+  margin: 0;
+  font-size: 0.93rem;
+  color: var(--ink-soft);
+}
+
+.page-pager {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-top: 28px;
+  margin-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
 .nav-links a {
   text-decoration: none;
   color: var(--ink-soft);
@@ -1079,6 +1153,14 @@ tbody tr:last-child td {
   }
   .stage-body.is-open {
     display: block;
+  }
+  .timeline-item {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .page-pager button {
+    padding: 10px 14px;
+    font-size: 0.88rem;
   }
   .back-to-top {
     display: inline-flex;

@@ -765,6 +765,46 @@ export const STUDIO_QUESTIONS = [
   { id: 'q-8', text: 'Bao lâu nhận file gốc, file thiết kế album (có được duyệt trước khi in) và ảnh hoàn thiện?' },
 ];
 
+export const FITTING_TRIP_PLAN = {
+  title: 'Lịch trình mẫu: 08:00 xuất phát từ Hòa Bình đi thử váy cưới trước',
+  subtitle:
+    'Chủ động đi thử váy, xem album gốc và chốt hợp đồng trực tiếp trước ngày chụp ít nhất 3–4 tuần để tránh cập rập.',
+  timeline: [
+    {
+      time: '08:00 – 09:45',
+      title: 'Xuất phát từ Hòa Bình đi Hà Nội (hoặc Sơn Tây)',
+      detail:
+        'Đi cao tốc Hòa Lạc – Hà Nội (~75 km, ~1h45) nếu thử các studio Đống Đa (Fely, Palatino, Yêu Media, 2H). Nếu ghé 2H cơ sở Sơn Tây chỉ mất ~1h15.',
+    },
+    {
+      time: '10:00 – 12:00',
+      title: 'Thử váy cưới & vest tại Studio số 1 (ưu tiên nhất)',
+      detail:
+        'Thử 3–4 phom váy (váy xòe, váy đuôi nhẹ, váy tay dài cho tháng 12) + chú rể thử vest. Kiểm tra kỹ váy nằm trong gói hay dòng VIP, xem album raw khách thật và hỏi hết 8 câu trước khi cọc.',
+    },
+    {
+      time: '12:00 – 13:30',
+      title: 'Ăn trưa & đối chiếu lại ngân sách',
+      detail:
+        'Ngồi tổng hợp lại ảnh chụp lúc thử váy, đối chiếu báo giá phát sinh (vé phim trường, xe ngoại cảnh, trả file gốc) với mức trần 15–20 triệu.',
+    },
+    {
+      time: '13:45 – 15:30',
+      title: 'Ghé Studio số 2 để so sánh (hoặc chốt cọc & lịch chụp)',
+      detail:
+        'Vì Fely (Ô Chợ Dừa), Palatino (Nguyễn Hy Quang), Yêu Media (Tây Sơn) và 2H (Hoàng Cầu) đều nằm sát nhau ở quận Đống Đa, đi 1 buổi chiều là xem được cả 2–3 nơi rồi về Hòa Bình trước 17h30.',
+    },
+  ],
+  haLongNote:
+    'Nếu chọn chụp ở Hạ Long: có thể áp dụng đúng lịch 08:00 từ Hòa Bình để thử váy ở ekip Hà Nội (nếu thuê ekip HN đi Hạ Long), hoặc kết hợp đi Hạ Long 2 ngày 1 đêm từ 08:00 sáng (tới Hạ Long ~12h00, chiều thử váy tại Kim Cương Đỏ / Mộc Bridal / De Paris).',
+  bringItems: [
+    'Cô dâu mặc áo ngực không dây / mang miếng dán ngực màu da để thử chuẩn phom váy hở vai hoặc cúp ngực',
+    'Mang giày cao gót có độ cao tương đương đôi định đi chụp để đo chuẩn chiều dài tà váy',
+    'Buộc tóc gọn hoặc mang kẹp càng cua để nhìn rõ phần cổ, vai và lưng váy khi thử',
+    'Chụp lại ảnh trước – sau từng mẫu váy đã thử và ghi chú mã váy để không bị quên khi chốt hợp đồng',
+  ],
+};
+
 export const SAVE_THE_DATE = [
   {
     title: 'Nội dung cần có',

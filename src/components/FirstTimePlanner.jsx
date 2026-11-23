@@ -10,7 +10,7 @@ const PRESET_PACKAGES = [
   { label: '18,5 tr (2H Ngoại thành 02)', value: 18.5 },
 ];
 
-export default function FirstTimePlanner() {
+export default function FirstTimePlanner({ mode = 'all' }) {
   const [basePackage, setBasePackage] = useState(14.9);
   const [activeStage, setActiveStage] = useState('all');
   const [openStages, setOpenStages] = useState(() => new Set(['stage-1']));
@@ -78,12 +78,14 @@ export default function FirstTimePlanner() {
 
   return (
     <section className="section" id="lan-dau-chup">
-      <h2>Lần đầu chụp ảnh cưới: phải tính điều gì?</h2>
-      <p className="lead">
-        Giá gói niêm yết hiếm khi là con số cuối cùng bạn trả. Với cặp đôi chụp lần đầu vào tháng 12, cần tính đủ cả chi phí phát sinh ngoài hợp đồng, đồ cá nhân giữ ấm và thời gian trả ảnh.
-      </p>
+      {mode !== 'checklist' && (
+        <>
+          <h2>Lần đầu chụp ảnh cưới: phải tính điều gì?</h2>
+          <p className="lead">
+            Giá gói niêm yết hiếm khi là con số cuối cùng bạn trả. Với cặp đôi chụp lần đầu vào tháng 12, cần tính đủ cả chi phí phát sinh ngoài hợp đồng, đồ cá nhân giữ ấm và thời gian trả ảnh.
+          </p>
 
-      <div className="calc-grid">
+          <div className="calc-grid">
         <div className="calc-card">
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
             <Calculator size={18} color="var(--primary)" aria-hidden="true" />
@@ -217,8 +219,11 @@ export default function FirstTimePlanner() {
           </p>
         </aside>
       </div>
+        </>
+      )}
 
-      <div style={{ marginTop: 40 }}>
+      {mode !== 'budget' && (
+      <div style={{ marginTop: mode === 'checklist' ? 0 : 40 }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
           <div>
             <h3 style={{ fontSize: '1.35rem', fontFamily: 'var(--serif)', margin: 0 }}>
@@ -344,6 +349,7 @@ export default function FirstTimePlanner() {
           })}
         </div>
       </div>
+      )}
     </section>
   );
 }
