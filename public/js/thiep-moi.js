@@ -186,6 +186,12 @@ reducedMotionQuery.addEventListener('change', (e) => {
   if (reducedMotion && tiltCard) {
     tiltCard.style.transform = '';
   }
+  if (reducedMotion) {
+    if (flyerLeft) flyerLeft.style.cssText = '';
+    if (flyerRight) flyerRight.style.cssText = '';
+  } else {
+    updateScrollParallax();
+  }
 });
 
 // 2. 3D Envelope Open & Replay
@@ -236,6 +242,122 @@ const observer = new IntersectionObserver(
 );
 document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
+// Phoenix Scroll-Path Flight (Option A Bézier Companions)
+const flyerLeft = document.querySelector('.phoenix-flyer--left');
+const flyerRight = document.querySelector('.phoenix-flyer--right');
+
+// Cubic Bézier control points in viewport %
+const PHOENIX_BEZIER_LEFT = [
+  { x: 8, y: 12 },
+  { x: 22, y: 35 },
+  { x: 18, y: 62 },
+  { x: 12, y: 88 },
+];
+
+const PHOENIX_BEZIER_RIGHT = [
+  { x: 92, y: 14 },
+  { x: 78, y: 38 },
+  { x: 82, y: 65 },
+  { x: 88, y: 90 },
+];
+
+function evalCubicBezier(p0, p1, p2, p3, t) {
+  const u = 1 - t;
+  const tt = t * t;
+  const uu = u * u;
+  const uuu = uu * u;
+  const ttt = tt * t;
+
+  const x = uuu * p0.x + 3 * uu * t * p1.x + 3 * u * tt * p2.x + ttt * p3.x;
+  const y = uuu * p0.y + 3 * uu * t * p1.y + 3 * u * tt * p2.y + ttt * p3.y;
+
+  // Tangent derivative vector (dx/dt, dy/dt)
+  const dx = 3 * uu * (p1.x - p0.x) + 6 * u * t * (p2.x - p1.x) + 3 * tt * (p3.x - p2.x);
+  const dy = 3 * uu * (p1.y - p0.y) + 6 * u * t * (p2.y - p1.y) + 3 * tt * (p3.y - p2.y);
+
+  return { x, y, dx, dy };
+}
+
+let targetScrollP = 0;
+let currentScrollP = 0;
+let flyerRafId = null;
+
+function applyFlyerPose(flyerEl, pos, t, isRight) {
+  if (!flyerEl) return;
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+
+  const fx = (pos.x / 100) * w;
+  const fy = (pos.y / 100) * h;
+
+  // translateZ depth: swoops forward in mid-flight (up to 40px closer)
+  const fz = Math.sin(t * Math.PI) * 40;
+
+  // Heading angles
+  const dPxX = (pos.dx / 100) * w;
+  const dPxY = (pos.dy / 100) * h;
+  const headingAngle = Math.atan2(dPxX, dPxY) * (180 / Math.PI);
+
+  // 2D heading rotateZ banked along path tangent
+  const rotZ = isRight ? -headingAngle * 0.55 : headingAngle * 0.55;
+
+  // Small rotateY from horizontal velocity for 3D feel
+  const rotY = Math.max(-18, Math.min(18, (pos.dx / 100) * 35));
+
+  // Scale: gentle breathing scale
+  const scale = 0.94 + Math.sin(t * Math.PI) * 0.12;
+
+  // Opacity ramp: appears smoothly after scrollY > ~40
+  const y = window.scrollY;
+  const op = Math.max(0, Math.min(1, (y - 40) / 75));
+
+  flyerEl.style.setProperty('--fx', `${fx.toFixed(1)}px`);
+  flyerEl.style.setProperty('--fy', `${fy.toFixed(1)}px`);
+  flyerEl.style.setProperty('--fz', `${fz.toFixed(1)}px`);
+  flyerEl.style.setProperty('--frot-y', `${rotY.toFixed(2)}deg`);
+  flyerEl.style.setProperty('--frot-z', `${rotZ.toFixed(2)}deg`);
+  flyerEl.style.setProperty('--fscale', `${scale.toFixed(3)}`);
+  flyerEl.style.setProperty('--fop', `${op.toFixed(3)}`);
+}
+
+function updateFlyerFlight(scrollP) {
+  if (reducedMotion) return;
+
+  const tL = Math.max(0, Math.min(1, scrollP));
+  const tR = Math.max(0, Math.min(1, scrollP + 0.04));
+
+  const posL = evalCubicBezier(
+    PHOENIX_BEZIER_LEFT[0],
+    PHOENIX_BEZIER_LEFT[1],
+    PHOENIX_BEZIER_LEFT[2],
+    PHOENIX_BEZIER_LEFT[3],
+    tL
+  );
+  const posR = evalCubicBezier(
+    PHOENIX_BEZIER_RIGHT[0],
+    PHOENIX_BEZIER_RIGHT[1],
+    PHOENIX_BEZIER_RIGHT[2],
+    PHOENIX_BEZIER_RIGHT[3],
+    tR
+  );
+
+  applyFlyerPose(flyerLeft, posL, tL, false);
+  applyFlyerPose(flyerRight, posR, tR, true);
+}
+
+function flyerTick() {
+  const diff = targetScrollP - currentScrollP;
+  if (Math.abs(diff) > 0.0005) {
+    currentScrollP += diff * 0.15; // Smooth lerp
+    updateFlyerFlight(currentScrollP);
+    flyerRafId = requestAnimationFrame(flyerTick);
+  } else {
+    currentScrollP = targetScrollP;
+    updateFlyerFlight(currentScrollP);
+    flyerRafId = null;
+  }
+}
+
 function updateScrollParallax() {
   const y = window.scrollY;
   const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
@@ -246,15 +368,26 @@ function updateScrollParallax() {
   if (reducedMotion) {
     document.documentElement.style.removeProperty('--py');
     document.documentElement.style.removeProperty('--scroll-p');
+    if (flyerLeft) flyerLeft.style.cssText = '';
+    if (flyerRight) flyerRight.style.cssText = '';
     return;
   }
 
   const py = Math.max(-1, Math.min(1, y / Math.max(window.innerHeight, 500)));
   document.documentElement.style.setProperty('--py', py.toFixed(3));
   document.documentElement.style.setProperty('--scroll-p', scrollP.toFixed(3));
+
+  targetScrollP = scrollP;
+  if (!flyerRafId) {
+    flyerRafId = requestAnimationFrame(flyerTick);
+  }
 }
 window.addEventListener('scroll', updateScrollParallax, { passive: true });
+window.addEventListener('resize', updateScrollParallax, { passive: true });
+currentScrollP = 0;
+targetScrollP = 0;
 updateScrollParallax();
+updateFlyerFlight(0);
 
 // 5. Countdown
 const targetMs = new Date('2026-12-20T17:00:00+07:00').getTime();

@@ -16,8 +16,84 @@
 </head>
 <body>
   <canvas id="three-bg" aria-hidden="true"></canvas>
-  <img src="./phoenix.svg" alt="" class="phoenix-corner phoenix-left" aria-hidden="true" />
-  <img src="./phoenix.svg" alt="" class="phoenix-corner phoenix-right" aria-hidden="true" />
+  <div id="phoenix-stage" class="phoenix-stage" aria-hidden="true">
+    <svg class="phoenix-flyer phoenix-flyer--left" viewBox="0 0 180 140" fill="none">
+      <defs>
+        <linearGradient id="phxGold-L" x1="0" y1="0" x2="180" y2="140" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#fef3c7"/>
+          <stop offset="45%" stop-color="#fcd34d"/>
+          <stop offset="100%" stop-color="#b45309"/>
+        </linearGradient>
+        <linearGradient id="phxCrimson-L" x1="20" y1="20" x2="140" y2="120" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#fb7185"/>
+          <stop offset="100%" stop-color="#9f1239"/>
+        </linearGradient>
+      </defs>
+      <!-- Flowing Tail Plumes -->
+      <g id="tail-L" class="tail">
+        <path d="M18 118 C42 104, 62 84, 78 68 C58 92, 38 114, 12 128 Z" fill="url(#phxGold-L)" opacity="0.85"/>
+        <path d="M28 128 C54 110, 74 90, 90 72 C72 98, 52 118, 24 134 Z" fill="url(#phxGold-L)" opacity="0.72"/>
+        <path d="M46 132 C70 114, 86 94, 98 76 C84 102, 68 120, 44 136 Z" fill="url(#phxCrimson-L)" opacity="0.65"/>
+      </g>
+      <!-- Outer Wing Feathers -->
+      <g id="wing-outer-L" class="wing-outer">
+        <path d="M94 64 C78 36, 48 16, 16 14 C36 28, 58 46, 76 68 Z" fill="url(#phxGold-L)"/>
+        <path d="M98 62 C86 34, 66 14, 38 6 C54 22, 72 42, 86 64 Z" fill="url(#phxGold-L)" opacity="0.9"/>
+        <path d="M104 62 C98 36, 84 18, 62 10 C74 26, 86 44, 94 64 Z" fill="url(#phxCrimson-L)" opacity="0.75"/>
+      </g>
+      <!-- Inner Wing -->
+      <g id="wing-inner-L" class="wing-inner">
+        <path d="M88 68 C102 58, 120 56, 134 62 C122 76, 104 82, 84 78 Z" fill="url(#phxGold-L)"/>
+      </g>
+      <!-- Neck, Head, Crest & Body -->
+      <g id="body-L" class="body">
+        <path d="M126 62 C136 52, 142 40, 140 28 C144 22, 154 20, 162 24 C154 28, 152 34, 148 44 C144 54, 136 64, 128 66 Z" fill="url(#phxGold-L)"/>
+        <!-- Crest Plumes -->
+        <path d="M140 26 C132 14, 120 10, 108 12 C120 16, 130 22, 138 30 Z" fill="url(#phxGold-L)"/>
+        <path d="M144 24 C140 12, 132 6, 122 4 C132 10, 138 16, 142 26 Z" fill="url(#phxCrimson-L)" opacity="0.8"/>
+        <!-- Eye & Beak Accent -->
+        <circle cx="148" cy="26" r="1.8" fill="#4c0519"/>
+      </g>
+    </svg>
+    <svg class="phoenix-flyer phoenix-flyer--right" viewBox="0 0 180 140" fill="none">
+      <defs>
+        <linearGradient id="phxGold-R" x1="0" y1="0" x2="180" y2="140" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#fef3c7"/>
+          <stop offset="45%" stop-color="#fcd34d"/>
+          <stop offset="100%" stop-color="#b45309"/>
+        </linearGradient>
+        <linearGradient id="phxCrimson-R" x1="20" y1="20" x2="140" y2="120" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#fb7185"/>
+          <stop offset="100%" stop-color="#9f1239"/>
+        </linearGradient>
+      </defs>
+      <!-- Flowing Tail Plumes -->
+      <g id="tail-R" class="tail">
+        <path d="M18 118 C42 104, 62 84, 78 68 C58 92, 38 114, 12 128 Z" fill="url(#phxGold-R)" opacity="0.85"/>
+        <path d="M28 128 C54 110, 74 90, 90 72 C72 98, 52 118, 24 134 Z" fill="url(#phxGold-R)" opacity="0.72"/>
+        <path d="M46 132 C70 114, 86 94, 98 76 C84 102, 68 120, 44 136 Z" fill="url(#phxCrimson-R)" opacity="0.65"/>
+      </g>
+      <!-- Outer Wing Feathers -->
+      <g id="wing-outer-R" class="wing-outer">
+        <path d="M94 64 C78 36, 48 16, 16 14 C36 28, 58 46, 76 68 Z" fill="url(#phxGold-R)"/>
+        <path d="M98 62 C86 34, 66 14, 38 6 C54 22, 72 42, 86 64 Z" fill="url(#phxGold-R)" opacity="0.9"/>
+        <path d="M104 62 C98 36, 84 18, 62 10 C74 26, 86 44, 94 64 Z" fill="url(#phxCrimson-R)" opacity="0.75"/>
+      </g>
+      <!-- Inner Wing -->
+      <g id="wing-inner-R" class="wing-inner">
+        <path d="M88 68 C102 58, 120 56, 134 62 C122 76, 104 82, 84 78 Z" fill="url(#phxGold-R)"/>
+      </g>
+      <!-- Neck, Head, Crest & Body -->
+      <g id="body-R" class="body">
+        <path d="M126 62 C136 52, 142 40, 140 28 C144 22, 154 20, 162 24 C154 28, 152 34, 148 44 C144 54, 136 64, 128 66 Z" fill="url(#phxGold-R)"/>
+        <!-- Crest Plumes -->
+        <path d="M140 26 C132 14, 120 10, 108 12 C120 16, 130 22, 138 30 Z" fill="url(#phxGold-R)"/>
+        <path d="M144 24 C140 12, 132 6, 122 4 C132 10, 138 16, 142 26 Z" fill="url(#phxCrimson-R)" opacity="0.8"/>
+        <!-- Eye & Beak Accent -->
+        <circle cx="148" cy="26" r="1.8" fill="#4c0519"/>
+      </g>
+    </svg>
+  </div>
   <div id="yt-player-host" style="position:fixed;right:0;bottom:0;width:200px;height:113px;opacity:0.001;pointer-events:none;z-index:-1;" aria-hidden="true"></div>
 
   <div class="top-controls">
