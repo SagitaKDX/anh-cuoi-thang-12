@@ -285,6 +285,71 @@ export const PACKAGES_DATA = [
     thoiLuong: 'Hỏi studio',
     luuY: 'Gần Mai Châu & đèo Thung Khe, hợp cảnh sương núi tháng 12',
   },
+  {
+    id: 'kcd-hl',
+    studio: 'Kim Cương Đỏ Studio',
+    goi: 'Gói ngoại cảnh Hạ Long',
+    gia: 6.0,
+    giaMax: 12.0,
+    khuVuc: 'Hạ Long, Quảng Ninh',
+    loai: 'Kết hợp',
+    concepts: ['Biển và vịnh', 'Studio, hoa'],
+    boiCanh: 'Bãi Cháy, Bảo tàng QN, Cung Cá Heo, ven biển',
+    thoiLuong: '1 ngày',
+    luuY: 'Studio tại Cao Thắng, Hạ Long; cần tính thêm chi phí đi lại từ Hòa Bình',
+  },
+  {
+    id: 'moc-hl',
+    studio: 'Mộc Bridal',
+    goi: 'Gói ngoại cảnh Bãi Cháy',
+    gia: 7.0,
+    giaMax: 12.0,
+    khuVuc: 'Hạ Long, Quảng Ninh',
+    loai: 'Ngoại cảnh',
+    concepts: ['Biển và vịnh'],
+    boiCanh: 'Bãi Cháy, Bảo tàng Quảng Ninh, phố biển',
+    thoiLuong: '1 ngày',
+    luuY: 'Phong cách nhẹ nhàng, bắt cảm xúc tự nhiên; cơ sở ngay Bãi Cháy',
+  },
+  {
+    id: 'deparis-hl',
+    studio: 'De Paris Wedding',
+    goi: 'Gói trọn gói Hạ Long',
+    gia: 7.0,
+    giaMax: 12.0,
+    khuVuc: 'Hạ Long, Quảng Ninh',
+    loai: 'Kết hợp',
+    concepts: ['Biển và vịnh', 'Studio, hoa'],
+    boiCanh: 'Ngoại cảnh Hạ Long + concept Hàn Quốc / Vintage',
+    thoiLuong: '1 ngày',
+    luuY: 'Hỏi rõ gói đã gồm xe đưa đón tại Hạ Long & vé điểm chụp chưa',
+  },
+  {
+    id: 'mays-hl',
+    studio: 'May’s Wedding Studio',
+    goi: 'Phim trường & ngoại cảnh',
+    gia: 5.0,
+    giaMax: 10.0,
+    khuVuc: 'Hạ Long, Quảng Ninh',
+    loai: 'Kết hợp',
+    concepts: ['Biển và vịnh', 'Studio, hoa'],
+    boiCanh: 'Phim trường riêng của May’s + ven biển Hạ Long',
+    thoiLuong: '1 ngày',
+    luuY: 'Có phim trường trong nhà tránh gió rét tháng 12, trả ảnh nhanh',
+  },
+  {
+    id: 'yacht-hl',
+    studio: 'Ekip HN / Hạ Long (Du thuyền)',
+    goi: 'Gói Vịnh Hạ Long & Du thuyền',
+    gia: 12.0,
+    giaMax: 20.0,
+    khuVuc: 'Hạ Long, Quảng Ninh',
+    loai: 'Ngoại cảnh',
+    concepts: ['Biển và vịnh'],
+    boiCanh: 'Du thuyền trên vịnh, Tuần Châu, Đồi Phượng Hoàng',
+    thoiLuong: '1–2 ngày',
+    luuY: 'Chưa gồm vé du thuyền/cano riêng & chi phí ăn ở nếu đi từ Hà Nội/Hòa Bình',
+  },
 ];
 
 export const STUDIO_REVIEWS = [
@@ -396,6 +461,56 @@ export const STUDIO_REVIEWS = [
     ],
     sources: 'Tripi, Mytour, Topwedding, Demxanh',
   },
+  {
+    studio: 'Kim Cương Đỏ Studio',
+    area: '269 / 334 Cao Thắng, Hà Lầm, TP. Hạ Long',
+    priceRange: '6,0 – 12,0 triệu',
+    bestFor: 'Cặp đôi chụp tại Hạ Long cần ekip hướng dẫn tạo dáng kỹ cho người chụp lần đầu',
+    summary:
+      'Một trong những studio lâu năm và được đánh giá cao tại TP. Hạ Long về độ tận tâm của ekip, từ khâu dựng dáng chi tiết đến makeup trẻ trung.',
+    pros: [
+      'Thợ ảnh sáng tạo, chỉ dáng tỉ mỉ cho các cặp đôi chưa có kinh nghiệm chụp.',
+      'Makeup linh hoạt, trẻ trung; mức giá gói địa phương mềm (6–12 tr) hơn so với kéo ekip từ Hà Nội xuống.',
+    ],
+    cons: [
+      'Nếu xuất phát từ Hòa Bình, bạn phải sắp xếp thời gian xuống Hạ Long thử váy trước hoặc chốt size từ xa.',
+      'Cần hỏi rõ phí vé vào cổng các khu du lịch/resort hoặc tàu ra vịnh ngoài gói.',
+    ],
+    sources: 'QuangNinhReview, Demxanh',
+  },
+  {
+    studio: 'Mộc Bridal',
+    area: '324 Đường Hạ Long (Bãi Cháy) & Times Garden, Hạ Long',
+    priceRange: '7,0 – 12,0 triệu',
+    bestFor: 'Cặp đôi thích ảnh biển/phố nhẹ nhàng, thanh lịch, ít chỉnh sửa quá đà',
+    summary:
+      'Studio tại khu trung tâm Bãi Cháy, thế mạnh là phong cách mộc mạc, chú trọng cảm xúc thật thay vì dàn dựng cầu kỳ.',
+    pros: [
+      'Vị trí ngay Bãi Cháy, rất thuận tiện di chuyển ra bãi biển, cầu Bãi Cháy và Bảo tàng Quảng Ninh.',
+      'Màu ảnh trong trẻo, tự nhiên, ít bị lỗi thời.',
+    ],
+    cons: [
+      'Tháng 12 gió biển Bãi Cháy khá lạnh, cần chủ động chuẩn bị váy tay dài hoặc áo choàng.',
+      'Cần đặt lịch sớm vì cuối năm trùng mùa khách du lịch lễ hội.',
+    ],
+    sources: 'AlohaStudio, thông tin địa phương Hạ Long',
+  },
+  {
+    studio: 'De Paris Wedding & May’s Wedding',
+    area: 'Trần Nguyên Hãn & 143 Yết Kiêu, TP. Hạ Long',
+    priceRange: '5,0 – 12,0 triệu',
+    bestFor: 'Cần phương án phim trường trong nhà tại Hạ Long khi trời rét hoặc sương mù',
+    summary:
+      'Hai studio nổi bật tại Hạ Long: De Paris mạnh về concept Hàn Quốc/Vintage chỉn chu; May’s Wedding sở hữu phim trường riêng giúp tránh gió rét mùa đông.',
+    pros: [
+      'May’s có phim trường độc quyền trong nhà và tốc độ xử lý ảnh nhanh, giá từ 5–10 tr.',
+      'De Paris tư vấn chi tiết, hỗ trợ trọn gói từ trang phục đến layout makeup.',
+    ],
+    cons: [
+      'Khó đi thử váy nhiều lần nếu bạn ở Hòa Bình; hợp hơn nếu kết hợp chuyến du lịch Hạ Long 2 ngày 1 đêm.',
+    ],
+    sources: 'AlohaStudio, Demxanh',
+  },
 ];
 
 export const DIRECTIONS = [
@@ -438,6 +553,71 @@ export const DIRECTIONS = [
       'Ít mẫu váy dòng Luxury hơn showroom trung tâm Hà Nội',
       'Cần đến tận nơi xem album khách chụp thật để đánh giá màu ảnh & makeup',
     ],
+  },
+  {
+    id: 'D',
+    title: 'D. Hạ Long (Quảng Ninh): vịnh biển & bảo tàng',
+    budget: 'Gói 6–20 tr (+ đi lại, lưu trú từ Hòa Bình)',
+    pros: [
+      'Tháng 12 mặt vịnh lặng sóng, nắng hanh vàng, ảnh du thuyền hoặc Bảo tàng QN rất điện ảnh',
+      'Có Bảo tàng QN / phim trường May’s / khách sạn làm phương án B nếu gặp gió mùa rét',
+    ],
+    cons: [
+      'Cách Hòa Bình ~210 km (3,5–4 tiếng/chiều), gần như phải đi 2 ngày 1 đêm và tốn thêm chi phí xe + khách sạn',
+      'Gió Đông Bắc ngoài biển/vịnh tháng 12 rất buốt; khó tiện đi thử váy nhiều lần nếu book studio tại Hạ Long',
+    ],
+  },
+];
+
+export const COMPARATIVE_MATRIX = [
+  {
+    criterion: 'Tổng chi phí thực tế (gói + phát sinh)',
+    hn: '11 – 18 tr (vé phim trường + đi lại)',
+    westHn: '15 – 20 tr (gọn trong ngân sách mục tiêu)',
+    hoaBinh: '8 – 15 tr (ước tính, tiết kiệm xe cộ)',
+    haLong: '14 – 25+ tr (thêm xe, khách sạn 1 đêm, vé vịnh/du thuyền)',
+  },
+  {
+    criterion: 'Di chuyển từ Hòa Bình',
+    hn: '~75 km (1,5–2 tiếng/chiều)',
+    westHn: '~45–65 km (1–1,5 tiếng, nằm ngay trục đường)',
+    hoaBinh: 'Tại chỗ (15–50 km)',
+    haLong: '~210–230 km (3,5–4 tiếng/chiều qua cao tốc)',
+  },
+  {
+    criterion: 'Bối cảnh nổi bật tháng 12',
+    hn: 'Phim trường hoa, studio Hàn Quốc, bãi lau Long Biên',
+    westHn: 'Đồng lau Cổ Đô, hồ Đồng Mô, nền núi Ba Vì',
+    hoaBinh: 'Hồ Hòa Bình, hồ Mắt Ngọc, sương núi Mai Châu',
+    haLong: 'Vịnh lặng sóng, du thuyền, Bảo tàng QN, đồi Phượng Hoàng',
+  },
+  {
+    criterion: 'Rủi ro thời tiết & giữ ấm',
+    hn: 'Thấp (dễ chuyển vào studio/phim trường kín)',
+    westHn: 'Trung bình (gió bãi sông/hồ, cần hỏi lều thay đồ)',
+    hoaBinh: 'Trung bình (sương lạnh sáng sớm ở Mai Châu)',
+    haLong: 'Cao nếu ra vịnh (gió Đông Bắc buốt, dễ có sương mù)',
+  },
+  {
+    criterion: 'Thử váy & nhận ảnh',
+    hn: 'Phải lên Hà Nội 2–3 lần',
+    westHn: 'Lên HN hoặc ghé cơ sở Sơn Tây (2H Studio)',
+    hoaBinh: 'Tiện nhất, đi lại ngay gần nhà',
+    haLong: 'Bất tiện nhất nếu book tiệm Hạ Long; nên dùng ekip HN đi xuống nếu cần thử váy gần',
+  },
+  {
+    criterion: 'Thể lực cặp đôi chụp lần đầu',
+    hn: 'Nhẹ nhàng (nửa ngày đến 1 ngày)',
+    westHn: 'Vừa phải (1 ngày trọn vẹn, di chuyển ngắn)',
+    hoaBinh: 'Nhẹ nhàng, không bị mệt đường xa',
+    haLong: 'Nặng (di chuyển xa + dậy sớm đón nắng + gió biển)',
+  },
+  {
+    criterion: 'Phù hợp nhất với',
+    hn: 'Ưu tiên nhiều váy đẹp, ít rủi ro thời tiết',
+    westHn: 'Đúng gu lau + hồ núi, vừa khít 15–20 tr (Khuyên dùng)',
+    hoaBinh: 'Ưu tiên tối đa sự tiện lợi, tiết kiệm thời gian',
+    haLong: 'Muốn kết hợp nghỉ dưỡng 2N1Đ, thích cảnh biển/du thuyền & sẵn sàng nới budget',
   },
 ];
 
@@ -488,30 +668,39 @@ export const HIDDEN_COSTS = [
 
 export const FIRST_TIME_PREP = [
   {
-    group: 'Chú rể cần tự chuẩn bị',
+    group: '1. Trước khi ký hợp đồng (1–2 tháng)',
     items: [
-      { id: 'cr-1', text: 'Giày da nam lịch sự (đen/nâu/trắng khớp màu vest đã thử)' },
-      { id: 'cr-2', text: '2 đôi tất: 1 đôi tất cao cổ tối màu + 1 đôi tất tàng hình' },
-      { id: 'cr-3', text: 'Thắt lưng da cùng tông màu với giày' },
-      { id: 'cr-4', text: 'Cắt tóc gọn và cạo râu sạch trước ngày chụp 2–3 ngày' },
+      { id: 'hd-1', text: 'Xem ít nhất 2–3 album khách chụp thật (không chỉ xem ảnh quảng cáo chạy ads)' },
+      { id: 'hd-2', text: 'Đến thử trực tiếp form váy trong gói xem có vừa vặn hay phải nâng cấp dòng VIP' },
+      { id: 'hd-3', text: 'Ghi rõ bằng văn bản: số váy/vest, số ảnh retouch, trả 100% file gốc, không phát sinh' },
+      { id: 'hd-4', text: 'Chốt điều khoản dời lịch miễn phí nếu tháng 12 gặp mưa hoặc rét đậm / sương mù' },
     ],
   },
   {
-    group: 'Cô dâu cần tự chuẩn bị (đặc biệt tháng 12)',
+    group: '2. Di chuyển, thời gian & phương án B',
     items: [
-      { id: 'cd-1', text: 'Nội y su không đường viền màu da (nude) + miếng dán ngực' },
-      { id: 'cd-2', text: '1 đôi giày cao gót chụp hình + 1 đôi dép bệt để đi lại giữa các bãi' },
-      { id: 'cd-3', text: 'Áo khoác phao/len dễ cởi và 4–6 miếng dán giữ nhiệt cho buổi chụp lạnh' },
-      { id: 'cd-4', text: 'Làm nail màu nhẹ nhàng (trắng sữa, hồng pastel), tránh màu quá gắt' },
+      { id: 'dc-1', text: 'Chốt giờ makeup sớm (5h–6h sáng) để kịp nắng đẹp; tháng 12 trời tắt nắng lúc 17h00' },
+      { id: 'dc-2', text: 'Nếu đi Hạ Long từ Hòa Bình: đặt xe & phòng trước 1 tháng (tránh cháy phòng Noel/Tết Dương)' },
+      { id: 'dc-3', text: 'Luôn có phương án B trong nhà (studio, Bảo tàng QN, khách sạn) phòng gió mùa Đông Bắc' },
+      { id: 'dc-4', text: 'Xác nhận rõ vé vào cửa phim trường/resort/du thuyền cho cả ekip 3–4 người ai trả' },
     ],
   },
   {
-    group: 'Tinh thần, sức khỏe & hợp đồng',
+    group: '3. Đồ cá nhân Cô dâu & Chú rể (tháng 12)',
     items: [
-      { id: 'th-1', text: 'Ngủ đủ giấc đêm trước ngày chụp để mặt không bị sưng và mắt tươi' },
-      { id: 'th-2', text: 'Mang bánh ngọt, sữa, kẹo ngậm và nước lọc bổ sung năng lượng' },
-      { id: 'th-3', text: 'Gửi 5–10 ảnh mẫu (moodboard) cho photographer & makeup trước 3–5 ngày' },
-      { id: 'th-4', text: 'Mọi ưu đãi miệng (tặng ảnh, miễn vé, không phát sinh) đều ghi vào hợp đồng' },
+      { id: 'cd-1', text: 'Cô dâu: nội y su màu da không viền, miếng dán ngực, giày cao gót + 1 đôi dép bệt' },
+      { id: 'cd-2', text: 'Cô dâu (chống rét): ưu tiên váy tay dài/choàng lông, áo phao dễ cởi & 4–6 miếng dán giữ nhiệt' },
+      { id: 'cr-1', text: 'Chú rể: giày da khớp màu vest, 2 đôi tất (tất cao cổ tối màu + tất tàng hình), thắt lưng da' },
+      { id: 'cr-2', text: 'Chú rể cắt tóc & cạo râu trước 2–3 ngày; cô dâu làm nail tông nhẹ (trắng sữa, pastel)' },
+    ],
+  },
+  {
+    group: '4. Ngày chụp & hậu kỳ nhận ảnh',
+    items: [
+      { id: 'th-1', text: 'Ngủ đủ giấc đêm trước, ăn sáng đầy đủ và mang theo bánh ngọt, sữa, nước lọc' },
+      { id: 'th-2', text: 'Gửi 5–10 ảnh mẫu (moodboard) cho photographer & makeup trước 3–5 ngày' },
+      { id: 'th-3', text: 'Kiểm tra kỹ biên bản tình trạng váy/vest khi nhận & khi trả để tránh đền bù oan' },
+      { id: 'th-4', text: 'Chốt mốc ngày nhận file gốc, ngày duyệt layout album trước khi in và ngày nhận ảnh cổng' },
     ],
   },
 ];

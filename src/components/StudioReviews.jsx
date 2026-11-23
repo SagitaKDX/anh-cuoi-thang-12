@@ -3,7 +3,12 @@ import { STUDIO_REVIEWS } from '../data/weddingData';
 
 export default function StudioReviews({ activeStudio, onSelectStudio }) {
   const current =
-    STUDIO_REVIEWS.find((s) => s.studio === activeStudio) || STUDIO_REVIEWS[0];
+    STUDIO_REVIEWS.find(
+      (s) =>
+        s.studio === activeStudio ||
+        s.studio.toLowerCase().includes(activeStudio.toLowerCase()) ||
+        activeStudio.toLowerCase().includes(s.studio.toLowerCase()),
+    ) || STUDIO_REVIEWS[0];
 
   return (
     <section className="section" id="danh-gia">

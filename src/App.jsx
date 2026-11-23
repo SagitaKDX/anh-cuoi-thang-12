@@ -1,27 +1,24 @@
 import { useEffect, useState } from 'react';
 import {
   Camera,
-  Check,
   Clock,
   Compass,
   HeartHandshake,
-  MapPin,
   Printer,
   Snowflake,
   Sun,
   Wind,
-  X,
 } from 'lucide-react';
 import {
   BRIEF_FACTS,
   CONCEPTS,
   DECEMBER_WEATHER,
-  DIRECTIONS,
   SAVE_THE_DATE,
   STUDIO_QUESTIONS,
 } from './data/weddingData';
 import PackageExplorer from './components/PackageExplorer';
 import StudioReviews from './components/StudioReviews';
+import ComparativeAnalysis from './components/ComparativeAnalysis';
 import FirstTimePlanner from './components/FirstTimePlanner';
 
 export default function App() {
@@ -72,8 +69,8 @@ export default function App() {
             <a href="#thang-12">Tháng 12</a>
             <a href="#bang-goi">Bảng gói</a>
             <a href="#danh-gia">Review Studio</a>
-            <a href="#phuong-an">3 Hướng đi</a>
-            <a href="#lan-dau-chup">Lần đầu chụp</a>
+            <a href="#phuong-an">So sánh 4 hướng</a>
+            <a href="#lan-dau-chup">Checklist &amp; Chi phí</a>
             <a href="#hoi-studio">Hỏi trước cọc</a>
           </nav>
 
@@ -217,61 +214,8 @@ export default function App() {
           onSelectStudio={setActiveStudio}
         />
 
-        {/* Chụp tại Hòa Bình & So sánh 3 hướng */}
-        <section className="section" id="phuong-an">
-          <h2>Ba hướng đi, đặt cạnh nhau</h2>
-          <p className="lead">
-            Nếu ưu tiên ảnh thiên nhiên (đồng lau + hồ núi) mà vẫn gọn trong 1 ngày và ít phụ thuộc đi xa, hướng B (Tây Hà Nội) hợp nhất. Nếu muốn tiện thử váy gần nhà, lấy thêm báo giá từ Hòa Bình để đối chiếu trực tiếp.
-          </p>
-
-          <div className="cols-3">
-            {DIRECTIONS.map((dir) => (
-              <div
-                key={dir.id}
-                className={`dir-card ${dir.recommended ? 'recommended' : ''}`}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
-                  <h3>{dir.title}</h3>
-                  {dir.recommended && (
-                    <span className="tag primary" style={{ margin: 0 }}>
-                      Hợp nhất
-                    </span>
-                  )}
-                </div>
-                <div className="dir-budget tabular">{dir.budget}</div>
-
-                <ul className="dir-list">
-                  {dir.pros.map((p) => (
-                    <li key={p}>
-                      <Check size={16} color="var(--emerald)" aria-hidden="true" />
-                      <span>{p}</span>
-                    </li>
-                  ))}
-                  {dir.cons.map((c) => (
-                    <li key={c}>
-                      <X size={16} color="var(--rose)" aria-hidden="true" />
-                      <span>{c}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          <div
-            className="info-panel"
-            style={{ marginTop: 20, background: 'var(--surface)' }}
-          >
-            <div className="info-panel-head">
-              <MapPin size={18} aria-hidden="true" />
-              <h3 style={{ margin: 0 }}>Điểm chụp gợi ý ngay tại Hòa Bình</h3>
-            </div>
-            <p>
-              <strong>Hồ Hòa Bình &amp; hồ Mắt Ngọc:</strong> mặt nước xanh thẳm, vách núi đá hoang sơ, vắng người — rất hợp concept hồ núi.{' '}
-              <strong>Mai Châu (Bản Lác, đèo Thung Khe):</strong> hợp cảnh sương núi tháng 12 và gần hơn nhiều khi xuất phát từ Hòa Bình.
-            </p>
-          </div>
-        </section>
+        {/* Phân tích so sánh 4 hướng đi (Hà Nội, Tây HN, Hòa Bình, Hạ Long) */}
+        <ComparativeAnalysis />
 
         {/* Lần đầu chụp ảnh cưới: phải tính điều gì */}
         <FirstTimePlanner />
