@@ -1,0 +1,194 @@
+/* Downloaded floral and wedding SVGs are credited in decorations/README.md. */
+.wedding-emblem {
+  width: 48px;
+  height: 48px;
+  color: var(--gold-dark);
+}
+
+.hero-emblem {
+  margin-bottom: 24px;
+  transform: rotate(-12deg);
+}
+
+.celebration-emblem {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 28px;
+  color: var(--gold-light);
+}
+
+.cover-emblem {
+  width: 38px;
+  height: 38px;
+  margin-bottom: 16px;
+}
+
+.hero-portrait,
+.family-section,
+.footer-sign {
+  position: relative;
+  isolation: isolate;
+}
+
+.envelope-overlay {
+  isolation: isolate;
+}
+
+/* Floral silhouettes sit outside the text and never intercept a tap. */
+.envelope-overlay::before,
+.envelope-overlay::after,
+.hero-portrait::before,
+.family-section::before,
+.family-section::after,
+.footer-sign::before,
+.footer-sign::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 160px;
+  height: 320px;
+  background: var(--gold-dark);
+  -webkit-mask: url('../decorations/rose-sprig.svg') center / contain no-repeat;
+  mask: url('../decorations/rose-sprig.svg') center / contain no-repeat;
+  opacity: .2;
+  pointer-events: none;
+}
+
+.envelope-overlay::before {
+  top: -24px;
+  left: max(12px, calc(50% - 580px));
+  width: 210px;
+  height: 420px;
+  transform: rotate(-28deg);
+}
+
+.envelope-overlay::after {
+  right: max(12px, calc(50% - 580px));
+  bottom: -40px;
+  width: 210px;
+  height: 420px;
+  transform: rotate(150deg);
+}
+
+.hero-portrait::before {
+  right: -56px;
+  bottom: -52px;
+  width: 150px;
+  height: 300px;
+  opacity: .42;
+  transform: rotate(24deg);
+}
+
+.family-section::before {
+  top: 20px;
+  left: -40px;
+  transform: rotate(-26deg);
+}
+
+.family-section::after {
+  top: 20px;
+  right: -40px;
+  transform: scaleX(-1) rotate(-26deg);
+}
+
+.footer-sign::before {
+  left: max(8px, calc(50% - 560px));
+  bottom: 0;
+  transform: rotate(-20deg);
+}
+
+.footer-sign::after {
+  right: max(8px, calc(50% - 560px));
+  bottom: 0;
+  transform: scaleX(-1) rotate(-20deg);
+}
+
+.footer-sign > .wedding-emblem {
+  width: 44px;
+  height: 44px;
+  color: var(--gold-dark);
+}
+
+@media (max-width: 760px) {
+  .hero-emblem {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 16px;
+  }
+
+  .cover-emblem {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 12px;
+  }
+
+  .envelope-overlay::before,
+  .envelope-overlay::after {
+    width: 112px;
+    height: 224px;
+    opacity: .18;
+  }
+
+  .envelope-overlay::before {
+    top: -36px;
+    left: -22px;
+  }
+
+  .envelope-overlay::after {
+    right: -24px;
+    bottom: -32px;
+  }
+
+  .hero-portrait::before {
+    right: -28px;
+    bottom: -34px;
+    width: 88px;
+    height: 176px;
+  }
+
+  .family-section::before,
+  .family-section::after {
+    top: 24px;
+    width: 66px;
+    height: 132px;
+    opacity: .22;
+  }
+
+  .family-section::before { left: -16px; }
+  .family-section::after { right: -16px; }
+
+  .family-names {
+    grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
+    column-gap: 8px;
+  }
+
+  .family-names h3 {
+    font-size: clamp(1.375rem, 5.2vw, 2rem);
+    line-height: 1.2;
+  }
+
+  .family-names p,
+  .family-names div > span {
+    font-size: .6875rem;
+  }
+
+  .family-amp { font-size: 36px; }
+
+  .celebration-emblem {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 24px;
+  }
+
+  .footer-sign::before,
+  .footer-sign::after {
+    width: 74px;
+    height: 148px;
+    bottom: 8px;
+    opacity: .14;
+  }
+}
+
+@media (max-height: 600px) and (orientation: landscape) {
+  .cover-emblem { display: none; }
+}

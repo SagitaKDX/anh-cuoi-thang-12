@@ -11,7 +11,7 @@ export default function WeddingInvitePreview() {
         <div>
           <h1 id="wedding-preview-title">Thiệp mời thành hôn</h1>
           <p className="wedding-preview-intro">
-            Tiến Anh và Thanh Thư · Ngày 20 tháng 12 năm 2026. Mở thiệp để cùng đón ngày chung đôi.
+            Thanh Thư và Tiến Anh · Ngày 20 tháng 12 năm 2026. Mở thiệp để cùng đón ngày chung đôi.
           </p>
         </div>
         <a
@@ -52,7 +52,7 @@ export default function WeddingInvitePreview() {
           <div className="wedding-preview-viewport">
             <iframe
               src="./thiep-moi.html?preview=1"
-              title="Thiệp cưới Lã Tiến Anh và Đỗ Thị Thanh Thư"
+              title="Thiệp cưới Đỗ Thị Thanh Thư và Lã Tiến Anh"
               allow="autoplay; fullscreen"
               className="wedding-preview-iframe"
             />
