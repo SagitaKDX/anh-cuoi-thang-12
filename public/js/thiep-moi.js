@@ -1,3 +1,4 @@
+import { initScrollMoments } from './scroll-moments.js';
 document.documentElement.classList.add('js');
 const $ = (selector) => document.querySelector(selector);
 const envelope = $('#envelope');
@@ -33,6 +34,7 @@ function showEnvelope() {
 
 function openEnvelope() {
   if (opening) return;
+  startInvitationMusic();
   if (reducedMotion.matches) {
     finishOpening();
     return;
@@ -48,7 +50,7 @@ function openEnvelope() {
 
 $('#open-btn').addEventListener('click', openEnvelope);
 $('#open-seal').addEventListener('click', openEnvelope);
-$('#skip-envelope').addEventListener('click', finishOpening);
+$('#skip-envelope').addEventListener('click', () => { startInvitationMusic(); finishOpening(); });
 $('#replay-btn').addEventListener('click', showEnvelope);
 envelope.addEventListener('cancel', (event) => { event.preventDefault(); finishOpening(); });
 envelope.addEventListener('close', () => { clearTimeout(coverTimer); syncScrollLock(); });
@@ -137,27 +139,174 @@ giftDialog.addEventListener('click', (event) => {
   if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) giftDialog.close();
 });
 
-// Music loads only on request, in a visible player; closing it stops playback.
+// A single official YouTube player supplies I Do as background music.
 const musicButton = $('#music-btn');
 const musicPanel = $('#music-panel');
-function closeMusic() {
-  musicPanel.hidden = true;
-  musicButton.setAttribute('aria-expanded', 'false');
-  musicButton.setAttribute('aria-label', 'Mở nhạc I Do');
-  $('#yt-player-host').replaceChildren();
-  musicButton.focus({ preventScroll: true });
+const musicStatus = $('#music-status');
+let musicPlayer;
+let musicReady = false;
+let musicWanted = false;
+let musicStarted = false;
+let musicLoading;
+let musicLoadFailed = false;
+let musicAttempt = 0;
+
+function updateMusicButton(playing = false) {
+  musicButton.classList.toggle('is-playing', playing);
+  musicButton.setAttribute('aria-pressed', String(musicWanted));
+  musicButton.setAttribute('aria-label', musicWanted ? 'Tắt nhạc nền I Do' : 'Bật nhạc nền I Do');
+  musicButton.title = musicWanted ? 'Tắt nhạc I Do' : 'Bật nhạc I Do';
 }
+
+function loadMusic() {
+  if (musicLoadFailed) {
+    musicPlayer?.destroy?.();
+    musicPlayer = undefined;
+    musicReady = false;
+    musicLoading = undefined;
+    musicLoadFailed = false;
+    document.querySelector('script[data-invite-music-failed]')?.remove();
+  }
+  if (musicLoading) return musicLoading;
+  musicLoading = new Promise((resolve, reject) => {
+    let settled = false;
+    const timeout = setTimeout(() => {
+      if (!settled) { musicLoadFailed = true; settled = true; reject(new Error('Music unavailable')); }
+    }, 15000);
+    function createPlayer() {
+      if (musicPlayer || !window.YT?.Player) return;
+      musicPlayer = new window.YT.Player('yt-player-host', {
+        width: 288,
+        height: 200,
+        videoId: '7o5XAg_EeLw',
+        playerVars: {
+          playsinline: 1,
+          controls: 1,
+          rel: 0,
+          loop: 1,
+          playlist: '7o5XAg_EeLw',
+          origin: window.location.origin,
+        },
+        events: {
+          onReady: () => {
+            clearTimeout(timeout);
+            musicReady = true;
+            musicPlayer.setVolume(42);
+            if (musicWanted) musicPlayer.playVideo();
+            if (!settled) { settled = true; resolve(musicPlayer); }
+          },
+          onStateChange: (event) => {
+            if (event.data === window.YT.PlayerState.PLAYING) {
+              if (!musicWanted) { musicPlayer.pauseVideo(); return; }
+              musicButton.removeAttribute('aria-busy');
+              updateMusicButton(true);
+              musicStatus.textContent = 'Đang phát I Do, 911 và Đức Phúc.';
+            } else if (event.data === window.YT.PlayerState.PAUSED) {
+              musicWanted = false;
+              musicButton.removeAttribute('aria-busy');
+              updateMusicButton(false);
+              musicStatus.textContent = 'Nhạc nền đã tắt. Chạm nút nhạc để nghe tiếp.';
+            }
+          },
+          onAutoplayBlocked: () => {
+            musicButton.removeAttribute('aria-busy');
+            musicStatus.textContent = 'Chạm nút phát bên dưới để nghe I Do.';
+            showMusicPanel();
+          },
+          onError: () => {
+            musicLoadFailed = true;
+            clearTimeout(timeout);
+            musicReady = false;
+            musicWanted = false;
+            musicButton.removeAttribute('aria-busy');
+            updateMusicButton(false);
+            musicStatus.textContent = 'Chưa phát được nhạc. Bạn có thể thử lại hoặc nghe I Do trên YouTube.';
+            if (!settled) { settled = true; reject(new Error('Music unavailable')); }
+          },
+        },
+      });
+    }
+    if (window.YT?.Player) { createPlayer(); return; }
+    const previous = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => { previous?.(); createPlayer(); };
+    if (!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
+      const script = document.createElement('script');
+      script.src = 'https://www.youtube.com/iframe_api';
+      script.onerror = () => { musicLoadFailed = true; script.setAttribute('data-invite-music-failed', ''); clearTimeout(timeout); if (!settled) { settled = true; reject(new Error('Music unavailable')); } };
+      document.head.appendChild(script);
+    }
+  });
+  return musicLoading;
+}
+
+async function playMusic() {
+  musicWanted = true;
+  const attempt = ++musicAttempt;
+  updateMusicButton();
+  musicButton.setAttribute('aria-busy', 'true');
+  musicStatus.textContent = 'Đang mở nhạc I Do…';
+  // Keep this call synchronous with the tap whenever the player is ready.
+  if (musicReady) musicPlayer.playVideo();
+  try {
+    await loadMusic();
+    if (!musicWanted || attempt !== musicAttempt) return;
+    musicPlayer.playVideo();
+    window.setTimeout(() => {
+      if (musicWanted && attempt === musicAttempt && musicPlayer.getPlayerState?.() !== window.YT.PlayerState.PLAYING) {
+        musicButton.removeAttribute('aria-busy');
+        musicStatus.textContent = 'Chạm nút phát trong trình phát để bắt đầu I Do.';
+        showMusicPanel();
+      }
+    }, 6000);
+  } catch {
+    if (attempt !== musicAttempt) return;
+    musicWanted = false;
+    musicButton.removeAttribute('aria-busy');
+    updateMusicButton();
+    musicStatus.textContent = 'Chưa tải được nhạc. Bạn có thể nghe I Do trên YouTube hoặc thử lại.';
+    showMusicPanel();
+  }
+}
+
+function pauseMusic() {
+  musicWanted = false;
+  musicAttempt++;
+  musicButton.removeAttribute('aria-busy');
+  if (musicReady) musicPlayer.pauseVideo();
+  updateMusicButton();
+  musicStatus.textContent = 'Nhạc nền đã tắt. Chạm nút nhạc để nghe tiếp.';
+}
+
+function startInvitationMusic() {
+  if (musicStarted) return;
+  musicStarted = true;
+  playMusic();
+}
+
+function showMusicPanel() {
+  musicPanel.classList.add('is-expanded');
+  musicPanel.removeAttribute('aria-hidden');
+  musicPanel.inert = false;
+  $('#music-info').setAttribute('aria-expanded', 'true');
+}
+function hideMusicPanel() {
+  musicPanel.classList.remove('is-expanded');
+  musicPanel.setAttribute('aria-hidden', 'true');
+  musicPanel.inert = true;
+  $('#music-info').setAttribute('aria-expanded', 'false');
+}
+
 musicButton.addEventListener('click', () => {
-  if (!musicPanel.hidden) { closeMusic(); return; }
-  musicPanel.hidden = false;
-  musicButton.setAttribute('aria-expanded', 'true');
-  musicButton.setAttribute('aria-label', 'Dừng và đóng nhạc I Do');
-  const player = document.createElement('iframe');
-  player.title = 'I Do, 911 và Đức Phúc';
-  player.src = 'https://www.youtube-nocookie.com/embed/7o5XAg_EeLw?autoplay=1&playsinline=1&rel=0';
-  player.allow = 'autoplay; encrypted-media; picture-in-picture';
-  player.referrerPolicy = 'strict-origin-when-cross-origin';
-  $('#yt-player-host').replaceChildren(player);
+  musicStarted = true;
+  if (musicWanted) pauseMusic(); else playMusic();
 });
-$('#music-close').addEventListener('click', closeMusic);
-document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !musicPanel.hidden) closeMusic(); });
+$('#music-info').addEventListener('click', () => {
+  if (musicPanel.classList.contains('is-expanded')) hideMusicPanel();
+  else { showMusicPanel(); loadMusic().catch(() => {}); }
+});
+$('#music-close').addEventListener('click', () => { hideMusicPanel(); $('#music-info').focus({ preventScroll: true }); });
+document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && musicPanel.classList.contains('is-expanded')) hideMusicPanel(); });
+// Prepare the API while the guest reads the cover; playback always waits for a tap.
+loadMusic().catch(() => {});
+
+initScrollMoments();

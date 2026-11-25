@@ -22,7 +22,7 @@ The portrait is the couple’s existing image, not a replacement stock photograp
 
 ## Preview behavior
 
-The countdown uses `2026-12-20T17:00:00+07:00`. Calendar and map links retain this date and Hòa Bình context. Music opens an optional visible YouTube player only after a guest requests it.
+The countdown uses `2026-12-20T17:00:00+07:00`. Calendar and map links retain this date and Hòa Bình context. The official YouTube IFrame API prepares I Do (911 ft Đức Phúc) on the cover, with playback starting only when the guest taps open or skip. A floating button pauses or resumes the same player; scrolling and replay do not restart the track. The footer can expand the official player, including a direct YouTube fallback if playback is blocked. No music file is downloaded or redistributed.
 
 RSVP is a local demonstration: attendance and guestbook additions are saved in the current browser’s local storage. Nothing is delivered remotely, emailed to the couple or shared across devices. The form and confirmation message disclose this limitation. A real delivery service must be connected before using the form to collect guests’ responses.
 
@@ -44,3 +44,7 @@ Asset sources, subsets and licenses are recorded alongside the files:
 ## Validation
 
 Production build and whitespace checks pass. Browser QA covers 320, 390, 768, 1440 and 1920 pixel widths, a short landscape viewport, replay/skip, native-dialog focus and Escape, reduced motion, images and SVG masks, local persistence and safe display of guest-supplied text. The Hallmark sweep has no Floor failures; the larger touch controls, sparse family letter/real guestbook, and envelope fold shading are intentional, recorded exceptions.
+
+## Scroll and photograph interactions
+
+The main printed portrait tilts in actual CSS perspective with passive touch or pointer movement, realistic paper edge, offset shadow and restrained reflected light. It settles on release and stops work offscreen. Scroll motion opens the date plane, lifts story chapters once and draws the event timeline; numerals in the live countdown remain still. The progress rail and all spatial effects respect reduced motion. CSS and JavaScript are isolated in `portrait-depth` and `scroll-moments` modules.

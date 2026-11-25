@@ -1,0 +1,195 @@
+/* Scroll choreography is an enhancement: all content is readable without JavaScript. */
+.js.motion-ready.scroll-moments-ready {
+  --scroll-lift: 16px;
+  --scroll-paper-depth: 900px;
+  --scroll-reveal-ease: var(--ease-out);
+}
+
+.js.motion-ready.scroll-moments-ready .scroll-heading {
+  opacity: .5;
+  transform: translate3d(0, var(--scroll-lift), 0);
+  transition: opacity 360ms ease, transform 520ms var(--scroll-reveal-ease);
+}
+
+.js.motion-ready.scroll-moments-ready .scroll-heading.is-scroll-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.js.motion-ready.scroll-moments-ready .scroll-chapter {
+  opacity: .56;
+  transform: perspective(var(--scroll-paper-depth)) translate3d(0, 20px, 0) rotateX(-7deg);
+  transform-origin: center top;
+  transition:
+    opacity 320ms ease var(--moment-delay, 0ms),
+    transform 520ms var(--scroll-reveal-ease) var(--moment-delay, 0ms);
+}
+
+.js.motion-ready.scroll-moments-ready .scroll-chapter.is-scroll-visible {
+  opacity: 1;
+  transform: perspective(var(--scroll-paper-depth)) translate3d(0, 0, 0) rotateX(0deg);
+}
+
+/* Only the date's paper plane moves. The live countdown stays on its original baseline. */
+.js.motion-ready.scroll-moments-ready .scroll-date-plane {
+  position: relative;
+  isolation: isolate;
+  transform: perspective(var(--scroll-paper-depth)) translate3d(0, var(--date-lift, 18px), 0) rotateX(var(--date-fold-angle, 12deg));
+  transform-origin: center top;
+}
+
+.js.motion-ready.scroll-moments-ready .scroll-date-plane::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -20px -24px;
+  border: 1px solid var(--line);
+  background: var(--paper-light);
+}
+
+.js.motion-ready.scroll-moments-ready .scroll-date-plane.is-scroll-tracking {
+  will-change: transform;
+}
+
+.js.motion-ready.scroll-moments-ready .scroll-timeline-row {
+  position: relative;
+  border-top-color: var(--transparent);
+}
+
+.js.motion-ready.scroll-moments-ready .scroll-timeline-row::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  inset-inline: 0;
+  height: 1px;
+  background: var(--light-line);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 540ms var(--scroll-reveal-ease) var(--moment-delay, 0ms);
+}
+
+.js.motion-ready.scroll-moments-ready .scroll-timeline-row > time,
+.js.motion-ready.scroll-moments-ready .scroll-timeline-row > div {
+  opacity: .7;
+  transition:
+    opacity 280ms ease var(--moment-delay, 0ms),
+    transform 440ms var(--scroll-reveal-ease) var(--moment-delay, 0ms);
+}
+
+.js.motion-ready.scroll-moments-ready .scroll-timeline-row > time {
+  transform: translate3d(-10px, 0, 0);
+}
+
+.js.motion-ready.scroll-moments-ready .scroll-timeline-row > div {
+  transform: translate3d(0, 10px, 0);
+}
+
+.js.motion-ready.scroll-moments-ready .scroll-timeline-row.is-scroll-visible::before {
+  transform: scaleX(1);
+}
+
+.js.motion-ready.scroll-moments-ready .scroll-timeline-row.is-scroll-visible > time,
+.js.motion-ready.scroll-moments-ready .scroll-timeline-row.is-scroll-visible > div {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.scroll-reading-progress {
+  display: none;
+}
+
+.js.motion-ready.scroll-moments-ready .scroll-reading-progress {
+  position: fixed;
+  z-index: 12;
+  top: calc(50% - 64px);
+  right: 18px;
+  display: block;
+  width: 1px;
+  height: 128px;
+  background: var(--line);
+  pointer-events: none;
+  opacity: .8;
+}
+
+.js.motion-ready.scroll-moments-ready .scroll-reading-progress > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--wine);
+  transform: scaleY(var(--reading-progress, 0));
+  transform-origin: center top;
+}
+
+.js.motion-ready.scroll-moments-ready .modal-open .scroll-reading-progress {
+  opacity: 0;
+}
+
+@media (max-width: 760px) {
+  .js.motion-ready.scroll-moments-ready {
+    --scroll-lift: 12px;
+  }
+
+  .js.motion-ready.scroll-moments-ready .scroll-chapter {
+    transform: perspective(var(--scroll-paper-depth)) translate3d(0, 14px, 0) rotateX(-5deg);
+  }
+
+  .js.motion-ready.scroll-moments-ready .scroll-chapter.is-scroll-visible {
+    transform: perspective(var(--scroll-paper-depth)) translate3d(0, 0, 0) rotateX(0deg);
+  }
+
+  .js.motion-ready.scroll-moments-ready .scroll-date-plane::before {
+    inset: -16px;
+  }
+
+  .js.motion-ready.scroll-moments-ready .scroll-reading-progress {
+    top: calc(50% - 52px);
+    right: auto;
+    left: 2px;
+    height: 104px;
+    opacity: .65;
+  }
+}
+
+/* The same static end state applies to a live preference change and printing. */
+.js.motion-ready.scroll-moments-ready.scroll-motion-reduced .scroll-heading,
+.js.motion-ready.scroll-moments-ready.scroll-motion-reduced .scroll-chapter,
+.js.motion-ready.scroll-moments-ready.scroll-motion-reduced .scroll-date-plane,
+.js.motion-ready.scroll-moments-ready.scroll-motion-reduced .scroll-timeline-row > time,
+.js.motion-ready.scroll-moments-ready.scroll-motion-reduced .scroll-timeline-row > div {
+  opacity: 1;
+  transform: none;
+  transition: none;
+  will-change: auto;
+}
+
+.js.motion-ready.scroll-moments-ready.scroll-motion-reduced .scroll-timeline-row::before {
+  transform: none;
+  transition: none;
+}
+
+.js.motion-ready.scroll-moments-ready.scroll-motion-reduced .scroll-reading-progress {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce), print {
+  .js.motion-ready.scroll-moments-ready .scroll-heading,
+  .js.motion-ready.scroll-moments-ready .scroll-chapter,
+  .js.motion-ready.scroll-moments-ready .scroll-date-plane,
+  .js.motion-ready.scroll-moments-ready .scroll-timeline-row > time,
+  .js.motion-ready.scroll-moments-ready .scroll-timeline-row > div {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+
+  .js.motion-ready.scroll-moments-ready .scroll-timeline-row::before {
+    transform: none;
+    transition: none;
+  }
+
+  .js.motion-ready.scroll-moments-ready .scroll-date-plane::before,
+  .js.motion-ready.scroll-moments-ready .scroll-reading-progress {
+    display: none;
+  }
+}

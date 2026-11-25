@@ -163,9 +163,14 @@ input:user-invalid { border-color: var(--wine); }
 .footer-links .text-link { font-size: .75rem; }
 .footer-links > a { color: var(--muted); }
 .music-button { position: fixed; z-index: 10; right: 24px; bottom: max(24px, env(safe-area-inset-bottom)); background: var(--paper-light); border: 1px solid var(--line); border-radius: 50%; }
-.music-button[aria-expanded='true'] { background: var(--wine); color: var(--paper-light); }
-.music-panel { position: fixed; z-index: 11; right: 24px; bottom: max(84px, calc(env(safe-area-inset-bottom) + 60px)); width: min(320px, calc(100% - 32px)); padding: 16px; background: var(--paper-light); box-shadow: 0 16px 48px var(--paper-shadow); }
+.music-button.is-playing { background: var(--wine); color: var(--paper-light); }
+.music-panel { visibility: hidden; pointer-events: none; opacity: 0; position: fixed; z-index: 11; right: 24px; bottom: max(84px, calc(env(safe-area-inset-bottom) + 60px)); width: min(320px, calc(100% - 32px)); padding: 16px; background: var(--paper-light); box-shadow: 0 16px 48px var(--paper-shadow); }
 .music-panel > div:first-child { display: flex; justify-content: space-between; align-items: center; font-size: .75rem; }
+.music-panel.is-expanded { visibility: visible; pointer-events: auto; opacity: 1; }
+.music-credit { display: block; min-height: 44px; margin: 16px auto 0; padding: 8px; border: 0; background: var(--transparent); color: var(--muted); font-size: .75rem; text-decoration: underline; text-underline-offset: 4px; }
+.music-button.is-playing .icon { animation: music-sway 2400ms ease-in-out infinite; }
+.music-button:hover .icon, .music-button:focus-visible .icon { animation-play-state: paused; }
+@keyframes music-sway { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } }
 .music-panel iframe { display: block; width: 100%; aspect-ratio: 16 / 9; height: auto; border: 0; }
 .music-panel p, .music-panel > a { font-size: .75rem; margin-top: 12px; color: var(--muted); }
 .gift-dialog { width: min(480px, calc(100% - 32px)); padding: 48px 32px; border: 0; background: var(--paper-light); color: var(--ink); }

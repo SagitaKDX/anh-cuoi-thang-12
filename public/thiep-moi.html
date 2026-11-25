@@ -24,6 +24,8 @@
     />
     <link rel="stylesheet" href="./fonts/fonts.css" />
     <link rel="stylesheet" href="./css/thiep-moi.css" />
+    <link rel="stylesheet" href="./css/scroll-moments.css" />
+    <link rel="stylesheet" href="./css/portrait-depth.css" />
   </head>
   <body>
     <a class="skip-link" href="#invitation">Đến nội dung thiệp</a>
@@ -395,15 +397,16 @@
             ></span></button
           ><a href="./#thiep-moi-test">Về trang lập kế hoạch</a>
         </div>
+        <button type="button" class="music-credit" id="music-info" aria-expanded="false" aria-controls="music-panel">Nhạc nền: I Do, 911 &amp; Đức Phúc</button>
       </footer>
     </main>
     <button
       class="music-button icon-button"
       type="button"
       id="music-btn"
-      aria-label="Mở nhạc I Do"
-      aria-expanded="false"
-      aria-controls="music-panel"
+      aria-label="Bật nhạc nền I Do"
+      aria-pressed="false"
+      title="Bật nhạc I Do"
     >
       <span
         class="icon"
@@ -415,7 +418,8 @@
       class="music-panel"
       id="music-panel"
       aria-label="Nhạc cưới I Do"
-      hidden
+      aria-hidden="true"
+      inert
     >
       <div>
         <span>I Do, 911 &amp; Đức Phúc</span
@@ -423,7 +427,7 @@
           class="icon-button"
           id="music-close"
           type="button"
-          aria-label="Dừng và đóng nhạc"
+          aria-label="Thu gọn trình phát nhạc"
         >
           <span
             class="icon"
@@ -434,7 +438,7 @@
       </div>
       <div id="yt-player-host"></div>
       <p id="music-status" role="status">
-        Bạn có thể phát nhạc bằng trình phát bên trên.
+        I Do sẽ bắt đầu khi bạn chạm mở thiệp.
       </p>
       <a
         href="https://www.youtube.com/watch?v=7o5XAg_EeLw"
@@ -536,5 +540,7 @@
       </button>
     </dialog>
     <script type="module" src="./js/thiep-moi.js"></script>
+    <script type="module" src="./js/scroll-moments.js"></script>
+    <script type="module" src="./js/portrait-depth.js"></script>
   </body>
 </html>
